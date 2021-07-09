@@ -31,9 +31,8 @@ class VideoGameCollection: ObservableObject, Codable{
     
     static func loadFromFile() -> VideoGameCollection{
         var loadedData = VideoGameCollection()
-        let propertyListDecoder = PropertyListDecoder()
         if let retrievedSaveData = try? Data(contentsOf: archiveURL),
-           let decodedSaveData = try? propertyListDecoder.decode(VideoGameCollection.self, from: retrievedSaveData) {
+           let decodedSaveData = try? JSONDecoder().decode(VideoGameCollection.self, from: retrievedSaveData) {
             loadedData = decodedSaveData
         }
         return loadedData
