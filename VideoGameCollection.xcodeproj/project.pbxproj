@@ -16,6 +16,7 @@
 		6BAF08DF269560AF00F11357 /* VideoGameCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF08DE269560AF00F11357 /* VideoGameCollectionTests.swift */; };
 		6BAF08EA269560AF00F11357 /* VideoGameCollectionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF08E9269560AF00F11357 /* VideoGameCollectionUITests.swift */; };
 		6BED040D2698FB33001E38CD /* VideoGameCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED040C2698FB33001E38CD /* VideoGameCollection.swift */; };
+		6BED040F2698FF3F001E38CD /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED040E2698FF3F001E38CD /* Game.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		6BAF08E9269560AF00F11357 /* VideoGameCollectionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGameCollectionUITests.swift; sourceTree = "<group>"; };
 		6BAF08EB269560AF00F11357 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6BED040C2698FB33001E38CD /* VideoGameCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGameCollection.swift; sourceTree = "<group>"; };
+		6BED040E2698FF3F001E38CD /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				6BAF08C7269560AC00F11357 /* VideoGameCollectionApp.swift */,
 				6BAF08C9269560AC00F11357 /* ContentView.swift */,
 				6BED040C2698FB33001E38CD /* VideoGameCollection.swift */,
+				6BED040E2698FF3F001E38CD /* Game.swift */,
 				6BAF08CB269560AF00F11357 /* Assets.xcassets */,
 				6BAF08D0269560AF00F11357 /* Persistence.swift */,
 				6BAF08D5269560AF00F11357 /* Info.plist */,
@@ -269,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BAF08D1269560AF00F11357 /* Persistence.swift in Sources */,
+				6BED040F2698FF3F001E38CD /* Game.swift in Sources */,
 				6BAF08CA269560AC00F11357 /* ContentView.swift in Sources */,
 				6BAF08D4269560AF00F11357 /* VideoGameCollection.xcdatamodeld in Sources */,
 				6BED040D2698FB33001E38CD /* VideoGameCollection.swift in Sources */,
