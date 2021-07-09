@@ -14,7 +14,7 @@ class VideoGameCollection: ObservableObject, Codable{
     enum codingKey: CodingKey{
         case gameCollection
     }
-    var gameCollection: [Game]
+    @Published var gameCollection: [Game]
     
     init(gameCollection: [Game]){
         self.gameCollection = gameCollection
