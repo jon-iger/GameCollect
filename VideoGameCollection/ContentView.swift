@@ -10,9 +10,32 @@ import CoreData
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
-
+    @EnvironmentObject var gameObject: VideoGameCollection
+    var isEmpty: Bool{
+        if gameObject.gameCollection.count == 0{
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    
     var body: some View {
-        Text("Hello World")
+        NavigationView{
+            List{
+                if isEmpty{
+                    Text("Add some games!")
+                }
+                else{
+                    ForEach(gameObject.gameCollection){ game in
+                        VStack{
+                            Text(game.title)
+                        }
+                    }
+                }
+            }
+            .navigationBarTitle("Game Collection")
+        }
     }
 }
 

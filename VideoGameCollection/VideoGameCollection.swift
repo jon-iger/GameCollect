@@ -16,10 +16,6 @@ class VideoGameCollection: ObservableObject, Codable{
     }
     @Published var gameCollection: [Game]
     
-    init(gameCollection: [Game]){
-        self.gameCollection = gameCollection
-    }
-    
     init(){
         self.gameCollection = []
     }

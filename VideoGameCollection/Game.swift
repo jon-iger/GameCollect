@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Game: Codable{
+class Game: Codable, Identifiable{
     enum codingKey: CodingKey {
         case id, title, genre, rating, developer, publisher, releaseDate, consoles
     }
