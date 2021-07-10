@@ -11,19 +11,12 @@ import CoreData
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var gameObject: VideoGameCollection
-    var isEmpty: Bool{
-        if gameObject.gameCollection.count == 0{
-            return true
-        }
-        else{
-            return false
-        }
-    }
+    @State var showingSheet = false
     
     var body: some View {
         NavigationView{
             List{
-                if isEmpty{
+                if gameObject.gameCollection.count == 0{
                     Text("Add some games!")
                 }
                 else{
@@ -35,7 +28,13 @@ struct ContentView: View {
                 }
             }
             .navigationBarTitle("Game Collection")
+            .navigationBarItems(trailing: Button("+"){
+                showingSheet = true
+            })
         }
+        .sheet(isPresented: $showingSheet, content: {
+            AddGameView()
+        })
     }
 }
 

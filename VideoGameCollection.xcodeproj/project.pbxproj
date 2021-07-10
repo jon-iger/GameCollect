@@ -17,6 +17,7 @@
 		6BAF08EA269560AF00F11357 /* VideoGameCollectionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF08E9269560AF00F11357 /* VideoGameCollectionUITests.swift */; };
 		6BED040D2698FB33001E38CD /* VideoGameCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED040C2698FB33001E38CD /* VideoGameCollection.swift */; };
 		6BED040F2698FF3F001E38CD /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED040E2698FF3F001E38CD /* Game.swift */; };
+		6BED041126991E4F001E38CD /* AddGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED041026991E4F001E38CD /* AddGameView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		6BAF08EB269560AF00F11357 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6BED040C2698FB33001E38CD /* VideoGameCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGameCollection.swift; sourceTree = "<group>"; };
 		6BED040E2698FF3F001E38CD /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		6BED041026991E4F001E38CD /* AddGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGameView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 			children = (
 				6BAF08C7269560AC00F11357 /* VideoGameCollectionApp.swift */,
 				6BAF08C9269560AC00F11357 /* ContentView.swift */,
+				6BED041026991E4F001E38CD /* AddGameView.swift */,
 				6BED040C2698FB33001E38CD /* VideoGameCollection.swift */,
 				6BED040E2698FF3F001E38CD /* Game.swift */,
 				6BAF08CB269560AF00F11357 /* Assets.xcassets */,
@@ -277,6 +280,7 @@
 				6BAF08D4269560AF00F11357 /* VideoGameCollection.xcdatamodeld in Sources */,
 				6BED040D2698FB33001E38CD /* VideoGameCollection.swift in Sources */,
 				6BAF08C8269560AC00F11357 /* VideoGameCollectionApp.swift in Sources */,
+				6BED041126991E4F001E38CD /* AddGameView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
