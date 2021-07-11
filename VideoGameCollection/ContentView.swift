@@ -22,7 +22,7 @@ struct ContentView: View {
                 else{
                     ForEach(gameObject.gameCollection){ game in
                         VStack{
-                            Text(game.title)
+                            //Text(game.title)
                         }
                     }
                 }

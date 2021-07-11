@@ -14,7 +14,7 @@ class VideoGameCollection: ObservableObject, Codable{
     enum codingKey: CodingKey{
         case gameCollection
     }
-    @Published var gameCollection: [Game]
+    @Published var gameCollection: [GameSearch]
     
     init(){
         self.gameCollection = []
@@ -41,6 +41,6 @@ class VideoGameCollection: ObservableObject, Codable{
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: codingKey.self)
-        gameCollection = try container.decode([Game].self, forKey: .gameCollection)
+        gameCollection = try container.decode([GameSearch].self, forKey: .gameCollection)
     }
 }
