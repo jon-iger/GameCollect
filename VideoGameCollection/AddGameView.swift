@@ -13,10 +13,11 @@ struct AddGameView: View {
     @State var gameResults: GameResults = GameResults()
     @State var showExact: Bool = false
     @State var platformSelection = String()
+    @State var platformAPISelect = String()
     @State var platformDict = [:]
     @State var platformNames: [String] = []
     var body: some View {
-        let bindText = Binding<String>(
+        let bindSearch = Binding<String>(
             get: { self.displayText},
             set: {
                 self.displayText = $0
@@ -29,23 +30,39 @@ struct AddGameView: View {
                     index += 1
                 }
                 searchText = String(charArray)
-                gameSearch(searchText, showExact)
+                gameSearch(searchText, showExact, platformAPISelect)
+            }
+        )
+        let bindPlatform = Binding<String>(
+            get: { self.platformSelection},
+            set: {
+                self.platformSelection = $0
+                var charArray = Array(self.platformSelection)
+                var index = 0
+                for char in charArray{
+                    if char == " "{
+                        charArray[index] = "-"
+                    }
+                    index += 1
+                }
+                platformAPISelect = String(charArray)
+                gameSearch(searchText, showExact, platformAPISelect)
             }
         )
         let bindExact = Binding<Bool>(
             get: {self.showExact},
-            set: {self.showExact = $0; gameSearch(searchText, showExact)}
+            set: {self.showExact = $0; gameSearch(searchText, showExact, platformAPISelect)}
         )
         Form{
             Section(header: Text("Filters")){
                 Toggle("Exact Search", isOn: bindExact)
-                Picker("Platform", selection: $platformSelection, content: { // <2>
+                Picker("Platform", selection: bindPlatform, content: { // <2>
                     ForEach(Array(platformDict.keys), id: \.self){ key in
                         Text(key.description).tag(key.description)
                     }
                 })
             }
-            TextField("Search", text: bindText)
+            TextField("Search", text: bindSearch)
                 .padding()
             Section(header: Text("Results")){
                 List(gameResults.results, id: \.id){ game in
@@ -60,7 +77,7 @@ struct AddGameView: View {
     }
     
     //API note: use - character to subsitutue for space characters, as the API does not allow spaces in URLs (bad URL warnings will appear in the console if this is done)
-    func gameSearch(_ searchTerm: String, _ searchExact: Bool) {
+    func gameSearch(_ searchTerm: String, _ searchExact: Bool, _ platformFilter: String) {
         let urlString = "https://api.rawg.io/api/games?key=3c7897d6c00a4f0fae76833a5c8e743c&search=\(searchTerm)&search_exact=\(searchExact)&platforms=\(platformDict[platformSelection]!)"
         guard let url = URL(string: urlString) else {
             print("Bad URL: \(urlString)")
