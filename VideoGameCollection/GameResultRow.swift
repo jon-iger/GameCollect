@@ -9,18 +9,28 @@ import SwiftUI
 
 struct GameResultRow: View {
     let title: String
-    let platform: String
+    let platformArray: [PlatformSearchResult]
     var body: some View {
         VStack{
-            Text(title)
-            Text(platform)
-                .font(.subheadline)
+            VStack{
+                Text(title)
+                    .multilineTextAlignment(.center)
+            }
+            .padding()
+            HStack{
+                ForEach(platformArray, id: \.self){ platform in
+                    Text(platform.platform.name)
+                        .font(.caption)
+                        .multilineTextAlignment(.center)
+                }
+            }
+            .padding()
         }
     }
 }
 
 struct GameResultRow_Previews: PreviewProvider {
     static var previews: some View {
-        GameResultRow(title: "Super Mario Odyssey", platform: "Nintendo")
+        GameResultRow(title: "Sonic the Hedgehog", platformArray: [])
     }
 }
