@@ -12,6 +12,10 @@ struct PlatformSearchResult: Codable{
     var platform: Platform
 }
 
+struct PlatformSelection: Codable{
+    var results: [Platform]
+}
+
 struct Platform: Codable{
     var id: Int
     var name: String

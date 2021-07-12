@@ -12,8 +12,9 @@ struct AddGameView: View {
     @State var displayText = String()
     @State var gameResults: GameResults = GameResults()
     @State var showExact: Bool = false
-    @State var platformSelection = 0
-    let platformValue = [0: "Nintendo Switch", 1: "GameCube"]
+    @State var platformSelection = String()
+    @State var platformDict = [:]
+    @State var platformNames: [String] = []
     var body: some View {
         let bindText = Binding<String>(
             get: { self.displayText},
@@ -39,8 +40,9 @@ struct AddGameView: View {
             Section(header: Text("Filters")){
                 Toggle("Exact Search", isOn: bindExact)
                 Picker("Platform", selection: $platformSelection, content: { // <2>
-                    Text("Nintendo Switch").tag(0)
-                    Text("GameCube").tag(1)
+                    ForEach(Array(platformDict.keys), id: \.self){ key in
+                        Text(key.description).tag(key.description)
+                    }
                 })
             }
             TextField("Search", text: bindText)
@@ -52,6 +54,9 @@ struct AddGameView: View {
             }
         }
         .navigationBarTitle("Add Game")
+        .onAppear(perform: {
+            loadPlatformSelection()
+        })
     }
     
     //API note: use - character to subsitutue for space characters, as the API does not allow spaces in URLs (bad URL warnings will appear in the console if this is done)
@@ -73,6 +78,32 @@ struct AddGameView: View {
                     }
                     print("\n")
                     gameResults = items
+                    return
+                }
+                
+            }
+        }.resume()
+    }
+    
+    func loadPlatformSelection() {
+        let urlString = "https://api.rawg.io/api/platforms?key=3c7897d6c00a4f0fae76833a5c8e743c"
+        guard let url = URL(string: urlString) else {
+            print("Bad URL: \(urlString)")
+            return
+        }
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                // we got some data back!
+                //let str = String(decoding: data, as: UTF8.self)
+                //print(str)
+                let decoder = JSONDecoder()
+                if let items = try? decoder.decode(PlatformSelection.self, from: data){
+                    for platform in items.results {
+                        print(platform)
+                        platformDict[platform.name] = platform.id
+                        platformNames.append(platform.name)
+                    }
+                    print("\n")
                     return
                 }
                 
