@@ -9,15 +9,28 @@ import SwiftUI
 
 struct AddGameView: View {
     @State var searchText = String()
+    @State var displayText = String()
     var body: some View {
         let bindText = Binding<String>(
-            get: { self.searchText},
-            set: { self.searchText = $0; gameSearch(searchText)}
+            get: { self.displayText},
+            set: {
+                self.displayText = $0
+                var charArray = Array(self.displayText)
+                var index = 0
+                for char in charArray{
+                    if char == " "{
+                        charArray[index] = "-"
+                    }
+                    index += 1
+                }
+                searchText = String(charArray)
+                gameSearch(searchText)
+            }
         )
         Form{
             TextField("Search", text: bindText)
                 .padding()
-                
+            
             Spacer()
         }
     }
