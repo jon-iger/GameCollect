@@ -10,6 +10,11 @@ import Foundation
 struct GameResults: Codable{
     var count: Int
     var results: [GameSearch]
+    
+    init() {
+        self.count = 0
+        self.results = []
+    }
 }
 
 struct GameSearch: Codable, Identifiable{
@@ -18,4 +23,5 @@ struct GameSearch: Codable, Identifiable{
     }
     var id: Int
     let name: String
+    let platforms: [PlatformSearchResult]
 }

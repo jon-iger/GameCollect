@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct PlatformResult: Codable{
-    var count: Int
-    var results: [Platform]
+struct PlatformSearchResult: Codable{
+    var released_at: String?
+    var platform: Platform
 }
 
 struct Platform: Codable{

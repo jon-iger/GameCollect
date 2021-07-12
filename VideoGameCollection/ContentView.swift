@@ -15,26 +15,24 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView{
-            List{
+            VStack{
                 if gameObject.gameCollection.count == 0{
                     Text("Add some games!")
+                    Image(systemName: "gamecontroller")
                 }
                 else{
-                    ForEach(gameObject.gameCollection){ game in
-                        VStack{
-                            //Text(game.title)
+                    List{
+                        ForEach(gameObject.gameCollection){ game in
+                            VStack{
+                                
+                            }
                         }
                     }
                 }
             }
             .navigationBarTitle("Game Collection")
-            .navigationBarItems(trailing: Button("+"){
-                showingSheet = true
-            })
+            .navigationBarItems(trailing: NavigationLink("+", destination: AddGameView()))
         }
-        .sheet(isPresented: $showingSheet, content: {
-            AddGameView()
-        })
     }
 }
 

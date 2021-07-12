@@ -10,6 +10,10 @@ import SwiftUI
 struct AddGameView: View {
     @State var searchText = String()
     @State var displayText = String()
+    @State var gameResults: GameResults = GameResults()
+    @State var showExact: Bool = false
+    @State var platformSelection = 0
+    let platformValue = [0: "Nintendo Switch", 1: "GameCube"]
     var body: some View {
         let bindText = Binding<String>(
             get: { self.displayText},
@@ -24,20 +28,35 @@ struct AddGameView: View {
                     index += 1
                 }
                 searchText = String(charArray)
-                gameSearch(searchText)
+                gameSearch(searchText, showExact)
             }
         )
+        let bindExact = Binding<Bool>(
+            get: {self.showExact},
+            set: {self.showExact = $0; gameSearch(searchText, showExact)}
+        )
         Form{
+            Section(header: Text("Filters")){
+                Toggle("Exact Search", isOn: bindExact)
+                Picker("Platform", selection: $platformSelection, content: { // <2>
+                    Text("Nintendo Switch").tag(0)
+                    Text("GameCube").tag(1)
+                })
+            }
             TextField("Search", text: bindText)
                 .padding()
-            
-            Spacer()
+            Section(header: Text("Results")){
+                List(gameResults.results, id: \.id){ game in
+                    GameResultRow(title: game.name, platform: game.platforms[0].platform.name)
+                }
+            }
         }
+        .navigationBarTitle("Add Game")
     }
     
     //API note: use - character to subsitutue for space characters, as the API does not allow spaces in URLs (bad URL warnings will appear in the console if this is done)
-    func gameSearch(_ searchTerm: String) {
-        let urlString = "https://api.rawg.io/api/games?key=3c7897d6c00a4f0fae76833a5c8e743c&search=\(searchTerm)"
+    func gameSearch(_ searchTerm: String, _ searchExact: Bool) {
+        let urlString = "https://api.rawg.io/api/games?key=3c7897d6c00a4f0fae76833a5c8e743c&search=\(searchTerm)&search_exact=\(searchExact)"
         guard let url = URL(string: urlString) else {
             print("Bad URL: \(urlString)")
             return
@@ -53,11 +72,11 @@ struct AddGameView: View {
                         print(game)
                     }
                     print("\n")
+                    gameResults = items
                     return
                 }
                 
             }
-            // if we're still here it means the request failed somehow
         }.resume()
     }
 }
