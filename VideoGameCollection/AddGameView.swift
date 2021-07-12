@@ -22,6 +22,7 @@ struct AddGameView: View {
         }
     }
     
+    //API note: use - character to subsitutue for space characters, as the API does not allow spaces in URLs (bad URL warnings will appear in the console if this is done)
     func gameSearch(_ searchTerm: String) {
         let urlString = "https://api.rawg.io/api/games?key=3c7897d6c00a4f0fae76833a5c8e743c&search=\(searchTerm)"
         guard let url = URL(string: urlString) else {
