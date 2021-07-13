@@ -43,26 +43,41 @@ struct AddGameView: View {
                 gameSearch(searchText, showExact, platformAPISelect)
             }
         )
+        
+        //custom binding for filtering out " " characters and replacing them with "-"
         let bindPlatform = Binding<String>(
+            //display platformSelection (non-modded string) for the user to see
             get: { self.platformSelection},
+            //when setting bindPlatform, use this...
             set: {
+                //set the platformSelection property to the user input
                 self.platformSelection = $0
+                //convert what the user entered into a char array
                 var charArray = Array(self.platformSelection)
-                var index = 0
+                var index = 0   //variable for holding the current iteration of the below for loop
+                //iterate through all the chars in the array, replacing every " " with "-" for valid API calls
                 for char in charArray{
                     if char == " "{
                         charArray[index] = "-"
                     }
                     index += 1
                 }
+                //set the platformAPISelect property to equal the new modified string
                 platformAPISelect = String(charArray)
+                //call the gameSearch (API call) function with the selected current states
                 gameSearch(searchText, showExact, platformAPISelect)
             }
         )
+        
+        //custom binding for toggling the "Exact Search" filter
         let bindExact = Binding<Bool>(
+            //set the bindExact value to equal showExact
             get: {self.showExact},
+            //set showExact to equal the current boolean, and call the gameSearch (API call) function with the selected current states
             set: {self.showExact = $0; gameSearch(searchText, showExact, platformAPISelect)}
         )
+        
+        //SwiftUI body
         Form{
             Section(header: Text("Filters")){
                 Toggle("Exact Search", isOn: bindExact)
@@ -87,17 +102,25 @@ struct AddGameView: View {
     }
     
     //API note: use - character to subsitutue for space characters, as the API does not allow spaces in URLs (bad URL warnings will appear in the console if this is done)
+    /**
+     gameSearch: performs an API call to retrieve JSON data for games based on current search parameters
+     parameters: searchTerm: string search term entered by the user, searchExact: boolean determining whether or not the search is exact, platformFilter: string used for filtering which platforms are being searched through
+     */
     func gameSearch(_ searchTerm: String, _ searchExact: Bool, _ platformFilter: String) {
+        //create the basic URL
         let urlString = "https://api.rawg.io/api/games?key=3c7897d6c00a4f0fae76833a5c8e743c&search=\(searchTerm)&search_exact=\(searchExact)&platforms=\(platformDict[platformSelection]!)"
+        //detect if the URL is valid
         guard let url = URL(string: urlString) else {
             print("Bad URL: \(urlString)")
             return
         }
+        //start our URLSession to get data
         URLSession.shared.dataTask(with: url) { data, response, error in
+            //data received
             if let data = data {
-                // we got some data back!
                 //let str = String(decoding: data, as: UTF8.self)
                 //print(str)
+                //decode the data as a GameResults object
                 let decoder = JSONDecoder()
                 if let items = try? decoder.decode(GameResults.self, from: data){
                     for game in items.results {
@@ -109,7 +132,7 @@ struct AddGameView: View {
                 }
                 
             }
-        }.resume()
+        }.resume()  //call our URLSession
     }
     
     func loadPlatformSelection() {
