@@ -8,28 +8,38 @@
 import SwiftUI
 
 struct AddGameView: View {
-    @State var searchText = String()
-    @State var displayText = String()
-    @State var gameResults: GameResults = GameResults()
-    @State var showExact: Bool = false
-    @State var platformSelection = String()
-    @State var platformAPISelect = String()
-    @State var platformDict = [:]
-    @State var platformNames: [String] = []
+    @State var searchText = String()    //string sent into API calls with the search bar
+    @State var displayText = String()   //string to be displayed to the user when typing in the search bar
+    @State var gameResults: GameResults = GameResults()     //empty GameResults object that will later on store search results when used with the API
+    @State var showExact: Bool = false      //boolean value to toggle "exact search" filter on or off
+    @State var platformSelection = String()     //string holding the user's selection of console/platform filter
+    @State var platformAPISelect = String()     //string holding the final string of the user's platform selection. This string must first be modified to have spaces removed from it with "-" character in it's place instead
+    @State var platformDict = [:]       //empty dictionary that will hold the names and ids of the platforms supported in the API at that time
+    @State var platformNames: [String] = []     //empty string array that will hold all of the names of the platforms supported by the API. Data is loaded into the array upon appearance of this view
+    
+    //initial body
     var body: some View {
+        //custom binding for filtering out " " characters and replacing them with "-"
         let bindSearch = Binding<String>(
+            //display displayText for the user to see
             get: { self.displayText},
+            //when setting bindSearch string, use this...
             set: {
+                //set the displayText property to the inputted value
                 self.displayText = $0
+                //convert what the user entered into a char array
                 var charArray = Array(self.displayText)
-                var index = 0
+                var index = 0   //variable for holding the current iteration of the below for loop
+                //iterate through all the chars in the array, replacing every " " with "-" for valid API calls
                 for char in charArray{
                     if char == " "{
                         charArray[index] = "-"
                     }
                     index += 1
                 }
+                //set the searchText property (as the thing to be sent to the API) equal to the new modified string
                 searchText = String(charArray)
+                //call the gameSearch (API call) function with the selected current states
                 gameSearch(searchText, showExact, platformAPISelect)
             }
         )
