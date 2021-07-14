@@ -22,12 +22,14 @@ struct GameResultRow: View {
     
     //main SwiftUI body
     var body: some View {
-        VStack{
-            Text(title)
-                .padding()
-            Text(stringPlatforms)
-                .font(.caption)
-                .padding()
+        NavigationLink(destination: GameDetailsView()){
+            VStack{
+                Text(title)
+                    .padding()
+                Text(stringPlatforms)
+                    .font(.caption)
+                    .padding()
+            }
         }
     }
 }
