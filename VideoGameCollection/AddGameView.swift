@@ -82,9 +82,9 @@ struct AddGameView: View {
         Form{
             Section(header: Text("Filters")){
                 Toggle("Exact Search", isOn: bindExact)
-                Picker("Platform", selection: bindPlatform, content: { // <2>
-                    ForEach(Array(platformDict.keys), id: \.self){ key in
-                        Text(key.description).tag(key.description)
+                Picker("Platform", selection: bindPlatform, content: {
+                    ForEach(platformNames, id: \.self){ platform in
+                        Text(platform).tag(platform)
                     }
                 })
             }
@@ -164,6 +164,8 @@ struct AddGameView: View {
                         platformDict[platform.name] = platform.id
                         platformNames.append(platform.name)
                     }
+                    //sort the platform names to they come across to the user the same every time...regardless of what order the API delivers them in
+                    platformNames.sort()
                     print("\n")
                     //data parsing was successful, so return
                     return

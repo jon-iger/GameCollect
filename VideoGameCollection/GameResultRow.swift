@@ -11,24 +11,23 @@ import SwiftUI
 struct GameResultRow: View {
     let title: String   //name of the game to be displayed
     let platformArray: [PlatformSearchResult]   //array of platform search results
+    var stringPlatforms: String {
+        var tempString = String()
+        for platform in platformArray{
+            tempString.append(platform.platform.name)
+            tempString.append(", ")
+        }
+        return tempString
+    }
     
     //main SwiftUI body
     var body: some View {
         VStack{
-            VStack{
-                Text(title)
-                    .multilineTextAlignment(.center)
-            }
-            .padding()
-            HStack{
-                //for each platform, display it's name
-                ForEach(platformArray, id: \.self){ platform in
-                    Text(platform.platform.name)
-                        .font(.caption)
-                        .multilineTextAlignment(.center)
-                }
-            }
-            .padding()
+            Text(title)
+                .padding()
+            Text(stringPlatforms)
+                .font(.caption)
+                .padding()
         }
     }
 }
