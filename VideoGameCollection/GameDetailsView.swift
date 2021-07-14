@@ -9,11 +9,20 @@ import SwiftUI
 
 struct GameDetailsView: View {
     var id: Int
+    @State var name: String = String()
+    @State var description: String = String()
+    @State var imageURL = String()
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView{
+            VStack{
+                Text(description)
+                    .font(.subheadline)
+            }
             .onAppear{
                 loadGameDetails()
             }
+            .navigationBarTitle(name)
+        }
     }
     
     /**
@@ -31,14 +40,15 @@ struct GameDetailsView: View {
         //start our URLSession to get data
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
-                let str = String(decoding: data, as: UTF8.self)
-                print(str)
+//                let str = String(decoding: data, as: UTF8.self)
+//                print(str)
                 //decode the data as a PlatformSelection objecct
                 let decoder = JSONDecoder()
                 if let details = try? decoder.decode(GameDetails.self, from: data){
                     print("Successfully decoded")
-                    print(details.description)
                     //data parsing was successful, so return
+                    name = details.name
+                    description = details.description
                     return
                 }
                 
