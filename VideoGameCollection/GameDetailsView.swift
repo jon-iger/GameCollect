@@ -26,7 +26,7 @@ struct GameDetailsView: View {
     }
     
     /**
-     loadPlatformSelection: function responsible for loading the current list of platforms the API supports, and displaying them to the user
+     loadGameDetails: load the details of a game based on it's ID from the API, decode the data, and update this views properites accordingly with that data
      parameters: none
      */
     func loadGameDetails() {
