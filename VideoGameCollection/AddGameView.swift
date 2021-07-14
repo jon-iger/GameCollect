@@ -92,7 +92,7 @@ struct AddGameView: View {
                 .padding()
             Section(header: Text("Results")){
                 List(gameResults.results, id: \.id){ game in
-                    GameResultRow(title: game.name, platformArray: game.platforms)
+                    GameResultRow(title: game.name, id: game.id, platformArray: game.platforms)
                 }
             }
         }

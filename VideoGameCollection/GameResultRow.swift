@@ -10,6 +10,7 @@ import SwiftUI
 
 struct GameResultRow: View {
     let title: String   //name of the game to be displayed
+    let id: Int
     let platformArray: [PlatformSearchResult]   //array of platform search results
     var stringPlatforms: String {
         var tempString = String()
@@ -22,7 +23,7 @@ struct GameResultRow: View {
     
     //main SwiftUI body
     var body: some View {
-        NavigationLink(destination: GameDetailsView()){
+        NavigationLink(destination: GameDetailsView(id: id)){
             VStack{
                 Text(title)
                     .padding()
@@ -37,6 +38,6 @@ struct GameResultRow: View {
 //preview struct
 struct GameResultRow_Previews: PreviewProvider {
     static var previews: some View {
-        GameResultRow(title: "Sonic the Hedgehog", platformArray: [])
+        GameResultRow(title: "Sonic the Hedgehog", id: 0, platformArray: [])
     }
 }

@@ -37,3 +37,9 @@ struct GameSearch: Codable, Identifiable{
     let name: String    //name of the game
     let platforms: [PlatformSearchResult]   //platforms the game supports
 }
+
+struct GameDetails: Codable {
+    var id: Int
+    var name: String
+    var description: String
+}
