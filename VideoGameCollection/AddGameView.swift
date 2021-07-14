@@ -5,6 +5,7 @@
 //  Created by Jonathon Lannon on 7/9/21.
 //
 
+//import the following frameworks...
 import SwiftUI
 
 struct AddGameView: View {
@@ -127,7 +128,9 @@ struct AddGameView: View {
                         print(game)
                     }
                     print("\n")
+                    //set our gameResults object (object that contains visible results to the user)
                     gameResults = items
+                    //data parsing was successful, so return
                     return
                 }
                 
@@ -135,33 +138,43 @@ struct AddGameView: View {
         }.resume()  //call our URLSession
     }
     
+    /**
+     loadPlatformSelection: function responsible for loading the current list of platforms the API supports, and displaying them to the user
+     parameters: none
+     */
     func loadPlatformSelection() {
+        //create the basic URL
         let urlString = "https://api.rawg.io/api/platforms?key=3c7897d6c00a4f0fae76833a5c8e743c"
         guard let url = URL(string: urlString) else {
             print("Bad URL: \(urlString)")
             return
         }
+        //start our URLSession to get data
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
-                // we got some data back!
                 //let str = String(decoding: data, as: UTF8.self)
                 //print(str)
+                //decode the data as a PlatformSelection objecct
                 let decoder = JSONDecoder()
                 if let items = try? decoder.decode(PlatformSelection.self, from: data){
+                    //for every platform found, store it's name as a key and id as a value in platformDict
+                    //for every platform found, store it's name as an item in the platformNames array (array responsible for displaying the actual list of platforms to the user
                     for platform in items.results {
                         print(platform)
                         platformDict[platform.name] = platform.id
                         platformNames.append(platform.name)
                     }
                     print("\n")
+                    //data parsing was successful, so return
                     return
                 }
                 
             }
-        }.resume()
+        }.resume()  //call our URLSession
     }
 }
 
+//Preview struct
 struct AddGameView_Previews: PreviewProvider {
     static var previews: some View {
         AddGameView()
