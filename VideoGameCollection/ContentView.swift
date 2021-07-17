@@ -9,25 +9,14 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject var gameObject: VideoGameCollection
     @State var showingSheet = false
     
     var body: some View {
         NavigationView{
-            VStack{
-                if gameObject.gameCollection.count == 0{
-                    Text("Add some games!")
-                    Image(systemName: "gamecontroller")
-                }
-                else{
-                    List{
-                        ForEach(gameObject.gameCollection){ game in
-                            VStack{
-                                
-                            }
-                        }
-                    }
+            List{
+                ForEach(gameObject.gameCollection, id: \.self){ game in
+                    Text(String(game))
                 }
             }
             .navigationBarTitle("Game Collection")
@@ -38,6 +27,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        ContentView()
     }
 }

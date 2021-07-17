@@ -8,6 +8,10 @@
 //import the following resources...
 import Foundation
 
+struct Game: Codable, Identifiable{
+    var id: Int
+}
+
 /**
  GameResults: struct used when encoding/decoding JSON search results for the adding games through the AddGameView
  Note: this struct should not be used when processing actual results, it is only meant as a container to hold them for API decoding purposes

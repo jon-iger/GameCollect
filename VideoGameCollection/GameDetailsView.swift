@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GameDetailsView: View {
     var id: Int
+    @EnvironmentObject var gameObject: VideoGameCollection
     @State var name: String = String()
     @State var description: String = String()
     @State var imageURL = String()
@@ -22,12 +23,11 @@ struct GameDetailsView: View {
                     .scaledToFit()
                     .padding()
                 Button("Add to Collection"){
-                    
+                    gameObject.gameCollection.append(id)
+                    VideoGameCollection.saveToFile(basicObject: gameObject)
                 }
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 25))
-                
-
                 Image(rating)
                     .resizable()
                     .scaledToFit()

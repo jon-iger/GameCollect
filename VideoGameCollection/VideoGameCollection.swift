@@ -14,7 +14,7 @@ class VideoGameCollection: ObservableObject, Codable{
     enum codingKey: CodingKey{
         case gameCollection
     }
-    @Published var gameCollection: [GameSearch]
+    @Published var gameCollection: [Int]
     
     init(){
         self.gameCollection = []
@@ -30,6 +30,9 @@ class VideoGameCollection: ObservableObject, Codable{
         if let retrievedSaveData = try? Data(contentsOf: archiveURL),
            let decodedSaveData = try? JSONDecoder().decode(VideoGameCollection.self, from: retrievedSaveData) {
             loadedData = decodedSaveData
+            for game in loadedData.gameCollection{
+                print(game)
+            }
         }
         return loadedData
     }
@@ -41,6 +44,6 @@ class VideoGameCollection: ObservableObject, Codable{
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: codingKey.self)
-        gameCollection = try container.decode([GameSearch].self, forKey: .gameCollection)
+        gameCollection = try container.decode([Int].self, forKey: .gameCollection)
     }
 }
