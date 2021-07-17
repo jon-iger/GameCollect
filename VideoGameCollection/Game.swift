@@ -43,4 +43,10 @@ struct GameDetails: Codable {
     var name: String
     var description: String
     var background_image: String
+    var esrb_rating: esrb_rating?
+}
+
+struct esrb_rating: Codable{
+    var id: Int
+    var name: String
 }

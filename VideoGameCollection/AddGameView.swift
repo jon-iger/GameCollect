@@ -124,10 +124,6 @@ struct AddGameView: View {
                 //decode the data as a GameResults object
                 let decoder = JSONDecoder()
                 if let items = try? decoder.decode(GameResults.self, from: data){
-                    for game in items.results {
-                        print(game)
-                    }
-                    print("\n")
                     //set our gameResults object (object that contains visible results to the user)
                     gameResults = items
                     //data parsing was successful, so return

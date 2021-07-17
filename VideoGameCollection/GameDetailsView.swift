@@ -12,9 +12,27 @@ struct GameDetailsView: View {
     @State var name: String = String()
     @State var description: String = String()
     @State var imageURL = String()
+    @State var rating = "Rating Pending"
+    @State var gameImage: UIImage = UIImage()
     var body: some View {
         ScrollView{
             VStack{
+                Image(uiImage: gameImage)
+                    .resizable()
+                    .scaledToFit()
+                    .padding()
+                Button("Add to Collection"){
+                    
+                }
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 25))
+                
+
+                Image(rating)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 100)
+                    .padding()
                 Text(description)
                     .font(.subheadline)
             }
@@ -49,9 +67,16 @@ struct GameDetailsView: View {
                     //data parsing was successful, so return
                     name = details.name
                     description = details.description
+                    rating = details.esrb_rating?.name ?? "No rating found"
+                    let imageUrl = URL(string: details.background_image)
+                    //force unwrapping is used here...assuming that the API will always provide an image url that is valid
+                    let imageData = try? Data(contentsOf: imageUrl!)
+                    if let imageDataVerified = imageData {
+                        let image = UIImage(data: imageDataVerified)
+                        gameImage = image ?? UIImage()
+                    }
                     return
                 }
-                
             }
         }.resume()  //call our URLSession
     }
