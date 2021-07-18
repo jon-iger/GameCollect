@@ -79,7 +79,7 @@ struct GameDetailsView: View {
                     //data parsing was successful, so return
                     name = details.name
                     description = details.description
-                    rating = details.esrb_rating?.name ?? "No rating found"
+                    rating = details.esrb_rating?.name ?? "Rating Pending"
                     let imageUrl = URL(string: details.background_image)
                     //force unwrapping is used here...assuming that the API will always provide an image url that is valid
                     let imageData = try? Data(contentsOf: imageUrl!)
@@ -98,6 +98,6 @@ struct GameDetailsView: View {
 
 struct GameDetailsView_Previews: PreviewProvider {
     static var previews: some View {
-        GameDetailsView(id: 0)
+        GameDetailsView(id: 30119)
     }
 }
