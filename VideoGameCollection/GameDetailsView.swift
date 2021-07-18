@@ -15,31 +15,43 @@ struct GameDetailsView: View {
     @State var imageURL = String()
     @State var rating = "Rating Pending"
     @State var gameImage: UIImage = UIImage()
+    @State var fullyLoaded = false
+    @State var showAnimation = true
     var body: some View {
-        ScrollView{
-            VStack{
-                Image(uiImage: gameImage)
-                    .resizable()
-                    .scaledToFit()
-                    .padding()
-                Button("Add to Collection"){
-                    gameObject.gameCollection.append(id)
-                    VideoGameCollection.saveToFile(basicObject: gameObject)
+        Group{
+            if fullyLoaded{
+                ScrollView{
+                    VStack{
+                        Image(uiImage: gameImage)
+                            .resizable()
+                            .scaledToFit()
+                            .padding()
+                        Button("Add to Collection"){
+                            gameObject.gameCollection.append(id)
+                            VideoGameCollection.saveToFile(basicObject: gameObject)
+                        }
+                        .padding()
+                        .background(RoundedRectangle(cornerRadius: 25))
+                        Image(rating)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 100)
+                            .padding()
+                        Text(description)
+                            .font(.subheadline)
+                    }
+                    .navigationBarTitle(name)
                 }
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 25))
-                Image(rating)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 100)
-                    .padding()
-                Text(description)
-                    .font(.subheadline)
             }
-            .onAppear{
-                loadGameDetails()
+            else{
+                VStack{
+                    Text("Loading")
+                    ActivityIndicator(shouldAnimate: self.$showAnimation)
+                }
             }
-            .navigationBarTitle(name)
+        }
+        .onAppear{
+            loadGameDetails()
         }
     }
     
@@ -75,6 +87,8 @@ struct GameDetailsView: View {
                         let image = UIImage(data: imageDataVerified)
                         gameImage = image ?? UIImage()
                     }
+                    fullyLoaded = true
+                    showAnimation = false
                     return
                 }
             }
