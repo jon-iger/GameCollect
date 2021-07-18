@@ -90,6 +90,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6BA91B9F26A4AB3B002148E3 /* SwiftUI Views */ = {
+			isa = PBXGroup;
+			children = (
+				6BAF08C9269560AC00F11357 /* ContentView.swift */,
+				6BED041026991E4F001E38CD /* AddGameView.swift */,
+				6BA91B9D26A49F12002148E3 /* LoadingIndicator.swift */,
+				6B224303269BE1A000937B15 /* GameResultRow.swift */,
+				6BDE401A269C381F00EF4012 /* GameDetailsView.swift */,
+			);
+			path = "SwiftUI Views";
+			sourceTree = "<group>";
+		};
+		6BA91BA026A4AB70002148E3 /* Data Models */ = {
+			isa = PBXGroup;
+			children = (
+				6BED040C2698FB33001E38CD /* VideoGameCollection.swift */,
+				6BED040E2698FF3F001E38CD /* Game.swift */,
+				6BFA52DB269A471B00302FBE /* Platform.swift */,
+				6BAF08D0269560AF00F11357 /* Persistence.swift */,
+			);
+			path = "Data Models";
+			sourceTree = "<group>";
+		};
 		6BAF08BB269560AC00F11357 = {
 			isa = PBXGroup;
 			children = (
@@ -113,17 +136,10 @@
 		6BAF08C6269560AC00F11357 /* VideoGameCollection */ = {
 			isa = PBXGroup;
 			children = (
+				6BA91BA026A4AB70002148E3 /* Data Models */,
+				6BA91B9F26A4AB3B002148E3 /* SwiftUI Views */,
 				6BAF08C7269560AC00F11357 /* VideoGameCollectionApp.swift */,
-				6BAF08C9269560AC00F11357 /* ContentView.swift */,
-				6BED041026991E4F001E38CD /* AddGameView.swift */,
-				6B224303269BE1A000937B15 /* GameResultRow.swift */,
-				6BDE401A269C381F00EF4012 /* GameDetailsView.swift */,
-				6BA91B9D26A49F12002148E3 /* LoadingIndicator.swift */,
-				6BED040C2698FB33001E38CD /* VideoGameCollection.swift */,
-				6BED040E2698FF3F001E38CD /* Game.swift */,
-				6BFA52DB269A471B00302FBE /* Platform.swift */,
 				6BAF08CB269560AF00F11357 /* Assets.xcassets */,
-				6BAF08D0269560AF00F11357 /* Persistence.swift */,
 				6BAF08D5269560AF00F11357 /* Info.plist */,
 				6BAF08D2269560AF00F11357 /* VideoGameCollection.xcdatamodeld */,
 				6BAF08CD269560AF00F11357 /* Preview Content */,
