@@ -98,7 +98,9 @@ struct AddGameView: View {
         }
         .navigationBarTitle("Add Game")
         .onAppear(perform: {
-            loadPlatformSelection()
+            if platformNames.isEmpty{
+                loadPlatformSelection()
+            }
         })
     }
     
