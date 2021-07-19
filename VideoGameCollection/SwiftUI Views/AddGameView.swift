@@ -15,7 +15,7 @@ struct AddGameView: View {
     @State var showExact: Bool = false      //boolean value to toggle "exact search" filter on or off
     @State var platformSelection = String()     //string holding the user's selection of console/platform filter
     @State var platformAPISelect = String()     //string holding the final string of the user's platform selection. This string must first be modified to have spaces removed from it with "-" character in it's place instead
-    @State var showAnimation = false
+    @State var showAnimation = false    //boolean for determining when the activity indicator should be animating or not
     @State var platformDict = [:]       //empty dictionary that will hold the names and ids of the platforms supported in the API at that time
     @State var platformNames: [String] = []     //empty string array that will hold all of the names of the platforms supported by the API. Data is loaded into the array upon appearance of this view
     
@@ -134,7 +134,7 @@ struct AddGameView: View {
                 if let items = try? decoder.decode(GameResults.self, from: data){
                     //set our gameResults object (object that contains visible results to the user)
                     gameResults = items
-                    showAnimation = false
+                    showAnimation = false   //disable the animation
                     //data parsing was successful, so return
                     return
                 }
