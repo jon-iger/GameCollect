@@ -18,10 +18,15 @@ struct ContentView: View {
                 ForEach(gameObject.gameCollection, id: \.self){ game in
                     GameCollectionRow(id: game)
                 }
+                .onDelete(perform: deleteGame)
             }
             .navigationBarTitle("Game Collection")
             .navigationBarItems(leading: EditButton(), trailing: NavigationLink("+", destination: AddGameView()))
         }
+    }
+    func deleteGame(at offsets: IndexSet) {
+        gameObject.gameCollection.remove(atOffsets: offsets)
+        VideoGameCollection.saveToFile(basicObject: gameObject)
     }
 }
 
