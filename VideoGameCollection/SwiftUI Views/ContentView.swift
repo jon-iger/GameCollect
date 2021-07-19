@@ -40,7 +40,7 @@ struct ContentView: View {
                     .navigationBarTitle("Game Collection")
                     .navigationBarItems(trailing: EditButton())
                 }
-                Text("Nothing Selected")
+                GameDetailsView(id: UserDefaults.standard.integer(forKey: "lastViewedGame"))
             }
             .tabItem{
                 Image(systemName: "person.3")
@@ -48,7 +48,7 @@ struct ContentView: View {
             }
             NavigationView{
                 AddGameView()
-                Text("Nothing Selected")
+                GameDetailsView(id: UserDefaults.standard.integer(forKey: "lastViewedGame"))
             }
             .tabItem{
                 Image(systemName: "person.3")

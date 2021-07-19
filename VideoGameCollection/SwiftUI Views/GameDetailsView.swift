@@ -22,58 +22,64 @@ struct GameDetailsView: View {
     @State var gameAlert = false
     var body: some View {
         Group{
-            if fullyLoaded{
-                ScrollView{
-                    VStack{
-                        Image(uiImage: gameImage)
-                            .resizable()
-                            .scaledToFit()
-                            .padding()
-                        Text(releaseDate)
-                        if partOfCollection{
-                            Button("Remove from Collection"){
-                                if let i = gameObject.gameCollection.firstIndex(of: id){
-                                    gameObject.gameCollection.remove(at: i)
-                                    VideoGameCollection.saveToFile(basicObject: gameObject)
-                                    partOfCollection = false
-                                    gameAlert = true
-                                }
-                            }
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 25))
-                        }
-                        else{
-                            Button("Add to Collection"){
-                                gameObject.gameCollection.append(id)
-                                VideoGameCollection.saveToFile(basicObject: gameObject)
-                                partOfCollection = true
-                                gameAlert = true
-                            }
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 25))
-                        }
-                        Image(rating)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 100)
-                            .padding()
-                        Text(description)
-                            .font(.subheadline)
-                            .padding()
-                    }
-                    .navigationBarTitle(name)
-                }
+            if id == 0{
+                Text("Welcome!")
             }
             else{
-                VStack{
-                    Text("Loading")
-                    ActivityIndicator(shouldAnimate: self.$showAnimation)
+                if fullyLoaded{
+                    ScrollView{
+                        VStack{
+                            Image(uiImage: gameImage)
+                                .resizable()
+                                .scaledToFit()
+                                .padding()
+                            Text(releaseDate)
+                            if partOfCollection{
+                                Button("Remove from Collection"){
+                                    if let i = gameObject.gameCollection.firstIndex(of: id){
+                                        gameObject.gameCollection.remove(at: i)
+                                        VideoGameCollection.saveToFile(basicObject: gameObject)
+                                        partOfCollection = false
+                                        gameAlert = true
+                                    }
+                                }
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 25))
+                            }
+                            else{
+                                Button("Add to Collection"){
+                                    gameObject.gameCollection.append(id)
+                                    VideoGameCollection.saveToFile(basicObject: gameObject)
+                                    partOfCollection = true
+                                    gameAlert = true
+                                }
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 25))
+                            }
+                            Image(rating)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 100)
+                                .padding()
+                            Text(description)
+                                .font(.subheadline)
+                                .padding()
+                        }
+                        .navigationBarTitle(name)
+                    }
+                }
+                else{
+                    VStack{
+                        Text("Loading")
+                        ActivityIndicator(shouldAnimate: self.$showAnimation)
+                    }
                 }
             }
         }
         .onAppear{
             loadGameDetails()
             loadGameStatus()
+            UserDefaults.standard.setValue(id, forKey: "lastViewedGame")
         }
         .alert(isPresented: $gameAlert){
             Alert(title: Text("Success"), message: Text("Your change has been saved to your collection"), dismissButton: .default(Text("OK")))
