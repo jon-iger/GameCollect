@@ -16,18 +16,20 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView{
-            Form{
-                HStack{
-                    Image(systemName: "magnifyingglass")
-                        .padding()
-                    Button("Sort"){
-                        searchSheet.toggle()
-                    }
-                    .padding()
-                    TextField("Search", text: $searchText)
-                        .padding()
-                }
+            VStack{
                 List{
+                    HStack{
+                        Button("Sort"){
+                            searchSheet.toggle()
+                        }
+                        .padding(7)
+                        .background(Color.gray)
+                        .cornerRadius(20)
+                        .foregroundColor(.white)
+                        Image(systemName: "magnifyingglass")
+                            .padding(4)
+                        TextField("Search", text: $searchText)
+                    }
                     ForEach(gameObject.gameCollection, id: \.self){ game in
                         GameCollectionRow(id: game)
                     }
@@ -36,6 +38,9 @@ struct ContentView: View {
                 .navigationBarTitle("Game Collection")
                 .navigationBarItems(leading: EditButton(), trailing: NavigationLink("+", destination: AddGameView()))
             }
+            .sheet(isPresented: $searchSheet, content: {
+                SortFilterView()
+            })
         }
     }
     func deleteGame(at offsets: IndexSet) {
