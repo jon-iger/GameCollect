@@ -15,29 +15,31 @@ struct GameCollectionRow: View {
     @State var fullyLoaded = false
     @State var showAnimation = true
     var body: some View {
-        HStack{
-            if fullyLoaded{
-                Image(uiImage: gameImage)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 90, height: 90)
-                Text(name)
-                Text(releaseYear)
-            }
-            else{
-                Text("Loading")
-                ActivityIndicator(shouldAnimate: self.$showAnimation)
+        NavigationLink(destination: GameDetailsView(id: self.id)){
+            HStack{
+                if fullyLoaded{
+                    Image(uiImage: gameImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 90, height: 90)
+                    Text(name)
+                    Text(releaseYear)
+                }
+                else{
+                    Text("Loading")
+                    ActivityIndicator(shouldAnimate: self.$showAnimation)
+                }
             }
         }
         .onAppear{
-            loadGameDetails()
+            loadGameInfo()
         }
     }
     /**
      loadGameDetails: load the details of a game based on it's ID from the API, decode the data, and update this views properites accordingly with that data
      parameters: none
      */
-    func loadGameDetails() {
+    func loadGameInfo() {
         //create the basic URL
         let urlString = "https://api.rawg.io/api/games/\(String(id))?key=3c7897d6c00a4f0fae76833a5c8e743c"
         guard let url = URL(string: urlString) else {
