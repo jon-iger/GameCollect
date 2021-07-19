@@ -10,7 +10,6 @@ import CoreData
 
 struct ContentView: View {
     @EnvironmentObject var gameObject: VideoGameCollection
-    @Environment(\.horizontalSizeClass) var sizeClass
     @State var showingSheet = false
     @State var searchText = String()
     @State var searchSheet = false
@@ -43,7 +42,7 @@ struct ContentView: View {
                 GameDetailsView(id: UserDefaults.standard.integer(forKey: "lastViewedGame"))
             }
             .tabItem{
-                Image(systemName: "person.3")
+                Image(systemName: "gamecontroller")
                 Text("Home")
             }
             NavigationView{
@@ -51,7 +50,7 @@ struct ContentView: View {
                 GameDetailsView(id: UserDefaults.standard.integer(forKey: "lastViewedGame"))
             }
             .tabItem{
-                Image(systemName: "person.3")
+                Image(systemName: "plus")
                 Text("Add")
             }
         }
