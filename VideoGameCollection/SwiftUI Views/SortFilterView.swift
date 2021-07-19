@@ -8,8 +8,16 @@
 import SwiftUI
 
 struct SortFilterView: View {
+    @State var exactToggle = false
+    @State var platformSelection = String()
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Form{
+            Toggle("Exact Search", isOn: $exactToggle)
+            Picker("Platform", selection: $platformSelection){
+                Text("Sample1").tag("1")
+                Text("Sample2").tag("2")
+            }
+        }
     }
 }
 
