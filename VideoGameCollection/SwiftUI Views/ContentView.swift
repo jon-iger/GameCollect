@@ -16,7 +16,7 @@ struct ContentView: View {
         NavigationView{
             List{
                 ForEach(gameObject.gameCollection, id: \.self){ game in
-                    Text(String(game))
+                    GameCollectionRow(id: game)
                 }
             }
             .navigationBarTitle("Game Collection")
