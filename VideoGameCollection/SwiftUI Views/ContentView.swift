@@ -9,10 +9,10 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @EnvironmentObject var gameObject: VideoGameCollection
-    @State var showingSheet = false
-    @State var searchText = String()
-    @State var searchSheet = false
+    @EnvironmentObject var gameObject: VideoGameCollection  //environment object used for storing the current user
+    @State var searchText = String()    //string used for holding the user's current search text
+    
+    //SwiftUI body
     var body: some View {
         TabView{
             NavigationView{
