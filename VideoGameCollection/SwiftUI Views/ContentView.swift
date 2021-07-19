@@ -10,34 +10,49 @@ import CoreData
 
 struct ContentView: View {
     @EnvironmentObject var gameObject: VideoGameCollection
+    @Environment(\.horizontalSizeClass) var sizeClass
     @State var showingSheet = false
     @State var searchText = String()
     @State var searchSheet = false
-    
     var body: some View {
-        NavigationView{
-            VStack{
-                List{
-                    HStack{
-                        Image(systemName: "magnifyingglass")
-                            .padding(4)
-                        TextField("Search", text: $searchText)
-                        Spacer()
-                        NavigationLink(destination: SortFilterView()){
-                            Text("Sort")
-                                .padding(7)
-                                .background(Color.gray)
-                                .cornerRadius(20)
-                                .foregroundColor(.white)
+        TabView{
+            NavigationView{
+                VStack{
+                    List{
+                        HStack{
+                            Image(systemName: "magnifyingglass")
+                                .padding(4)
+                            TextField("Search", text: $searchText)
+                            Spacer()
+                            NavigationLink(destination: SortFilterView()){
+                                Text("Sort")
+                                    .padding(7)
+                                    .background(Color.gray)
+                                    .cornerRadius(20)
+                                    .foregroundColor(.white)
+                            }
                         }
+                        ForEach(gameObject.gameCollection, id: \.self){ game in
+                            GameCollectionRow(id: game)
+                        }
+                        .onDelete(perform: deleteGame)
                     }
-                    ForEach(gameObject.gameCollection, id: \.self){ game in
-                        GameCollectionRow(id: game)
-                    }
-                    .onDelete(perform: deleteGame)
+                    .navigationBarTitle("Game Collection")
+                    .navigationBarItems(trailing: EditButton())
                 }
-                .navigationBarTitle("Game Collection")
-                .navigationBarItems(leading: EditButton(), trailing: NavigationLink("+", destination: AddGameView()))
+                Text("Nothing Selected")
+            }
+            .tabItem{
+                Image(systemName: "person.3")
+                Text("Home")
+            }
+            NavigationView{
+                AddGameView()
+                Text("Nothing Selected")
+            }
+            .tabItem{
+                Image(systemName: "person.3")
+                Text("Add")
             }
         }
     }
