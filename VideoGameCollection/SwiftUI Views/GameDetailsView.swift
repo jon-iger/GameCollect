@@ -56,6 +56,7 @@ struct GameDetailsView: View {
                             .padding()
                         Text(description)
                             .font(.subheadline)
+                            .padding()
                     }
                     .navigationBarTitle(name)
                 }
@@ -96,7 +97,11 @@ struct GameDetailsView: View {
                     print("Successfully decoded")
                     //data parsing was successful, so return
                     name = details.name
-                    description = details.description
+                    let data = Data(details.description.utf8)
+                    if let attributedString = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) {
+                        description = attributedString.string
+                    }
+                    //description = details.description
                     releaseDate = details.released
                     rating = details.esrb_rating?.name ?? "Rating Pending"
                     let imageUrl = URL(string: details.background_image)
