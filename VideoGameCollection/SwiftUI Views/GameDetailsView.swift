@@ -18,6 +18,7 @@ struct GameDetailsView: View {
     @State var gameImage: UIImage = UIImage()
     @State var fullyLoaded = false
     @State var showAnimation = true
+    @State var partOfCollection = true
     var body: some View {
         Group{
             if fullyLoaded{
@@ -28,12 +29,26 @@ struct GameDetailsView: View {
                             .scaledToFit()
                             .padding()
                         Text(releaseDate)
-                        Button("Add to Collection"){
-                            gameObject.gameCollection.append(id)
-                            VideoGameCollection.saveToFile(basicObject: gameObject)
+                        if partOfCollection{
+                            Button("Remove from Collection"){
+                                if let i = gameObject.gameCollection.firstIndex(of: id){
+                                    gameObject.gameCollection.remove(at: i)
+                                    VideoGameCollection.saveToFile(basicObject: gameObject)
+                                    partOfCollection = false
+                                }
+                            }
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 25))
                         }
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 25))
+                        else{
+                            Button("Add to Collection"){
+                                gameObject.gameCollection.append(id)
+                                VideoGameCollection.saveToFile(basicObject: gameObject)
+                                partOfCollection = true
+                            }
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 25))
+                        }
                         Image(rating)
                             .resizable()
                             .scaledToFit()
@@ -54,6 +69,7 @@ struct GameDetailsView: View {
         }
         .onAppear{
             loadGameDetails()
+            loadGameStatus()
         }
     }
     
@@ -96,6 +112,15 @@ struct GameDetailsView: View {
                 }
             }
         }.resume()  //call our URLSession
+    }
+    
+    func loadGameStatus(){
+        if gameObject.gameCollection.contains(id){
+            partOfCollection = true
+        }
+        else{
+            partOfCollection = false
+        }
     }
 }
 
