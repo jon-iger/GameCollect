@@ -20,7 +20,7 @@ struct ContentView: View {
                 }
             }
             .navigationBarTitle("Game Collection")
-            .navigationBarItems(trailing: NavigationLink("+", destination: AddGameView()))
+            .navigationBarItems(leading: EditButton(), trailing: NavigationLink("+", destination: AddGameView()))
         }
     }
 }
