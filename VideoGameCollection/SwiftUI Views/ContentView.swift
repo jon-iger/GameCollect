@@ -11,17 +11,31 @@ import CoreData
 struct ContentView: View {
     @EnvironmentObject var gameObject: VideoGameCollection
     @State var showingSheet = false
+    @State var searchText = String()
+    @State var searchSheet = false
     
     var body: some View {
         NavigationView{
-            List{
-                ForEach(gameObject.gameCollection, id: \.self){ game in
-                    GameCollectionRow(id: game)
+            Form{
+                HStack{
+                    Image(systemName: "magnifyingglass")
+                        .padding()
+                    Button("Sort"){
+                        searchSheet.toggle()
+                    }
+                    .padding()
+                    TextField("Search", text: $searchText)
+                        .padding()
                 }
-                .onDelete(perform: deleteGame)
+                List{
+                    ForEach(gameObject.gameCollection, id: \.self){ game in
+                        GameCollectionRow(id: game)
+                    }
+                    .onDelete(perform: deleteGame)
+                }
+                .navigationBarTitle("Game Collection")
+                .navigationBarItems(leading: EditButton(), trailing: NavigationLink("+", destination: AddGameView()))
             }
-            .navigationBarTitle("Game Collection")
-            .navigationBarItems(leading: EditButton(), trailing: NavigationLink("+", destination: AddGameView()))
         }
     }
     func deleteGame(at offsets: IndexSet) {
