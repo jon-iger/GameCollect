@@ -19,6 +19,7 @@ struct GameDetailsView: View {
     @State var fullyLoaded = false
     @State var showAnimation = true
     @State var partOfCollection = true
+    @State var gameAlert = false
     var body: some View {
         Group{
             if fullyLoaded{
@@ -35,6 +36,7 @@ struct GameDetailsView: View {
                                     gameObject.gameCollection.remove(at: i)
                                     VideoGameCollection.saveToFile(basicObject: gameObject)
                                     partOfCollection = false
+                                    gameAlert = true
                                 }
                             }
                             .padding()
@@ -45,6 +47,7 @@ struct GameDetailsView: View {
                                 gameObject.gameCollection.append(id)
                                 VideoGameCollection.saveToFile(basicObject: gameObject)
                                 partOfCollection = true
+                                gameAlert = true
                             }
                             .padding()
                             .background(RoundedRectangle(cornerRadius: 25))
@@ -71,6 +74,9 @@ struct GameDetailsView: View {
         .onAppear{
             loadGameDetails()
             loadGameStatus()
+        }
+        .alert(isPresented: $gameAlert){
+            Alert(title: Text("Success"), message: Text("Your change has been saved to your collection"), dismissButton: .default(Text("OK")))
         }
     }
     
