@@ -36,7 +36,7 @@ struct GameCollectionRow: View {
         }
     }
     /**
-     loadGameDetails: load the details of a game based on it's ID from the API, decode the data, and update this views properites accordingly with that data
+     Load the details of a game based on it's ID from the API, decode the data, and update this views properites accordingly with that data
      parameters: none
      */
     func loadGameInfo() {
