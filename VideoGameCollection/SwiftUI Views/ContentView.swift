@@ -8,6 +8,9 @@
 import SwiftUI
 import CoreData
 
+/**
+ View to display the user's current games in their collection
+ */
 struct ContentView: View {
     @EnvironmentObject var gameObject: VideoGameCollection  //environment object used for storing the current user
     @State var searchText = String()    //string used for holding the user's current search text
