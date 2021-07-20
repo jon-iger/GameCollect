@@ -7,19 +7,24 @@
 
 import SwiftUI
 
+/**
+ View that displays the details of a game, and lets the user add/remove a game from their collection
+ */
 struct GameDetailsView: View {
-    var id: Int
-    @EnvironmentObject var gameObject: VideoGameCollection
-    @State var name: String = String()
-    @State var description: String = String()
-    @State var releaseDate: String = String()
-    @State var imageURL = String()
-    @State var rating = "Rating Pending"
-    @State var gameImage: UIImage = UIImage()
-    @State var fullyLoaded = false
-    @State var showAnimation = true
-    @State var partOfCollection = true
-    @State var gameAlert = false
+    var id: Int     //id of the game to be viewed
+    @EnvironmentObject var gameObject: VideoGameCollection      //the object in the SwiftUI environment that contains the user's current game collection
+    @State var name: String = String()      //the name of the game
+    @State var description: String = String()   //the description of the game
+    @State var releaseDate: String = String()   //the release date of the game in the form of a string
+    @State var imageURL = String()      //the url of the main background image
+    @State var rating = "Rating Pending"    //the ESRB rating of the game with a default value of "Rating Pending" if the game is not rated
+    @State var gameImage: UIImage = UIImage()   //the UIImage of the game's main background image
+    @State var fullyLoaded = false      //boolean value determining if the game's data is fully loaded or not
+    @State var showAnimation = true     //boolean value determining if the activity indicator animation should be shown or not
+    @State var partOfCollection = true  //boolean value determining if the current game being displayed is apart of the user's collection or not
+    @State var gameAlert = false        //boolean value determining if the alert showing that the user's collection was modified should be on or off
+    
+    //main SwiftUI body
     var body: some View {
         Group{
             if id == 0{
@@ -79,6 +84,7 @@ struct GameDetailsView: View {
         .onAppear{
             loadGameDetails()
             loadGameStatus()
+            //update the UserDefault "lastViewedGame" key. This is intended to hold the last game the user viewed in the app.
             UserDefaults.standard.setValue(id, forKey: "lastViewedGame")
         }
         .alert(isPresented: $gameAlert){
@@ -87,7 +93,7 @@ struct GameDetailsView: View {
     }
     
     /**
-     loadGameDetails: load the details of a game based on it's ID from the API, decode the data, and update this views properites accordingly with that data
+     Load the details of a game based on it's ID from the API, decode the data, and update this views properites accordingly with that data
      parameters: none
      */
     func loadGameDetails() {
@@ -107,22 +113,26 @@ struct GameDetailsView: View {
                 let decoder = JSONDecoder()
                 if let details = try? decoder.decode(GameDetails.self, from: data){
                     print("Successfully decoded")
-                    //data parsing was successful, so return
+                    //data parsing was successful
+                    //set each of the needed States with the data returned
                     name = details.name
                     let data = Data(details.description.utf8)
+                    //filter out the HTML elements of the description string, and set its state accordingly
                     if let attributedString = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) {
                         description = attributedString.string
                     }
-                    //description = details.description
                     releaseDate = details.released
                     rating = details.esrb_rating?.name ?? "Rating Pending"
+                    //get our main background image for the game using the URL provided in the data
                     let imageUrl = URL(string: details.background_image)
                     //force unwrapping is used here...assuming that the API will always provide an image url that is valid
                     let imageData = try? Data(contentsOf: imageUrl!)
                     if let imageDataVerified = imageData {
                         let image = UIImage(data: imageDataVerified)
+                        //Set the UIImage for the view accordingly
                         gameImage = image ?? UIImage()
                     }
+                    //disable the activity indicator animation, and indicate that all data is fully loaded
                     fullyLoaded = true
                     showAnimation = false
                     return
@@ -131,6 +141,9 @@ struct GameDetailsView: View {
         }.resume()  //call our URLSession
     }
     
+    /**
+     Function that returns true or false if a game is apart of the user's collection or not
+     */
     func loadGameStatus(){
         if gameObject.gameCollection.contains(id){
             partOfCollection = true
