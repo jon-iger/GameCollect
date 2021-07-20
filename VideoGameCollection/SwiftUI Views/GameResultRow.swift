@@ -8,6 +8,9 @@
 //import the following frameworks...
 import SwiftUI
 
+/**
+ View that displays a singular row of game data when searching with the AddGameView
+ */
 struct GameResultRow: View {
     let title: String   //name of the game to be displayed
     let id: Int
