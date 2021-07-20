@@ -9,6 +9,9 @@ import Foundation
 import UIKit
 import SwiftUI
 
+/**
+ UIKit view that displays an activity indicator to the user when called
+ */
 struct ActivityIndicator: UIViewRepresentable {
     @Binding var shouldAnimate: Bool
     func makeUIView(context: Context) -> UIActivityIndicatorView {
