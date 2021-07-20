@@ -8,6 +8,9 @@
 //import the following frameworks...
 import SwiftUI
 
+/**
+ View that contains the screen users will use to add new games to their collection
+ */
 struct AddGameView: View {
     @State var searchText = String()    //string sent into API calls with the search bar
     @State var displayText = String()   //string to be displayed to the user when typing in the search bar
