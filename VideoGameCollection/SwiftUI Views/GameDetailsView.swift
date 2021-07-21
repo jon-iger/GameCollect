@@ -23,6 +23,9 @@ struct GameDetailsView: View {
     @State var showAnimation = true     //boolean value determining if the activity indicator animation should be shown or not
     @State var partOfCollection = true  //boolean value determining if the current game being displayed is apart of the user's collection or not
     @State var gameAlert = false        //boolean value determining if the alert showing that the user's collection was modified should be on or off
+    @State var screenCollection = GameScreenshot()
+    @State var screenshots: [String:UIImage] = [:]
+    
     
     //main SwiftUI body
     var body: some View {
@@ -69,6 +72,21 @@ struct GameDetailsView: View {
                             Text(description)
                                 .font(.subheadline)
                                 .padding()
+                            Text("Screenshots")
+                                .font(.title2)
+                                .padding()
+                            ScrollView(.horizontal, showsIndicators: true){
+                                HStack{
+                                    ForEach(screenCollection.results, id: \.self){ game in
+                                        Image(uiImage: screenshots[game.image]!)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: CGFloat(game.width), height: CGFloat(game.height))
+                                            .border(Color.blue, width: 5)
+                                            .padding()
+                                    }
+                                }
+                            }
                         }
                         .navigationBarTitle(name)
                     }
@@ -84,6 +102,7 @@ struct GameDetailsView: View {
         .onAppear{
             loadGameDetails()
             loadGameStatus()
+            loadGameScreenshots()
             //update the UserDefault "lastViewedGame" key. This is intended to hold the last game the user viewed in the app.
             UserDefaults.standard.setValue(id, forKey: "lastViewedGame")
         }
@@ -135,6 +154,38 @@ struct GameDetailsView: View {
                     //disable the activity indicator animation, and indicate that all data is fully loaded
                     fullyLoaded = true
                     showAnimation = false
+                    return
+                }
+            }
+        }.resume()  //call our URLSession
+    }
+    
+    func loadGameScreenshots() {
+        //create the basic URL
+        let urlString = "https://api.rawg.io/api/games/\(String(id))/screenshots?key=3c7897d6c00a4f0fae76833a5c8e743c"
+        guard let url = URL(string: urlString) else {
+            print("Bad URL: \(urlString)")
+            return
+        }
+        print("Starting decoding...")
+        //start our URLSession to get data
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                //decode the data as a PlatformSelection objecct
+                let decoder = JSONDecoder()
+                if let data = try? decoder.decode(GameScreenshot.self, from: data){
+                    for game in data.results{
+                        //get our main background image for the game using the URL provided in the data
+                        let imageUrl = URL(string: game.image)
+                        //force unwrapping is used here...assuming that the API will always provide an image url that is valid
+                        let imageData = try? Data(contentsOf: imageUrl!)
+                        if let imageDataVerified = imageData {
+                            let image = UIImage(data: imageDataVerified)
+                            //Set the UIImage for the view accordingly
+                            screenshots[game.image] = image!
+                        }
+                    }
+                    screenCollection = data
                     return
                 }
             }
