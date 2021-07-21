@@ -22,17 +22,23 @@ struct ContentView: View {
     var body: some View {
         let bindSearch = Binding<String>(
             //display displayText for the user to see
-            get: { self.searchText},
+            get: {self.searchText},
             //when setting bindSearch string, use this...
             set: {
+                searchResults = []
+                activeSearch = true
+                print("Setting")
                 self.searchText = $0
                 for name in currentCollectionInfo.currentCollection.keys{
-                    if name.contains(searchText){
+                    if name.contains(searchText) && !searchResults.contains(currentCollectionInfo.currentCollection[name]!){
+                        print("appending \(name)")
                         searchResults.append(currentCollectionInfo.currentCollection[name]!)
                     }
                 }
                 if self.searchText.isEmpty{
-                    activeSearch.toggle()
+                    print("Is Empty")
+                    activeSearch = false
+                    searchResults = []
                 }
             }
         )
@@ -45,7 +51,7 @@ struct ContentView: View {
                                 .padding(4)
                             TextField("Search", text: bindSearch)
                                 .onTapGesture {
-                                    activeSearch.toggle()
+                                    activeSearch = true
                                 }
                             Spacer()
                             NavigationLink(destination: SortFilterView()){

@@ -13,6 +13,7 @@ import SwiftUI
 struct GameDetailsView: View {
     var id: Int     //id of the game to be viewed
     @EnvironmentObject var gameObject: VideoGameCollection      //the object in the SwiftUI environment that contains the user's current game collection
+    @EnvironmentObject var currentCollectionInfo: Game
     @Environment(\.horizontalSizeClass) var sizeClass
     @State var name: String = String()      //the name of the game
     @State var description: String = String()   //the description of the game
@@ -49,6 +50,7 @@ struct GameDetailsView: View {
                                     if let i = gameObject.gameCollection.firstIndex(of: id){
                                         gameObject.gameCollection.remove(at: i)
                                         VideoGameCollection.saveToFile(basicObject: gameObject)
+                                        currentCollectionInfo.currentCollection.removeValue(forKey: name)
                                         partOfCollection = false
                                         gameAlert = true
                                     }
@@ -60,6 +62,7 @@ struct GameDetailsView: View {
                                 Button("Add to Collection"){
                                     gameObject.gameCollection.append(id)
                                     VideoGameCollection.saveToFile(basicObject: gameObject)
+                                    currentCollectionInfo.currentCollection[name] = id
                                     partOfCollection = true
                                     gameAlert = true
                                 }
