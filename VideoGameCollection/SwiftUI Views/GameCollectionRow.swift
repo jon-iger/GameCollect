@@ -9,6 +9,7 @@ import SwiftUI
 
 struct GameCollectionRow: View {
     var id: Int
+    @EnvironmentObject var currentCollectionInfo: Game
     @State var name = String()
     @State var releaseYear = String()
     @State var gameImage = UIImage()
@@ -58,6 +59,7 @@ struct GameCollectionRow: View {
                     print("Successfully decoded")
                     //data parsing was successful, so return
                     name = details.name
+                    currentCollectionInfo.currentCollection[name] = id
                     let tempString = Array(details.released)
                     var charArray: [Character] = ["1", "2", "3", "4"]
                     charArray[0] = tempString[0]
