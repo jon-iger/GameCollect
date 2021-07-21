@@ -55,3 +55,20 @@ struct esrb_rating: Codable{
     var id: Int
     var name: String
 }
+
+struct GameScreenshot: Codable{
+    var count: Int
+    var results: [ScreenshotImage]
+    
+    init(){
+        self.count = 0
+        self.results = []
+    }
+    
+    struct ScreenshotImage: Codable, Hashable{
+        var id: Int
+        var image: String
+        var width: Int
+        var height: Int
+    }
+}
