@@ -18,6 +18,7 @@ struct GameDetailsView: View {
     @State var releaseDate: String = String()   //the release date of the game in the form of a string
     @State var imageURL = String()      //the url of the main background image
     @State var rating = "Rating Pending"    //the ESRB rating of the game with a default value of "Rating Pending" if the game is not rated
+    @State var metacriticRating = 0
     @State var gameImage: UIImage = UIImage()   //the UIImage of the game's main background image
     @State var fullyLoaded = false      //boolean value determining if the game's data is fully loaded or not
     @State var showAnimation = true     //boolean value determining if the activity indicator animation should be shown or not
@@ -64,11 +65,22 @@ struct GameDetailsView: View {
                                 .padding()
                                 .background(RoundedRectangle(cornerRadius: 25))
                             }
-                            Image(rating)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 100)
-                                .padding()
+                            HStack{
+                                Image("metacritic")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .background(Color.black)
+                                    .frame(width: 75, height: 75)
+                                    .padding()
+                                Text(String(metacriticRating))
+                                    .font(.title)
+                                Spacer()
+                                Image(rating)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 100)
+                                    .padding()
+                            }
                             Text(description)
                                 .font(.subheadline)
                                 .padding()
@@ -142,6 +154,7 @@ struct GameDetailsView: View {
                     }
                     releaseDate = details.released
                     rating = details.esrb_rating?.name ?? "Rating Pending"
+                    metacriticRating = details.metacritic
                     //get our main background image for the game using the URL provided in the data
                     let imageUrl = URL(string: details.background_image)
                     //force unwrapping is used here...assuming that the API will always provide an image url that is valid

@@ -46,6 +46,7 @@ struct GameDetails: Codable {
     var id: Int
     var name: String
     var description: String
+    var metacritic: Int
     var released: String
     var background_image: String
     var esrb_rating: esrb_rating?
