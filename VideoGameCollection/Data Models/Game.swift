@@ -50,6 +50,7 @@ struct GameDetails: Codable {
     var released: String
     var background_image: String
     var esrb_rating: esrb_rating?
+    var platforms: [PlatformSearchResult]
 }
 
 struct esrb_rating: Codable{

@@ -13,6 +13,7 @@ import SwiftUI
 struct GameDetailsView: View {
     var id: Int     //id of the game to be viewed
     @EnvironmentObject var gameObject: VideoGameCollection      //the object in the SwiftUI environment that contains the user's current game collection
+    @Environment(\.horizontalSizeClass) var sizeClass
     @State var name: String = String()      //the name of the game
     @State var description: String = String()   //the description of the game
     @State var releaseDate: String = String()   //the release date of the game in the form of a string
@@ -26,6 +27,7 @@ struct GameDetailsView: View {
     @State var gameAlert = false        //boolean value determining if the alert showing that the user's collection was modified should be on or off
     @State var screenCollection = GameScreenshot()
     @State var screenshots: [String:UIImage] = [:]
+    @State var gamePlatforms: [PlatformSearchResult] = []
     
     
     //main SwiftUI body
@@ -84,18 +86,35 @@ struct GameDetailsView: View {
                             Text(description)
                                 .font(.subheadline)
                                 .padding()
+                            Text("Platforms")
+                                .font(.title2)
+                                .padding()
+                            ForEach(gamePlatforms, id: \.self){ platform in
+                                Text(platform.platform.name)
+                                Spacer()
+                            }
                             Text("Screenshots")
                                 .font(.title2)
                                 .padding()
                             ScrollView(.horizontal, showsIndicators: true){
                                 HStack{
                                     ForEach(screenCollection.results, id: \.self){ game in
-                                        Image(uiImage: screenshots[game.image]!)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: CGFloat(game.width), height: CGFloat(game.height))
-                                            .border(Color.blue, width: 5)
-                                            .padding()
+                                        if sizeClass == .regular{
+                                            Image(uiImage: screenshots[game.image]!)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: CGFloat(game.width), height: CGFloat(game.height))
+                                                .border(Color.blue, width: 5)
+                                                .padding()
+                                        }
+                                        else{
+                                            Image(uiImage: screenshots[game.image]!)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: CGFloat(game.width/2), height: CGFloat(game.height/2))
+                                                .border(Color.blue, width: 5)
+                                                .padding()
+                                        }
                                     }
                                 }
                             }
@@ -155,6 +174,7 @@ struct GameDetailsView: View {
                     releaseDate = details.released
                     rating = details.esrb_rating?.name ?? "Rating Pending"
                     metacriticRating = details.metacritic
+                    gamePlatforms = details.platforms
                     //get our main background image for the game using the URL provided in the data
                     let imageUrl = URL(string: details.background_image)
                     //force unwrapping is used here...assuming that the API will always provide an image url that is valid
