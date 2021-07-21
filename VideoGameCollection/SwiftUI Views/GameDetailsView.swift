@@ -29,7 +29,6 @@ struct GameDetailsView: View {
     @State var screenshots: [String:UIImage] = [:]
     @State var gamePlatforms: [PlatformSearchResult] = []
     
-    
     //main SwiftUI body
     var body: some View {
         Group{
