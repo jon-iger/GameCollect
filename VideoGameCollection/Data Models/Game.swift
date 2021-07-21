@@ -8,8 +8,8 @@
 //import the following resources...
 import Foundation
 
-struct Game: Codable, Identifiable{
-    var id: Int
+class Game: Codable, ObservableObject{
+    var currentCollection: [String:Int] = [:]
 }
 
 /**

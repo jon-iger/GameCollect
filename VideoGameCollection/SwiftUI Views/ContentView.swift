@@ -13,10 +13,29 @@ import CoreData
  */
 struct ContentView: View {
     @EnvironmentObject var gameObject: VideoGameCollection  //environment object used for storing the current user
+    @EnvironmentObject var currentCollectionInfo: Game
     @State var searchText = String()    //string used for holding the user's current search text
+    @State var activeSearch = false
+    @State var searchResults: [Int] = []
     
     //SwiftUI body
     var body: some View {
+        let bindSearch = Binding<String>(
+            //display displayText for the user to see
+            get: { self.searchText},
+            //when setting bindSearch string, use this...
+            set: {
+                self.searchText = $0
+                for name in currentCollectionInfo.currentCollection.keys{
+                    if name.contains(searchText){
+                        searchResults.append(currentCollectionInfo.currentCollection[name]!)
+                    }
+                }
+                if self.searchText.isEmpty{
+                    activeSearch.toggle()
+                }
+            }
+        )
         TabView{
             NavigationView{
                 VStack{
@@ -24,7 +43,10 @@ struct ContentView: View {
                         HStack{
                             Image(systemName: "magnifyingglass")
                                 .padding(4)
-                            TextField("Search", text: $searchText)
+                            TextField("Search", text: bindSearch)
+                                .onTapGesture {
+                                    activeSearch.toggle()
+                                }
                             Spacer()
                             NavigationLink(destination: SortFilterView()){
                                 Text("Sort")
@@ -34,10 +56,17 @@ struct ContentView: View {
                                     .foregroundColor(.white)
                             }
                         }
-                        ForEach(gameObject.gameCollection, id: \.self){ game in
-                            GameCollectionRow(id: game)
+                        if !activeSearch{
+                            ForEach(gameObject.gameCollection, id: \.self){ game in
+                                GameCollectionRow(id: game)
+                            }
+                            .onDelete(perform: deleteGame)
                         }
-                        .onDelete(perform: deleteGame)
+                        else{
+                            ForEach(searchResults, id: \.self){ game in
+                                GameCollectionRow(id: game)
+                            }
+                        }
                     }
                     .navigationBarTitle("Game Collection")
                     .navigationBarItems(trailing: EditButton())
