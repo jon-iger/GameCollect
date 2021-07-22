@@ -75,7 +75,21 @@ struct ContentView: View {
                         }
                     }
                     .navigationBarTitle("Game Collection")
-                    .navigationBarItems(trailing: EditButton())
+                    .navigationBarItems(leading: EditButton(), trailing:
+                                            Menu{
+                                                Button("Duplicate"){
+                                                    print("Hi")
+                                                }
+                                                Button("Rename"){
+                                                    print("Hi")
+                                                }
+                                                Button("Delete…"){
+                                                    print("Hi")
+                                                }
+                                            } label:{
+                                                Image(systemName: "ellipsis.circle")
+                                            }
+                    )
                 }
                 GameDetailsView(id: UserDefaults.standard.integer(forKey: "lastViewedGame"))
             }
