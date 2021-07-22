@@ -150,7 +150,7 @@ struct GameDetailsView: View {
      */
     func loadGameDetails() {
         //create the basic URL
-        let urlString = "https://api.rawg.io/api/games/\(String(id))?key=3c7897d6c00a4f0fae76833a5c8e743c"
+        let urlString = "https://api.rawg.io/api/games/\(String(id))?key=\(apiKey)"
         guard let url = URL(string: urlString) else {
             print("Bad URL: \(urlString)")
             return
@@ -197,7 +197,7 @@ struct GameDetailsView: View {
     
     func loadGameScreenshots() {
         //create the basic URL
-        let urlString = "https://api.rawg.io/api/games/\(String(id))/screenshots?key=3c7897d6c00a4f0fae76833a5c8e743c"
+        let urlString = "https://api.rawg.io/api/games/\(String(id))/screenshots?key=\(apiKey)"
         guard let url = URL(string: urlString) else {
             print("Bad URL: \(urlString)")
             return

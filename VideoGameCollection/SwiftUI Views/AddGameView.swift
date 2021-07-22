@@ -116,7 +116,7 @@ struct AddGameView: View {
      */
     func gameSearch(_ searchTerm: String, _ searchExact: Bool, _ platformFilter: String) {
         //create the basic URL
-        var urlString = "https://api.rawg.io/api/games?key=3c7897d6c00a4f0fae76833a5c8e743c&search=\(searchTerm)&search_exact=\(searchExact)"
+        var urlString = "https://api.rawg.io/api/games?key=\(apiKey)&search=\(searchTerm)&search_exact=\(searchExact)"
         if platformDict[platformSelection] != nil{
             urlString.append("&platforms=\(platformDict[platformSelection]!)")
         }
@@ -152,7 +152,7 @@ struct AddGameView: View {
      */
     func loadPlatformSelection() {
         //create the basic URL
-        let urlString = "https://api.rawg.io/api/platforms?key=3c7897d6c00a4f0fae76833a5c8e743c"
+        let urlString = "https://api.rawg.io/api/platforms?key=\(apiKey)"
         guard let url = URL(string: urlString) else {
             print("Bad URL: \(urlString)")
             return
