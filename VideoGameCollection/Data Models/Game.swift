@@ -12,11 +12,17 @@ struct Game: Codable, Hashable{
     var title: String
     var id: Int
     var dateAdded: Date
+    var platforms: [Platform]
     
-    init(title: String, id: Int, dateAdded: Date){
+    init(title: String, id: Int, dateAdded: Date, platforms: [PlatformSearchResult]){
         self.title = title
         self.id = id
         self.dateAdded = dateAdded
+        self.platforms = []
+        for platform in platforms{
+            print(platform.platform.name)
+            self.platforms.append(platform.platform)
+        }
     }
 }
 
