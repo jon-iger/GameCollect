@@ -14,10 +14,10 @@ class VideoGameCollection: ObservableObject, Codable{
     enum codingKey: CodingKey{
         case gameCollection
     }
-    @Published var gameCollection: [Int:Date]
+    @Published var gameCollection: [Game]
     
     init(){
-        self.gameCollection = [:]
+        self.gameCollection = []
     }
     
     static func saveToFile(basicObject: VideoGameCollection){
@@ -44,6 +44,6 @@ class VideoGameCollection: ObservableObject, Codable{
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: codingKey.self)
-        gameCollection = try container.decode([Int:Date].self, forKey: .gameCollection)
+        gameCollection = try container.decode([Game].self, forKey: .gameCollection)
     }
 }
