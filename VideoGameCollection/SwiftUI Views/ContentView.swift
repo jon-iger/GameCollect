@@ -65,7 +65,7 @@ struct ContentView: View {
                             }
                         }
                         if !activeSearch{
-                            ForEach(gameObject.gameCollection, id: \.self){ game in
+                            ForEach(Array(gameObject.gameCollection.keys), id: \.self){ game in
                                 GameCollectionRow(id: game)
                             }
                             .onDelete(perform: deleteGame)
@@ -79,14 +79,26 @@ struct ContentView: View {
                     .navigationBarTitle("Game Collection")
                     .navigationBarItems(leading: EditButton(), trailing:
                                             Menu{
-                                                Button("Duplicate"){
+                                                Button{
                                                     print("Hi")
                                                 }
-                                                Button("Rename"){
+                                                label:{
+                                                    Image(systemName: "clock")
+                                                    Text("Recently Added")
+                                                }
+                                                Button{
                                                     print("Hi")
                                                 }
-                                                Button("Delete…"){
+                                                label:{
+                                                    Image(systemName: "arrow.up.arrow.down")
+                                                    Text("Platform")
+                                                }
+                                                Button{
                                                     print("Hi")
+                                                }
+                                                label:{
+                                                    Image(systemName: "abc")
+                                                    Text("Title")
                                                 }
                                             } label:{
                                                 Image(systemName: "ellipsis.circle")
@@ -110,7 +122,7 @@ struct ContentView: View {
         }
     }
     func deleteGame(at offsets: IndexSet) {
-        gameObject.gameCollection.remove(atOffsets: offsets)
+        gameObject.gameCollection.removeValue(forKey: offsets.first!)
         VideoGameCollection.saveToFile(basicObject: gameObject)
     }
 }

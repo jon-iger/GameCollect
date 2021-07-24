@@ -47,7 +47,7 @@ struct GameDetailsView: View {
                             Text(releaseDate)
                             if partOfCollection{
                                 Button("Remove from Collection"){
-                                    if let i = gameObject.gameCollection.firstIndex(of: id){
+                                    if let i = gameObject.gameCollection.keys.firstIndex(of: id){
                                         gameObject.gameCollection.remove(at: i)
                                         VideoGameCollection.saveToFile(basicObject: gameObject)
                                         currentCollectionInfo.currentCollection.removeValue(forKey: name)
@@ -60,7 +60,7 @@ struct GameDetailsView: View {
                             }
                             else{
                                 Button("Add to Collection"){
-                                    gameObject.gameCollection.append(id)
+                                    gameObject.gameCollection[id] = Date()
                                     VideoGameCollection.saveToFile(basicObject: gameObject)
                                     currentCollectionInfo.currentCollection[name] = id
                                     partOfCollection = true
@@ -231,7 +231,7 @@ struct GameDetailsView: View {
      Function that returns true or false if a game is apart of the user's collection or not
      */
     func loadGameStatus(){
-        if gameObject.gameCollection.contains(id){
+        if gameObject.gameCollection.keys.contains(id){
             partOfCollection = true
         }
         else{
