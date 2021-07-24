@@ -19,6 +19,8 @@ struct ContentView: View {
     @State var searchText = String()    //string used for holding the user's current search text
     @State var activeSearch = false
     @State var searchResults: [Int] = []
+    @State var displayResults: [Int] = []
+    @State var sortTitle = false
     
     //SwiftUI body
     var body: some View {
@@ -65,7 +67,7 @@ struct ContentView: View {
                             }
                         }
                         if !activeSearch{
-                            ForEach(Array(gameObject.gameCollection.keys), id: \.self){ game in
+                            ForEach(displayResults, id: \.self){ game in
                                 GameCollectionRow(id: game)
                             }
                             .onDelete(perform: deleteGame)
@@ -94,7 +96,7 @@ struct ContentView: View {
                                                     Text("Platform")
                                                 }
                                                 Button{
-                                                    print("Hi")
+                                                    sortByTitle()
                                                 }
                                                 label:{
                                                     Image(systemName: "abc")
@@ -104,6 +106,10 @@ struct ContentView: View {
                                                 Image(systemName: "ellipsis.circle")
                                             }
                     )
+                    .onAppear{
+                        displayResults = Array(gameObject.gameCollection.keys)
+                        print(displayResults.count)
+                    }
                 }
                 GameDetailsView(id: UserDefaults.standard.integer(forKey: "lastViewedGame"))
             }
@@ -122,8 +128,17 @@ struct ContentView: View {
         }
     }
     func deleteGame(at offsets: IndexSet) {
+        displayResults.remove(atOffsets: offsets)
         gameObject.gameCollection.removeValue(forKey: offsets.first!)
         VideoGameCollection.saveToFile(basicObject: gameObject)
+    }
+    func sortByTitle(){
+        let sortedStrings = currentCollectionInfo.currentCollection.keys.sorted()
+        var returnArray: [Int] = []
+        for string in sortedStrings{
+            returnArray.append(currentCollectionInfo.currentCollection[string]!)
+        }
+        displayResults = returnArray
     }
 }
 
