@@ -8,8 +8,16 @@
 //import the following resources...
 import Foundation
 
-class Game: Codable, ObservableObject{
-    var currentCollection: [String:Int] = [:]
+struct Game: Codable, Hashable{
+    var title: String
+    var id: Int
+    var dateAdded: Date
+    
+    init(title: String, id: Int, dateAdded: Date){
+        self.title = title
+        self.id = id
+        self.dateAdded = dateAdded
+    }
 }
 
 /**
@@ -51,11 +59,11 @@ struct GameDetails: Codable {
     var background_image: String
     var esrb_rating: esrb_rating?
     var platforms: [PlatformSearchResult]
-}
-
-struct esrb_rating: Codable{
-    var id: Int
-    var name: String
+    
+    struct esrb_rating: Codable{
+        var id: Int
+        var name: String
+    }
 }
 
 struct GameScreenshot: Codable{

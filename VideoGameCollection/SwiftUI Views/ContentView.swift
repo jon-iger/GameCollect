@@ -15,11 +15,9 @@ let apiKey = "3c7897d6c00a4f0fae76833a5c8e743c"
  */
 struct ContentView: View {
     @EnvironmentObject var gameObject: VideoGameCollection  //environment object used for storing the current user
-    @EnvironmentObject var currentCollectionInfo: Game
     @State var searchText = String()    //string used for holding the user's current search text
     @State var activeSearch = false
     @State var searchResults: [Int] = []
-    @State var displayResults: [Int] = []
     @State var sortTitle = false
     
     //SwiftUI body
@@ -33,10 +31,9 @@ struct ContentView: View {
                 activeSearch = true
                 print("Setting")
                 self.searchText = $0
-                for name in currentCollectionInfo.currentCollection.keys{
-                    if name.contains(searchText) && !searchResults.contains(currentCollectionInfo.currentCollection[name]!){
-                        print("appending \(name)")
-                        searchResults.append(currentCollectionInfo.currentCollection[name]!)
+                for game in gameObject.gameCollection{
+                    if game.title.contains(searchText) && !searchResults.contains(game.id){
+                        searchResults.append(game.id)
                     }
                 }
                 if self.searchText.isEmpty{
@@ -59,8 +56,8 @@ struct ContentView: View {
                                 }
                         }
                         if !activeSearch{
-                            ForEach(displayResults, id: \.self){ game in
-                                GameCollectionRow(id: game)
+                            ForEach(Array(gameObject.gameCollection), id: \.self){ game in
+                                GameCollectionRow(id: game.id)
                             }
                             .onDelete(perform: deleteGame)
                         }
@@ -98,10 +95,6 @@ struct ContentView: View {
                                                 Image(systemName: "ellipsis.circle")
                                             }
                     )
-                    .onAppear{
-                        displayResults = Array(gameObject.gameCollection.keys)
-                        print(displayResults.count)
-                    }
                 }
                 GameDetailsView(id: UserDefaults.standard.integer(forKey: "lastViewedGame"))
             }
@@ -120,18 +113,12 @@ struct ContentView: View {
         }
     }
     func deleteGame(at offsets: IndexSet) {
-        let dictValue = displayResults[offsets.first!]
-        displayResults.remove(atOffsets: offsets)
-        gameObject.gameCollection.removeValue(forKey: dictValue)
+        gameObject.gameCollection.remove(atOffsets: offsets)
         VideoGameCollection.saveToFile(basicObject: gameObject)
     }
     func sortByTitle(){
-        let sortedStrings = currentCollectionInfo.currentCollection.keys.sorted()
-        var returnArray: [Int] = []
-        for string in sortedStrings{
-            returnArray.append(currentCollectionInfo.currentCollection[string]!)
-        }
-        displayResults = returnArray
+        gameObject.gameCollection.sort(by: {$0.title > $1.title})
+        VideoGameCollection.saveToFile(basicObject: gameObject)
     }
 }
 
