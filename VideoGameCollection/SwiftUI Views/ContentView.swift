@@ -57,14 +57,6 @@ struct ContentView: View {
                                 .onTapGesture {
                                     activeSearch = true
                                 }
-                            Spacer()
-                            NavigationLink(destination: SortFilterView()){
-                                Text("Sort")
-                                    .padding(7)
-                                    .background(Color.gray)
-                                    .cornerRadius(20)
-                                    .foregroundColor(.white)
-                            }
                         }
                         if !activeSearch{
                             ForEach(displayResults, id: \.self){ game in
