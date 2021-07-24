@@ -110,6 +110,11 @@ struct ContentView: View {
                 Image(systemName: "plus")
                 Text("Add")
             }
+            SettingsView()
+                .tabItem{
+                    Image(systemName: "gearshape")
+                    Text("Settings")
+                }
         }
     }
     func deleteGame(at offsets: IndexSet) {
