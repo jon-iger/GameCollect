@@ -128,8 +128,9 @@ struct ContentView: View {
         }
     }
     func deleteGame(at offsets: IndexSet) {
+        let dictValue = displayResults[offsets.first!]
         displayResults.remove(atOffsets: offsets)
-        gameObject.gameCollection.removeValue(forKey: offsets.first!)
+        gameObject.gameCollection.removeValue(forKey: dictValue)
         VideoGameCollection.saveToFile(basicObject: gameObject)
     }
     func sortByTitle(){
