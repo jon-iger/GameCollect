@@ -13,7 +13,6 @@ import SwiftUI
 struct GameDetailsView: View {
     var id: Int     //id of the game to be viewed
     @EnvironmentObject var gameObject: VideoGameCollection      //the object in the SwiftUI environment that contains the user's current game collection
-    @EnvironmentObject var currentCollectionInfo: Game
     @Environment(\.horizontalSizeClass) var sizeClass
     @State var name: String = String()      //the name of the game
     @State var description: String = String()   //the description of the game
@@ -24,7 +23,7 @@ struct GameDetailsView: View {
     @State var gameImage: UIImage = UIImage()   //the UIImage of the game's main background image
     @State var fullyLoaded = false      //boolean value determining if the game's data is fully loaded or not
     @State var showAnimation = true     //boolean value determining if the activity indicator animation should be shown or not
-    @State var partOfCollection = true  //boolean value determining if the current game being displayed is apart of the user's collection or not
+    @State var partOfCollection = false  //boolean value determining if the current game being displayed is apart of the user's collection or not
     @State var gameAlert = false        //boolean value determining if the alert showing that the user's collection was modified should be on or off
     @State var screenCollection = GameScreenshot()
     @State var screenshots: [String:UIImage] = [:]
@@ -47,12 +46,15 @@ struct GameDetailsView: View {
                             Text(releaseDate)
                             if partOfCollection{
                                 Button("Remove from Collection"){
-                                    if let i = gameObject.gameCollection.keys.firstIndex(of: id){
-                                        gameObject.gameCollection.remove(at: i)
-                                        VideoGameCollection.saveToFile(basicObject: gameObject)
-                                        currentCollectionInfo.currentCollection.removeValue(forKey: name)
-                                        partOfCollection = false
-                                        gameAlert = true
+                                    var index = 0
+                                    for game in gameObject.gameCollection{
+                                        if game.id == id{
+                                            gameObject.gameCollection.remove(at: index)
+                                            VideoGameCollection.saveToFile(basicObject: gameObject)
+                                            partOfCollection = false
+                                            gameAlert = true
+                                        }
+                                        index += 1
                                     }
                                 }
                                 .padding()
@@ -60,9 +62,8 @@ struct GameDetailsView: View {
                             }
                             else{
                                 Button("Add to Collection"){
-                                    gameObject.gameCollection[id] = Date()
+                                    gameObject.gameCollection.append(Game(title: name, id: id, dateAdded: Date()))
                                     VideoGameCollection.saveToFile(basicObject: gameObject)
-                                    currentCollectionInfo.currentCollection[name] = id
                                     partOfCollection = true
                                     gameAlert = true
                                 }
@@ -231,11 +232,14 @@ struct GameDetailsView: View {
      Function that returns true or false if a game is apart of the user's collection or not
      */
     func loadGameStatus(){
-        if gameObject.gameCollection.keys.contains(id){
-            partOfCollection = true
-        }
-        else{
-            partOfCollection = false
+        for game in gameObject.gameCollection{
+            if game.id == id{
+                partOfCollection = true
+                break
+            }
+            else{
+                partOfCollection = false
+            }
         }
     }
 }
