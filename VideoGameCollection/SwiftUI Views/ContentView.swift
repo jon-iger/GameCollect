@@ -71,7 +71,7 @@ struct ContentView: View {
                     .navigationBarItems(leading: EditButton(), trailing:
                                             Menu{
                                                 Button{
-                                                    print("Hi")
+                                                    sortByDate()
                                                 }
                                                 label:{
                                                     Image(systemName: "clock")
@@ -81,7 +81,7 @@ struct ContentView: View {
                                                     print("Hi")
                                                 }
                                                 label:{
-                                                    Image(systemName: "arrow.up.arrow.down")
+                                                    Image(systemName: "gamecontroller")
                                                     Text("Platform")
                                                 }
                                                 Button{
@@ -99,7 +99,7 @@ struct ContentView: View {
                 GameDetailsView(id: UserDefaults.standard.integer(forKey: "lastViewedGame"))
             }
             .tabItem{
-                Image(systemName: "gamecontroller")
+                Image(systemName: "house")
                 Text("Home")
             }
             NavigationView{
@@ -118,6 +118,10 @@ struct ContentView: View {
     }
     func sortByTitle(){
         gameObject.gameCollection.sort(by: {$0.title > $1.title})
+        VideoGameCollection.saveToFile(basicObject: gameObject)
+    }
+    func sortByDate(){
+        gameObject.gameCollection.sort(by: {$0.dateAdded > $1.dateAdded})
         VideoGameCollection.saveToFile(basicObject: gameObject)
     }
 }
