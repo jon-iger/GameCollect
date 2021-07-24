@@ -62,7 +62,7 @@ struct GameDetailsView: View {
                             }
                             else{
                                 Button("Add to Collection"){
-                                    gameObject.gameCollection.append(Game(title: name, id: id, dateAdded: Date()))
+                                    gameObject.gameCollection.append(Game(title: name, id: id, dateAdded: Date(), platforms: gamePlatforms))
                                     VideoGameCollection.saveToFile(basicObject: gameObject)
                                     partOfCollection = true
                                     gameAlert = true
