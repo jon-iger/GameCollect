@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B0A1D8426ACB28E00CEC04C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0A1D8326ACB28E00CEC04C /* SettingsView.swift */; };
 		6B224304269BE1A000937B15 /* GameResultRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B224303269BE1A000937B15 /* GameResultRow.swift */; };
 		6BA91B9E26A49F12002148E3 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA91B9D26A49F12002148E3 /* LoadingIndicator.swift */; };
 		6BAF08C8269560AC00F11357 /* VideoGameCollectionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF08C7269560AC00F11357 /* VideoGameCollectionApp.swift */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6B0A1D8326ACB28E00CEC04C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		6B224303269BE1A000937B15 /* GameResultRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameResultRow.swift; sourceTree = "<group>"; };
 		6BA91B9D26A49F12002148E3 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		6BAF08C4269560AC00F11357 /* VideoGameCollection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoGameCollection.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,6 +103,7 @@
 				6B224303269BE1A000937B15 /* GameResultRow.swift */,
 				6BF85A4B26A57BB100F679AF /* GameCollectionRow.swift */,
 				6BDE401A269C381F00EF4012 /* GameDetailsView.swift */,
+				6B0A1D8326ACB28E00CEC04C /* SettingsView.swift */,
 			);
 			path = "SwiftUI Views";
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				6BAF08C8269560AC00F11357 /* VideoGameCollectionApp.swift in Sources */,
 				6BFA52DC269A471B00302FBE /* Platform.swift in Sources */,
 				6BED041126991E4F001E38CD /* AddGameView.swift in Sources */,
+				6B0A1D8426ACB28E00CEC04C /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
