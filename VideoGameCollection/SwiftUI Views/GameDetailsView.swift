@@ -136,7 +136,7 @@ struct GameDetailsView: View {
         .onAppear{
             loadGameDetails()
             loadGameStatus()
-            loadGameScreenshots()
+            //loadGameScreenshots()
             //update the UserDefault "lastViewedGame" key. This is intended to hold the last game the user viewed in the app.
             UserDefaults.standard.setValue(id, forKey: "lastViewedGame")
         }
@@ -179,7 +179,7 @@ struct GameDetailsView: View {
                     }
                     releaseDate = details.released
                     rating = details.esrb_rating?.name ?? "Rating Pending"
-                    metacriticRating = details.metacritic
+                    metacriticRating = details.metacritic ?? 0
                     gamePlatforms = details.platforms
                     //get our main background image for the game using the URL provided in the data
                     let imageUrl = URL(string: details.background_image)
@@ -194,6 +194,9 @@ struct GameDetailsView: View {
                     fullyLoaded = true
                     showAnimation = false
                     return
+                }
+                else{
+                    print("Decoding failed")
                 }
             }
         }.resume()  //call our URLSession
