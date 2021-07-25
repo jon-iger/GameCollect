@@ -204,8 +204,11 @@ struct GameDetailsView: View {
             return
         }
         print("Starting decoding...")
+        let session = URLSession.shared
+        session.configuration.timeoutIntervalForRequest = 30.0
+        session.configuration.timeoutIntervalForResource = 60.0
         //start our URLSession to get data
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        session.dataTask(with: url) { data, response, error in
             if let data = data {
                 //decode the data as a PlatformSelection objecct
                 let decoder = JSONDecoder()
