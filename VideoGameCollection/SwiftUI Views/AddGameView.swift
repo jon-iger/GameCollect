@@ -22,6 +22,7 @@ struct AddGameView: View {
     @State var platformDict = [:]       //empty dictionary that will hold the names and ids of the platforms supported in the API at that time
     @State var platformNames: [String] = []     //empty string array that will hold all of the names of the platforms supported by the API. Data is loaded into the array upon appearance of this view
     @State var showCamera = false
+    @State var barcodeImage: UIImage? = UIImage()
     
     //initial body
     var body: some View {
@@ -118,7 +119,7 @@ struct AddGameView: View {
             }
         })
         .sheet(isPresented: $showCamera){
-            ImagePicker()
+            ImagePicker(image: $barcodeImage)
         }
     }
     
