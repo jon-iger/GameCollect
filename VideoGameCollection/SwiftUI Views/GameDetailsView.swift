@@ -71,15 +71,17 @@ struct GameDetailsView: View {
                                 .background(RoundedRectangle(cornerRadius: 25))
                             }
                             HStack{
-                                Image("metacritic")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .background(Color.black)
-                                    .frame(width: 75, height: 75)
-                                    .padding()
-                                Text(String(metacriticRating))
-                                    .font(.title)
-                                Spacer()
+                                if metacriticRating != 0{
+                                    Image("metacritic")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .background(Color.black)
+                                        .frame(width: 75, height: 75)
+                                        .padding()
+                                    Text(String(metacriticRating))
+                                        .font(.title)
+                                    Spacer()
+                                }
                                 Image(rating)
                                     .resizable()
                                     .scaledToFit()
