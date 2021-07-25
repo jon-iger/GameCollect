@@ -18,7 +18,6 @@ struct ContentView: View {
     @State var searchText = String()    //string used for holding the user's current search text
     @State var activeSearch = false
     @State var searchResults: [Int] = []
-    @State var sortTitle = false
     
     //SwiftUI body
     var body: some View {
