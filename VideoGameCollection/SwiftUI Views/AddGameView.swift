@@ -21,6 +21,7 @@ struct AddGameView: View {
     @State var showAnimation = false    //boolean for determining when the activity indicator should be animating or not
     @State var platformDict = [:]       //empty dictionary that will hold the names and ids of the platforms supported in the API at that time
     @State var platformNames: [String] = []     //empty string array that will hold all of the names of the platforms supported by the API. Data is loaded into the array upon appearance of this view
+    @State var showCamera = false
     
     //initial body
     var body: some View {
@@ -104,12 +105,21 @@ struct AddGameView: View {
             }
         }
         .navigationBarTitle("Add Game")
+        .navigationBarItems(trailing: Button{
+            showCamera.toggle()
+        }
+        label:{
+            Image(systemName: "barcode.viewfinder")
+        })
         .onAppear(perform: {
             print("Called")
             if platformNames.isEmpty{
                 loadPlatformSelection()
             }
         })
+        .sheet(isPresented: $showCamera){
+            ImagePicker()
+        }
     }
     
     //API note: use - character to subsitutue for space characters, as the API does not allow spaces in URLs (bad URL warnings will appear in the console if this is done)
