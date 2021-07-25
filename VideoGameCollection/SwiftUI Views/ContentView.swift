@@ -122,7 +122,7 @@ struct ContentView: View {
         VideoGameCollection.saveToFile(basicObject: gameObject)
     }
     func sortByTitle(){
-        gameObject.gameCollection.sort(by: {$0.title > $1.title})
+        gameObject.gameCollection.sort(by: {$0.title < $1.title})
         VideoGameCollection.saveToFile(basicObject: gameObject)
     }
     func sortByDate(){
