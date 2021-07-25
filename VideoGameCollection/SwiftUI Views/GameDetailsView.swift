@@ -138,7 +138,7 @@ struct GameDetailsView: View {
         .onAppear{
             loadGameDetails()
             loadGameStatus()
-            //loadGameScreenshots()
+            loadGameScreenshots()
             //update the UserDefault "lastViewedGame" key. This is intended to hold the last game the user viewed in the app.
             UserDefaults.standard.setValue(id, forKey: "lastViewedGame")
         }
