@@ -18,12 +18,19 @@ struct GameCollectionGrid: View {
         NavigationLink(destination: GameDetailsView(id: self.id)){
             VStack{
                 if fullyLoaded{
-                    Image(uiImage: gameImage)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 90, height: 90)
-                    Text(name)
-                    Text(releaseYear)
+                    VStack{
+                        Image(uiImage: gameImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 140, height: 140)
+                        Text(name)
+                            .foregroundColor(.black)
+                        Text(releaseYear)
+                            .foregroundColor(.black)
+                    }
+                    .padding()
+                    .background(RoundedRectangle(cornerRadius: 30).foregroundColor(Color(hex: 0xC0C0C0)))
+                    
                 }
                 else{
                     Text("Loading")
