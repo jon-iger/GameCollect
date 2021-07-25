@@ -8,18 +8,27 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @EnvironmentObject var gameObject: VideoGameCollection
     @State var showDeleteAlert = false
     var body: some View {
         VStack{
-            Text("Settings")
-                .font(.largeTitle)
-            Spacer()
             Button("Delete All Data"){
                 showDeleteAlert.toggle()
             }
+            .padding()
+            .border(Color.red, width: 3)
+            Text("About")
+                .font(.largeTitle)
+            Text("All data presented in this app is provided by the RAWG.org API. All images, titles, ratings, and game information are property of it's respective owners and not the Game Collect app.")
+                .padding()
+            Text("Game Collect is created by Jonathon Lannon with the intent that this app be distributed exclusively on Apple platforms. All rights reserved. Copyright 2021.")
+                .padding()
         }
         .alert(isPresented: $showDeleteAlert){
-            Alert(title: Text("Delete data?"), message: Text("All data will be lost"), dismissButton: Alert.Button.destructive(Text("OK")))
+            Alert(title: Text("Delete data?"), message: Text("All data will be lost"), primaryButton: Alert.Button.destructive(Text("Delete")){
+                gameObject.gameCollection = []
+                VideoGameCollection.saveToFile(basicObject: gameObject)
+            }, secondaryButton: Alert.Button.cancel())
         }
     }
 }
