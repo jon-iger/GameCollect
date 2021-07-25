@@ -92,8 +92,11 @@ struct AddGameView: View {
                     }
                 })
             }
-            TextField("Search", text: bindSearch)
-                .padding()
+            HStack{
+                Image(systemName: "magnifyingglass")
+                    .padding(4)
+                TextField("Search", text: bindSearch)
+            }
             Section(header: Text("Results"), footer: ActivityIndicator(shouldAnimate: self.$showAnimation)){
                 List(gameResults.results, id: \.id){ game in
                     GameResultRow(title: game.name, id: game.id, platformArray: game.platforms)
