@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6B0A1D8426ACB28E00CEC04C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B0A1D8326ACB28E00CEC04C /* SettingsView.swift */; };
 		6B224304269BE1A000937B15 /* GameResultRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B224303269BE1A000937B15 /* GameResultRow.swift */; };
+		6B9262DF26ADB305005284D9 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9262DE26ADB305005284D9 /* CollectionView.swift */; };
 		6BA91B9E26A49F12002148E3 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA91B9D26A49F12002148E3 /* LoadingIndicator.swift */; };
 		6BAF08C8269560AC00F11357 /* VideoGameCollectionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF08C7269560AC00F11357 /* VideoGameCollectionApp.swift */; };
 		6BAF08CA269560AC00F11357 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF08C9269560AC00F11357 /* ContentView.swift */; };
@@ -46,6 +47,7 @@
 /* Begin PBXFileReference section */
 		6B0A1D8326ACB28E00CEC04C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		6B224303269BE1A000937B15 /* GameResultRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameResultRow.swift; sourceTree = "<group>"; };
+		6B9262DE26ADB305005284D9 /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		6BA91B9D26A49F12002148E3 /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		6BAF08C4269560AC00F11357 /* VideoGameCollection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoGameCollection.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BAF08C7269560AC00F11357 /* VideoGameCollectionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGameCollectionApp.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				6BF85A4B26A57BB100F679AF /* GameCollectionRow.swift */,
 				6BDE401A269C381F00EF4012 /* GameDetailsView.swift */,
 				6B0A1D8326ACB28E00CEC04C /* SettingsView.swift */,
+				6B9262DE26ADB305005284D9 /* CollectionView.swift */,
 			);
 			path = "SwiftUI Views";
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 			files = (
 				6BA91B9E26A49F12002148E3 /* LoadingIndicator.swift in Sources */,
 				6BAF08D1269560AF00F11357 /* Persistence.swift in Sources */,
+				6B9262DF26ADB305005284D9 /* CollectionView.swift in Sources */,
 				6BDE401B269C381F00EF4012 /* GameDetailsView.swift in Sources */,
 				6BED040F2698FF3F001E38CD /* Game.swift in Sources */,
 				6BF85A4C26A57BB100F679AF /* GameCollectionRow.swift in Sources */,
