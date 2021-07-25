@@ -69,26 +69,44 @@ struct ContentView: View {
                     .navigationBarTitle("Game Collection")
                     .navigationBarItems(leading: EditButton(), trailing:
                                             Menu{
-                                                Button{
-                                                    sortByDate()
+                                                Section{
+                                                    Button{
+                                                        print("List View")
+                                                    }
+                                                    label:{
+                                                        Image(systemName: "list.bullet")
+                                                        Text("List View")
+                                                    }
+                                                    Button{
+                                                        print("Grid View")
+                                                    }
+                                                    label:{
+                                                        Image(systemName: "square.grid.2x2")
+                                                        Text("Grid View")
+                                                    }
                                                 }
-                                                label:{
-                                                    Image(systemName: "clock")
-                                                    Text("Recently Added")
-                                                }
-                                                Button{
-                                                    print("Hi")
-                                                }
-                                                label:{
-                                                    Image(systemName: "gamecontroller")
-                                                    Text("Platform")
-                                                }
-                                                Button{
-                                                    sortByTitle()
-                                                }
-                                                label:{
-                                                    Image(systemName: "abc")
-                                                    Text("Title")
+                                                Section{
+                                                    Button{
+                                                        sortByDate()
+                                                    }
+                                                    label:{
+                                                        Image(systemName: "clock")
+                                                        Text("Recently Added")
+                                                    }
+                                                    Button{
+                                                        print("Hi")
+                                                    }
+                                                    label:{
+                                                        Image(systemName: "gamecontroller")
+                                                        Text("Platform")
+                                                    }
+                                                    Button{
+                                                        sortByTitle()
+                                                    }
+                                                    label:{
+                                                        Image(systemName: "abc")
+                                                        Text("Title")
+                                                    }
                                                 }
                                             } label:{
                                                 Image(systemName: "ellipsis.circle")
