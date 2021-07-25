@@ -125,8 +125,11 @@ struct AddGameView: View {
             print("Bad URL: \(urlString)")
             return
         }
+        let session = URLSession.shared
+        session.configuration.timeoutIntervalForRequest = 30.0
+        session.configuration.timeoutIntervalForResource = 60.0
         //start our URLSession to get data
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        session.dataTask(with: url) { data, response, error in
             showAnimation = true
             //data received
             if let data = data {
@@ -157,8 +160,11 @@ struct AddGameView: View {
             print("Bad URL: \(urlString)")
             return
         }
+        let session = URLSession.shared
+        session.configuration.timeoutIntervalForRequest = 30.0
+        session.configuration.timeoutIntervalForResource = 60.0
         //start our URLSession to get data
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        session.dataTask(with: url) { data, response, error in
             if let data = data {
                 //let str = String(decoding: data, as: UTF8.self)
                 //print(str)

@@ -48,7 +48,10 @@ struct GameCollectionRow: View {
         }
         print("Starting decoding...")
         //start our URLSession to get data
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        let session = URLSession.shared
+        session.configuration.timeoutIntervalForRequest = 30.0
+        session.configuration.timeoutIntervalForResource = 60.0
+        session.dataTask(with: url) { data, response, error in
             if let data = data {
 //                let str = String(decoding: data, as: UTF8.self)
 //                print(str)
