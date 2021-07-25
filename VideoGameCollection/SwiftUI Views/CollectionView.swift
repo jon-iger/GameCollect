@@ -13,6 +13,10 @@ struct CollectionView: View {
     @State var activeSearch = false
     @State var searchResults: [Int] = []
     @State var gridView = false
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
     var body: some View {
         let bindSearch = Binding<String>(
             //display displayText for the user to see
@@ -54,15 +58,19 @@ struct CollectionView: View {
                             .onDelete(perform: deleteGame)
                         }
                         else{
-                            ForEach(searchResults, id: \.self){ game in
-                                GameCollectionRow(id: game)
+                            ForEach(searchResults, id: \.self){ gameId in
+                                GameCollectionRow(id: gameId)
                             }
                         }
                     }
                 }
                 else{
-                    ForEach(Array(gameObject.gameCollection), id: \.self){ game in
-                        GameCollectionGrid(id: game.id)
+                    ScrollView{
+                        LazyVGrid(columns: columns){
+                            ForEach(Array(gameObject.gameCollection), id: \.self){ game in
+                                GameCollectionGrid(id: game.id)
+                            }
+                        }
                     }
                 }
             }
