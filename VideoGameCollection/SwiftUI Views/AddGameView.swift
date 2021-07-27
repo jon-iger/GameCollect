@@ -147,8 +147,8 @@ struct AddGameView: View {
             showAnimation = true
             //data received
             if let data = data {
-                //let str = String(decoding: data, as: UTF8.self)
-                //print(str)
+                let str = String(decoding: data, as: UTF8.self)
+                print(str)
                 //decode the data as a GameResults object
                 let decoder = JSONDecoder()
                 if let items = try? decoder.decode(GameResults.self, from: data){
@@ -218,6 +218,11 @@ struct AddGameView: View {
             if let data = data {
                 let str = String(decoding: data, as: UTF8.self)
                 print(str)
+                let decoder = JSONDecoder()
+                if let results = try? decoder.decode(BarcodeResults.self, from: data){
+                    print(results.products[0].title)
+                    gameSearch(results.products[0].title, false, platformAPISelect)
+                }
             }
         }.resume()  //call our URLSession
     }
