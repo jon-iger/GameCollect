@@ -22,7 +22,6 @@ struct AddGameView: View {
     @State var platformDict = [:]       //empty dictionary that will hold the names and ids of the platforms supported in the API at that time
     @State var platformNames: [String] = []     //empty string array that will hold all of the names of the platforms supported by the API. Data is loaded into the array upon appearance of this view
     @State var showCamera = false
-    @State var barcodeImage: UIImage? = UIImage()
     @State var scanner: ScannerViewController? = ScannerViewController()
     
     //initial body
@@ -205,7 +204,22 @@ struct AddGameView: View {
     }
     
     func barcodeLookup(upcCode: String){
-        print("Hi from this function\(upcCode)")
+        //create the basic URL
+        let urlString = "https://api.barcodelookup.com/v3/products?barcode=\(upcCode)&formatted=y&key=7lxxwer49f7yztkqs7b1bhr11u8i5a"
+        guard let url = URL(string: urlString) else {
+            print("Bad URL: \(urlString)")
+            return
+        }
+        let session = URLSession.shared
+        session.configuration.timeoutIntervalForRequest = 30.0
+        session.configuration.timeoutIntervalForResource = 60.0
+        //start our URLSession to get data
+        session.dataTask(with: url) { data, response, error in
+            if let data = data {
+                let str = String(decoding: data, as: UTF8.self)
+                print(str)
+            }
+        }.resume()  //call our URLSession
     }
 }
 

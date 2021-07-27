@@ -9,34 +9,15 @@ import AVFoundation
 import UIKit
 import SwiftUI
 
-class BarcodeScanCode: ObservableObject{
-    @Published var barcodeUPC: String
-    
-    init(){
-        self.barcodeUPC = String()
-    }
-    
-    init(barcodeUPC: String){
-        self.barcodeUPC = barcodeUPC
-    }
-}
-
 struct ViewControllerWrapper: UIViewControllerRepresentable {
     @Binding var scanner: ScannerViewController?
-    func makeCoordinator() -> Coordinator {
-        return Coordinator(self)
-    }
-    
-
     typealias UIViewControllerType = ScannerViewController
-
 
     func makeUIViewController(context: UIViewControllerRepresentableContext<ViewControllerWrapper>) -> ViewControllerWrapper.UIViewControllerType {
         let instance = ScannerViewController()
         scanner = instance
         return instance
     }
-    
     func updateUIViewController(_ uiViewController: ViewControllerWrapper.UIViewControllerType, context: UIViewControllerRepresentableContext<ViewControllerWrapper>) {
         //
     }
@@ -46,6 +27,9 @@ struct ViewControllerWrapper: UIViewControllerRepresentable {
         init(_ parent: ViewControllerWrapper) {
             self.parent = parent
         }
+    }
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(self)
     }
 }
 
