@@ -221,7 +221,16 @@ struct AddGameView: View {
                 let decoder = JSONDecoder()
                 if let results = try? decoder.decode(BarcodeResults.self, from: data){
                     print(results.products[0].title)
-                    gameSearch(results.products[0].title, false, platformAPISelect)
+                    var charArray = Array(results.products[0].title)
+                    var index = 0   //variable for holding the current iteration of the below for loop
+                    //iterate through all the chars in the array, replacing every " " with "-" for valid API calls
+                    for char in charArray{
+                        if char == " "{
+                            charArray[index] = "-"
+                        }
+                        index += 1
+                    }
+                    gameSearch(String(charArray), showExact, platformAPISelect)
                 }
             }
         }.resume()  //call our URLSession
