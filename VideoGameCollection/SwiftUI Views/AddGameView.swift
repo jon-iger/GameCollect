@@ -23,6 +23,7 @@ struct AddGameView: View {
     @State var platformNames: [String] = []     //empty string array that will hold all of the names of the platforms supported by the API. Data is loaded into the array upon appearance of this view
     @State var showCamera = false
     @State var barcodeImage: UIImage? = UIImage()
+    @State var scanner: ScannerViewController? = ScannerViewController()
     
     //initial body
     var body: some View {
@@ -118,8 +119,8 @@ struct AddGameView: View {
                 loadPlatformSelection()
             }
         })
-        .sheet(isPresented: $showCamera){
-            ImagePicker(image: $barcodeImage)
+        .sheet(isPresented: $showCamera, onDismiss: {barcodeLookup(upcCode: (scanner?.upcString)!)}){
+            ViewControllerWrapper(scanner: $scanner)
         }
     }
     
@@ -201,6 +202,10 @@ struct AddGameView: View {
                 
             }
         }.resume()  //call our URLSession
+    }
+    
+    func barcodeLookup(upcCode: String){
+        print("Hi from this function\(upcCode)")
     }
 }
 
