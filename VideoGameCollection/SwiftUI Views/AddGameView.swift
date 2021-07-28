@@ -24,7 +24,7 @@ struct AddGameView: View {
     @State var platformNames: [String] = []     //empty string array that will hold all of the names of the platforms supported by the API. Data is loaded into the array upon appearance of this view
     @State var showCamera = false
     @State var scanner: ScannerViewController? = ScannerViewController()
-    @State var postCameraAlert = false
+    @State var postCameraSuccessAlert = false
     @State var barcodeResult = String()
     @State var barcodeID = 0
     
@@ -138,11 +138,14 @@ struct AddGameView: View {
                 print(error)
             }
         }){
-            if !postCameraAlert{
+            if !postCameraSuccessAlert{
                 ViewControllerWrapper(scanner: $scanner)
+                    .onAppear{
+                        postCameraSuccessAlert = false
+                    }
             }
         }
-        .alert(isPresented: $postCameraAlert){
+        .alert(isPresented: $postCameraSuccessAlert){
             Alert(title: Text("Game Found"), message: Text("Would you like to add \(barcodeResult) to your collection?"), primaryButton: Alert.Button.default(Text("Yes"), action: {
                 gameObject.gameCollection.append(Game(title: barcodeResult, id: barcodeID, dateAdded: Date()))
                 VideoGameCollection.saveToFile(basicObject: gameObject)
@@ -185,7 +188,7 @@ struct AddGameView: View {
                     if !barcodeResult.isEmpty && items.count != 0{
                         barcodeResult = items.results[0].name
                         barcodeID = items.results[0].id
-                        postCameraAlert.toggle()
+                        postCameraSuccessAlert.toggle()
                     }
                     //data parsing was successful, so return
                     return
