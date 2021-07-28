@@ -12,6 +12,7 @@ import SwiftUI
  View that contains the screen users will use to add new games to their collection
  */
 struct AddGameView: View {
+    @EnvironmentObject var gameObject: VideoGameCollection      //the object in the SwiftUI environment that contains the user's current game collection
     @State var searchText = String()    //string sent into API calls with the search bar
     @State var displayText = String()   //string to be displayed to the user when typing in the search bar
     @State var gameResults: GameResults = GameResults()     //empty GameResults object that will later on store search results when used with the API
@@ -23,6 +24,9 @@ struct AddGameView: View {
     @State var platformNames: [String] = []     //empty string array that will hold all of the names of the platforms supported by the API. Data is loaded into the array upon appearance of this view
     @State var showCamera = false
     @State var scanner: ScannerViewController? = ScannerViewController()
+    @State var postCameraAlert = false
+    @State var barcodeResult = String()
+    @State var barcodeID = 0
     
     //initial body
     var body: some View {
@@ -134,7 +138,15 @@ struct AddGameView: View {
                 print(error)
             }
         }){
-            ViewControllerWrapper(scanner: $scanner)
+            if !postCameraAlert{
+                ViewControllerWrapper(scanner: $scanner)
+            }
+        }
+        .alert(isPresented: $postCameraAlert){
+            Alert(title: Text("Game Found"), message: Text("Would you like to add \(barcodeResult) to your collection?"), primaryButton: Alert.Button.default(Text("Yes"), action: {
+                gameObject.gameCollection.append(Game(title: barcodeResult, id: barcodeID, dateAdded: Date()))
+                VideoGameCollection.saveToFile(basicObject: gameObject)
+            }), secondaryButton: Alert.Button.cancel())
         }
     }
     
@@ -170,6 +182,11 @@ struct AddGameView: View {
                     //set our gameResults object (object that contains visible results to the user)
                     gameResults = items
                     showAnimation = false   //disable the animation
+                    if !barcodeResult.isEmpty && items.count != 0{
+                        barcodeResult = items.results[0].name
+                        barcodeID = items.results[0].id
+                        postCameraAlert.toggle()
+                    }
                     //data parsing was successful, so return
                     return
                 }
@@ -246,6 +263,7 @@ struct AddGameView: View {
                         }
                         index += 1
                     }
+                    barcodeResult = results.products[0].title
                     gameSearch(String(charArray), showExact, platformAPISelect)
                 }
             }
