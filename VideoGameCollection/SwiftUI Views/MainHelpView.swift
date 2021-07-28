@@ -9,7 +9,10 @@ import SwiftUI
 
 struct MainHelpView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+            Text("Help")
+        }
+        .navigationBarTitle("Help")
     }
 }
 

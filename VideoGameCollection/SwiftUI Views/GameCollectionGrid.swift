@@ -48,7 +48,7 @@ struct GameCollectionGrid: View {
      */
     func loadGameInfo() {
         //create the basic URL
-        let urlString = "https://api.rawg.io/api/games/\(String(id))?key=\(apiKey)"
+        let urlString = "https://api.rawg.io/api/games/\(String(id))?key=\(rawgAPIKey)"
         guard let url = URL(string: urlString) else {
             print("Bad URL: \(urlString)")
             return

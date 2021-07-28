@@ -12,6 +12,8 @@ struct AboutView: View {
         VStack{
             Text("All data presented in this app is provided by the RAWG.org API. All images, titles, ratings, and game information are property of it's respective owners and not the Game Collect app.")
                 .padding()
+            Text("Barcode scanning capabilities provided by Barcode Lookup.")
+                .padding()
             Text("Game Collect is created by Jonathon Lannon with the intent that this app be distributed exclusively on Apple platforms. All rights reserved. Copyright 2021.")
                 .padding()
         }
