@@ -11,18 +11,34 @@ struct SettingsView: View {
     @EnvironmentObject var gameObject: VideoGameCollection
     @State var showDeleteAlert = false
     var body: some View {
-        VStack{
-            Button("Delete All Data"){
-                showDeleteAlert.toggle()
+        NavigationView{
+            VStack{
+                List{
+                    Section(header: Text("Game Collect Information")){
+                        NavigationLink(destination: MainHelpView()){
+                            Image(systemName: "questionmark")
+                            Text("Help")
+                        }
+                        NavigationLink(destination: AboutView()){
+                            Image(systemName: "info.circle")
+                            Text("About")
+                        }
+                    }
+                    Section(header: Text("Settings")){
+                        Button{
+                            showDeleteAlert.toggle()
+                        }
+                        label:{
+                            HStack{
+                                Image(systemName: "trash")
+                                Text("Delete Data")
+                            }
+                        }
+                    }
+                }
             }
-            .padding()
-            .border(Color.red, width: 3)
-            Text("About")
-                .font(.largeTitle)
-            Text("All data presented in this app is provided by the RAWG.org API. All images, titles, ratings, and game information are property of it's respective owners and not the Game Collect app.")
-                .padding()
-            Text("Game Collect is created by Jonathon Lannon with the intent that this app be distributed exclusively on Apple platforms. All rights reserved. Copyright 2021.")
-                .padding()
+            .navigationBarTitle("Settings")
+            MainHelpView()
         }
         .alert(isPresented: $showDeleteAlert){
             Alert(title: Text("Delete data?"), message: Text("All data will be lost"), primaryButton: Alert.Button.destructive(Text("Delete")){
