@@ -17,9 +17,13 @@ struct GameResultRow: View {
     let platformArray: [PlatformSearchResult]   //array of platform search results
     var stringPlatforms: String {
         var tempString = String()
+        var index = 0
         for platform in platformArray{
             tempString.append(platform.platform.name)
-            tempString.append(", ")
+            if index != platformArray.count - 1{
+                tempString.append(", ")
+            }
+            index += 1
         }
         return tempString
     }
@@ -30,9 +34,11 @@ struct GameResultRow: View {
             VStack{
                 Text(title)
                     .padding()
+                    .multilineTextAlignment(.center)
                 Text(stringPlatforms)
                     .font(.caption)
                     .padding()
+                    .multilineTextAlignment(.center)
             }
         }
     }
