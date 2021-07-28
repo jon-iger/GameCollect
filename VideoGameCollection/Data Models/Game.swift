@@ -24,6 +24,12 @@ struct Game: Codable, Hashable{
             self.platforms.append(platform.platform)
         }
     }
+    init(title: String, id: Int, dateAdded: Date){
+        self.title = title
+        self.id = id
+        self.dateAdded = dateAdded
+        self.platforms = []
+    }
 }
 
 /**
