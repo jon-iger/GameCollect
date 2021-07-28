@@ -124,7 +124,15 @@ struct AddGameView: View {
             }
         })
         .sheet(isPresented: $showCamera, onDismiss: {
-            barcodeLookup(upcCode: (scanner?.upcString)!)
+            do{
+                if scanner?.upcString == nil{
+                    throw BarcodeError.noBarcodeScanned
+                }
+                barcodeLookup(upcCode: (scanner?.upcString)!)
+            }
+            catch{
+                print(error)
+            }
         }){
             ViewControllerWrapper(scanner: $scanner)
         }

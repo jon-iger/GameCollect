@@ -9,6 +9,11 @@ import AVFoundation
 import UIKit
 import SwiftUI
 
+enum BarcodeError: Error{
+    case invalidBarcode
+    case noBarcodeScanned
+}
+
 struct ViewControllerWrapper: UIViewControllerRepresentable {
     @Binding var scanner: ScannerViewController?
     typealias UIViewControllerType = ScannerViewController
