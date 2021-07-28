@@ -8,8 +8,6 @@
 import SwiftUI
 import CoreData
 
-let apiKey = "3c7897d6c00a4f0fae76833a5c8e743c"
-
 /**
  View to display the user's current games in their collection
  */

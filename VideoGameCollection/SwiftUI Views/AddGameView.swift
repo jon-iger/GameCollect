@@ -160,7 +160,7 @@ struct AddGameView: View {
      */
     func gameSearch(_ searchTerm: String, _ searchExact: Bool, _ platformFilter: String){
         //create the basic URL
-        var urlString = "https://api.rawg.io/api/games?key=\(apiKey)&search=\(searchTerm)&search_exact=\(searchExact)"
+        var urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search=\(searchTerm)&search_exact=\(searchExact)"
         if platformDict[platformSelection] != nil{
             urlString.append("&platforms=\(platformDict[platformSelection]!)")
         }
@@ -204,7 +204,7 @@ struct AddGameView: View {
      */
     func loadPlatformSelection() {
         //create the basic URL
-        let urlString = "https://api.rawg.io/api/platforms?key=\(apiKey)"
+        let urlString = "https://api.rawg.io/api/platforms?key=\(rawgAPIKey)"
         guard let url = URL(string: urlString) else {
             print("Bad URL: \(urlString)")
             return
@@ -241,7 +241,7 @@ struct AddGameView: View {
     
     func barcodeLookup(upcCode: String){
         //create the basic URL
-        let urlString = "https://api.barcodelookup.com/v3/products?barcode=\(upcCode)&formatted=y&key=7lxxwer49f7yztkqs7b1bhr11u8i5a"
+        let urlString = "https://api.barcodelookup.com/v3/products?barcode=\(upcCode)&formatted=y&key=\(barcodeLookupAPIKey)"
         guard let url = URL(string: urlString) else {
             print("Bad URL: \(urlString)")
             return
