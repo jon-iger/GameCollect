@@ -37,6 +37,15 @@ class VideoGameCollection: ObservableObject, Codable{
         return loadedData
     }
     
+    func isEmpty()->Bool{
+        if self.gameCollection.count == 0{
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: codingKey.self)
         try container.encode(gameCollection, forKey: .gameCollection)
