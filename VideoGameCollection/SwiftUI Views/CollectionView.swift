@@ -41,37 +41,50 @@ struct CollectionView: View {
         )
         NavigationView{
             VStack{
-                if !gridView{
-                    List{
-                        HStack{
-                            Image(systemName: "magnifyingglass")
-                                .padding(4)
-                            TextField("Search", text: bindSearch)
-                                .onTapGesture {
-                                    activeSearch = true
-                                }
-                        }
-                        if !activeSearch{
-                            ForEach(Array(gameObject.gameCollection), id: \.self){ game in
-                                GameCollectionRow(id: game.id)
+                if !gameObject.isEmpty(){
+                    if !gridView{
+                        List{
+                            HStack{
+                                Image(systemName: "magnifyingglass")
+                                    .padding(4)
+                                TextField("Search", text: bindSearch)
+                                    .onTapGesture {
+                                        activeSearch = true
+                                    }
                             }
-                            .onDelete(perform: deleteGame)
+                            if !activeSearch{
+                                ForEach(Array(gameObject.gameCollection), id: \.self){ game in
+                                    GameCollectionRow(id: game.id)
+                                }
+                                .onDelete(perform: deleteGame)
+                            }
+                            else{
+                                ForEach(searchResults, id: \.self){ gameId in
+                                    GameCollectionRow(id: gameId)
+                                }
+                            }
                         }
-                        else{
-                            ForEach(searchResults, id: \.self){ gameId in
-                                GameCollectionRow(id: gameId)
+                    }
+                    else if gridView{
+                        ScrollView{
+                            LazyVGrid(columns: columns){
+                                ForEach(Array(gameObject.gameCollection), id: \.self){ game in
+                                    GameCollectionGrid(id: game.id)
+                                }
                             }
                         }
                     }
                 }
                 else{
-                    ScrollView{
-                        LazyVGrid(columns: columns){
-                            ForEach(Array(gameObject.gameCollection), id: \.self){ game in
-                                GameCollectionGrid(id: game.id)
-                            }
-                        }
-                    }
+                    Spacer()
+                    Text("Welcome to Game Collect! Add some games to get started 🙂")
+                        .padding()
+                        .multilineTextAlignment(.center)
+                    Image("Welcome Controller")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 120, height: 120)
+                    Spacer()
                 }
             }
             .navigationBarTitle("Game Collection")
