@@ -133,7 +133,20 @@ struct CollectionView: View {
                                         Image(systemName: "ellipsis.circle")
                                     }
             )
-            GameDetailsView(id: UserDefaults.standard.integer(forKey: "lastViewedGame"))
+            if gameObject.isEmpty() && UserDefaults.standard.integer(forKey: "lastViewedGame") == 0{
+                Spacer()
+                Text("Welcome to Game Collect! Add some games to get started 🙂")
+                    .padding()
+                    .multilineTextAlignment(.center)
+                Image("Welcome Controller")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 120, height: 120)
+                Spacer()
+            }
+            else{
+                GameDetailsView(id: UserDefaults.standard.integer(forKey: "lastViewedGame"))
+            }
         }
     }
     func deleteGame(at offsets: IndexSet) {
