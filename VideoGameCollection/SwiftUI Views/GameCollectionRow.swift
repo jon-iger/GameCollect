@@ -23,7 +23,6 @@ struct GameCollectionRow: View {
                         .scaledToFit()
                         .frame(width: 90, height: 90)
                     Text(name)
-                    Text(releaseYear)
                 }
                 else{
                     Text("Loading")

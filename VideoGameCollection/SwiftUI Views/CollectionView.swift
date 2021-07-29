@@ -67,6 +67,15 @@ struct CollectionView: View {
                     }
                     else if gridView{
                         ScrollView{
+                            HStack{
+                                Image(systemName: "magnifyingglass")
+                                    .padding(4)
+                                TextField("Search", text: bindSearch)
+                                    .onTapGesture {
+                                        activeSearch = true
+                                    }
+                            }
+                            .padding(7)
                             LazyVGrid(columns: columns){
                                 ForEach(Array(gameObject.gameCollection), id: \.self){ game in
                                     GameCollectionGrid(id: game.id)
