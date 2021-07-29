@@ -24,12 +24,8 @@ struct GameCollectionGrid: View {
                             .scaledToFit()
                             .frame(width: 140, height: 140)
                         Text(name)
-                            .foregroundColor(.black)
-                        Text(releaseYear)
-                            .foregroundColor(.black)
                     }
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 30).foregroundColor(Color(hex: 0xC0C0C0)))
+                    .padding(5)
                     
                 }
                 else{
