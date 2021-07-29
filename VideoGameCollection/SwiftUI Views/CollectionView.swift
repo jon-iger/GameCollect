@@ -13,6 +13,8 @@ struct CollectionView: View {
     @State var activeSearch = false
     @State var searchResults: [Int] = []
     @State var gridView = false
+    @State var platformDict: [Platform:[Int]] = [:]
+    @State var platformFilter = false
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -44,23 +46,28 @@ struct CollectionView: View {
                 if !gameObject.isEmpty(){
                     if !gridView{
                         List{
-                            HStack{
-                                Image(systemName: "magnifyingglass")
-                                    .padding(4)
-                                TextField("Search", text: bindSearch)
-                                    .onTapGesture {
-                                        activeSearch = true
-                                    }
-                            }
-                            if !activeSearch{
-                                ForEach(Array(gameObject.gameCollection), id: \.self){ game in
-                                    GameCollectionRow(id: game.id)
-                                }
-                                .onDelete(perform: deleteGame)
+                            if platformFilter{
+                                PlatformListView(platformDict: self.platformDict)
                             }
                             else{
-                                ForEach(searchResults, id: \.self){ gameId in
-                                    GameCollectionRow(id: gameId)
+                                HStack{
+                                    Image(systemName: "magnifyingglass")
+                                        .padding(4)
+                                    TextField("Search", text: bindSearch)
+                                        .onTapGesture {
+                                            activeSearch = true
+                                        }
+                                }
+                                if !activeSearch{
+                                    ForEach(Array(gameObject.gameCollection), id: \.self){ game in
+                                        GameCollectionRow(id: game.id)
+                                    }
+                                    .onDelete(perform: deleteGame)
+                                }
+                                else{
+                                    ForEach(searchResults, id: \.self){ gameId in
+                                        GameCollectionRow(id: gameId)
+                                    }
                                 }
                             }
                         }
@@ -117,6 +124,7 @@ struct CollectionView: View {
                                         }
                                         Section{
                                             Button{
+                                                platformFilter = false
                                                 sortByDate()
                                             }
                                             label:{
@@ -124,13 +132,14 @@ struct CollectionView: View {
                                                 Text("Recently Added")
                                             }
                                             Button{
-                                                print("Hi")
+                                                platformFilter = true
                                             }
                                             label:{
                                                 Image(systemName: "gamecontroller")
                                                 Text("Platform")
                                             }
                                             Button{
+                                                platformFilter = false
                                                 sortByTitle()
                                             }
                                             label:{
@@ -155,6 +164,18 @@ struct CollectionView: View {
             }
             else{
                 GameDetailsView(id: UserDefaults.standard.integer(forKey: "lastViewedGame"))
+            }
+        }
+        .onAppear{
+            for game in gameObject.gameCollection{
+                print("Game found")
+                for platform in game.platforms{
+                    print("Platform found")
+                    if platformDict[platform] == nil{
+                        platformDict[platform] = []
+                    }
+                    platformDict[platform]?.append(game.id)
+                }
             }
         }
     }
