@@ -27,6 +27,7 @@ struct AddGameView: View {
     @State var postCameraSuccessAlert = false
     @State var barcodeResult = String()
     @State var barcodeID = 0
+    @State var barcodePlatforms: [PlatformSearchResult] = []
     
     //initial body
     var body: some View {
@@ -147,8 +148,16 @@ struct AddGameView: View {
         }
         .alert(isPresented: $postCameraSuccessAlert){
             Alert(title: Text("Game Found"), message: Text("Would you like to add \(barcodeResult) to your collection?"), primaryButton: Alert.Button.default(Text("Yes"), action: {
-                gameObject.gameCollection.append(Game(title: barcodeResult, id: barcodeID, dateAdded: Date()))
+                loadBarcodeGameInfo()
+                while barcodePlatforms.count == 0{
+                    //do nothing. Stall the code until it's finished loading
+                }
+                gameObject.gameCollection.append(Game(title: barcodeResult, id: barcodeID, dateAdded: Date(), platforms: barcodePlatforms))
                 VideoGameCollection.saveToFile(basicObject: gameObject)
+                print("In barcode with count \(barcodePlatforms.count)")
+                for platform in barcodePlatforms{
+                    print(platform.platform.name)
+                }
             }), secondaryButton: Alert.Button.cancel())
         }
     }
@@ -194,6 +203,38 @@ struct AddGameView: View {
                     return
                 }
                 
+            }
+        }.resume()  //call our URLSession
+    }
+    
+    /**
+     Load the details of a game based on it's ID from the API, decode the data, and update this views properites accordingly with that data
+     parameters: none
+     */
+    func loadBarcodeGameInfo(){
+        //create the basic URL
+        let urlString = "https://api.rawg.io/api/games/\(String(barcodeID))?key=\(rawgAPIKey)"
+        guard let url = URL(string: urlString) else {
+            print("Bad URL: \(urlString)")
+            return
+        }
+        print("Starting decoding...")
+        //start our URLSession to get data
+        let session = URLSession.shared
+        session.configuration.timeoutIntervalForRequest = 30.0
+        session.configuration.timeoutIntervalForResource = 60.0
+        session.dataTask(with: url) { data, response, error in
+            if let data = data {
+//                let str = String(decoding: data, as: UTF8.self)
+//                print(str)
+                //decode the data as a PlatformSelection objecct
+                let decoder = JSONDecoder()
+                if let details = try? decoder.decode(GameDetails.self, from: data){
+                    print("Successfully decoded")
+                    //data parsing was successful, so return
+                    barcodePlatforms = details.platforms
+                    return
+                }
             }
         }.resume()  //call our URLSession
     }

@@ -10,7 +10,6 @@ import SwiftUI
 struct GameCollectionGrid: View {
     var id: Int
     @State var name = String()
-    @State var releaseYear = String()
     @State var gameImage = UIImage()
     @State var fullyLoaded = false
     @State var showAnimation = true
@@ -64,13 +63,6 @@ struct GameCollectionGrid: View {
                     print("Successfully decoded")
                     //data parsing was successful, so return
                     name = details.name
-                    let tempString = Array(details.released)
-                    var charArray: [Character] = ["1", "2", "3", "4"]
-                    charArray[0] = tempString[0]
-                    charArray[1] = tempString[1]
-                    charArray[2] = tempString[2]
-                    charArray[3] = tempString[3]
-                    releaseYear = String(charArray)
                     let imageUrl = URL(string: details.background_image)
                     //force unwrapping is used here...assuming that the API will always provide an image url that is valid
                     let imageData = try? Data(contentsOf: imageUrl!)
