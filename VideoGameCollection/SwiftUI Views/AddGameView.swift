@@ -28,6 +28,7 @@ struct AddGameView: View {
     @State var barcodeResult = String()
     @State var barcodeID = 0
     @State var barcodePlatforms: [PlatformSearchResult] = []
+    @State var metacriticSortGreater = false
     
     //initial body
     var body: some View {
@@ -53,6 +54,15 @@ struct AddGameView: View {
                 searchText = String(charArray)
                 //call the gameSearch (API call) function with the selected current states
                 gameSearch(searchText, showExact, platformAPISelect)
+            }
+        )
+        
+        let bindMetacritic = Binding<Bool>(
+            get: {self.metacriticSortGreater},
+            set: {
+                self.metacriticSortGreater = $0
+                gameSearch(searchText, showExact, platformAPISelect)
+                sortByMetacritic()
             }
         )
         
@@ -103,6 +113,11 @@ struct AddGameView: View {
                         Text(platform).tag(platform)
                     }
                 })
+                Picker("Metacritic Sorting", selection: bindMetacritic, content: {
+                    Text("Higher").tag(true)
+                    Text("Lower").tag(false)
+                }
+                )
             }
             HStack{
                 Image(systemName: "magnifyingglass")
@@ -312,6 +327,14 @@ struct AddGameView: View {
                 }
             }
         }.resume()  //call our URLSession
+    }
+    func sortByMetacritic(){
+        if metacriticSortGreater{
+            gameResults.results.sort(by: {$0.metacritic > $1.metacritic})
+        }
+        else{
+            gameResults.results.sort(by: {$0.metacritic < $1.metacritic})
+        }
     }
 }
 
