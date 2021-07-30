@@ -52,21 +52,12 @@ struct GameCollectionRow: View {
         session.configuration.timeoutIntervalForResource = 60.0
         session.dataTask(with: url) { data, response, error in
             if let data = data {
-//                let str = String(decoding: data, as: UTF8.self)
-//                print(str)
                 //decode the data as a PlatformSelection objecct
                 let decoder = JSONDecoder()
                 if let details = try? decoder.decode(GameDetails.self, from: data){
                     print("Successfully decoded")
                     //data parsing was successful, so return
                     name = details.name
-                    let tempString = Array(details.released)
-                    var charArray: [Character] = ["1", "2", "3", "4"]
-                    charArray[0] = tempString[0]
-                    charArray[1] = tempString[1]
-                    charArray[2] = tempString[2]
-                    charArray[3] = tempString[3]
-                    releaseYear = String(charArray)
                     let imageUrl = URL(string: details.background_image)
                     //force unwrapping is used here...assuming that the API will always provide an image url that is valid
                     let imageData = try? Data(contentsOf: imageUrl!)
