@@ -48,11 +48,9 @@ struct GameResults: Codable{
  Reference the RAWG online API documentation for more information about parameters
  */
 struct GameSearch: Codable, Identifiable{
-    enum codingKey: CodingKey {
-        case id, name, platforms
-    }
     var id: Int     //id of the game
     let name: String    //name of the game
+    let metacritic: Int
     let platforms: [PlatformSearchResult]   //platforms the game supports
 }
 
