@@ -28,7 +28,9 @@ struct AddGameView: View {
     @State var barcodeResult = String()
     @State var barcodeID = 0
     @State var barcodePlatforms: [PlatformSearchResult] = []
-    @State var metacriticSortGreater = true
+    @State var metacriticSort = true
+    @State var sortByEsrb = false
+    @State var esrbSelection = String()
     
     //initial body
     var body: some View {
@@ -58,11 +60,10 @@ struct AddGameView: View {
         )
         
         let bindMetacritic = Binding<Bool>(
-            get: {self.metacriticSortGreater},
+            get: {self.metacriticSort},
             set: {
-                self.metacriticSortGreater = $0
+                self.metacriticSort = $0
                 gameSearch(searchText, showExact, platformAPISelect)
-                sortByMetacritic()
             }
         )
         
@@ -113,11 +114,7 @@ struct AddGameView: View {
                         Text(platform).tag(platform)
                     }
                 })
-                Picker("Metacritic Sorting", selection: bindMetacritic, content: {
-                    Text("Higher").tag(true)
-                    Text("Lower").tag(false)
-                }
-                )
+                Toggle("Sort by Metacritic", isOn: bindMetacritic)
             }
             HStack{
                 Image(systemName: "magnifyingglass")
@@ -138,7 +135,6 @@ struct AddGameView: View {
             Image(systemName: "barcode.viewfinder")
         })
         .onAppear(perform: {
-            print("Called")
             if platformNames.isEmpty{
                 loadPlatformSelection()
             }
@@ -183,8 +179,12 @@ struct AddGameView: View {
      parameters: searchTerm: string search term entered by the user, searchExact: boolean determining whether or not the search is exact, platformFilter: string used for filtering which platforms are being searched through
      */
     func gameSearch(_ searchTerm: String, _ searchExact: Bool, _ platformFilter: String){
+        var metacriticSortURLString = String()
         //create the basic URL
-        var urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search=\(searchTerm)&search_exact=\(searchExact)"
+        if metacriticSort{
+            metacriticSortURLString = "&ordering=-metacritic"
+        }
+        var urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search=\(searchTerm)&search_exact=\(searchExact)\(metacriticSortURLString)"
         if platformDict[platformSelection] != nil{
             urlString.append("&platforms=\(platformDict[platformSelection]!)")
         }
@@ -327,14 +327,6 @@ struct AddGameView: View {
                 }
             }
         }.resume()  //call our URLSession
-    }
-    func sortByMetacritic(){
-        if metacriticSortGreater{
-            gameResults.results.sort(by: {$0.metacritic > $1.metacritic})
-        }
-        else{
-            gameResults.results.sort(by: {$0.metacritic < $1.metacritic})
-        }
     }
 }
 
