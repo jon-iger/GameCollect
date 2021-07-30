@@ -28,7 +28,7 @@ struct AddGameView: View {
     @State var barcodeResult = String()
     @State var barcodeID = 0
     @State var barcodePlatforms: [PlatformSearchResult] = []
-    @State var metacriticSortGreater = false
+    @State var metacriticSortGreater = true
     
     //initial body
     var body: some View {
