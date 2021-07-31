@@ -7,9 +7,14 @@
 
 import SwiftUI
 
+/**
+ View that displays the settings for the app, and provides navigation links for other parts such as About and Help
+ */
 struct SettingsView: View {
-    @EnvironmentObject var gameObject: VideoGameCollection
-    @State var showDeleteAlert = false
+    @EnvironmentObject var gameObject: VideoGameCollection  //object containing the list of games currently in the user's collection
+    @State var showDeleteAlert = false  //binding boolean value that triggers the on screen alert if tapped by the user to delete their data
+    
+    //main SwiftUI body
     var body: some View {
         NavigationView{
             VStack{
@@ -42,6 +47,7 @@ struct SettingsView: View {
         }
         .alert(isPresented: $showDeleteAlert){
             Alert(title: Text("Delete data?"), message: Text("All data will be lost"), primaryButton: Alert.Button.destructive(Text("Delete")){
+                //empty the array of games, and save the empty array to the save file
                 gameObject.gameCollection = []
                 VideoGameCollection.saveToFile(basicObject: gameObject)
             }, secondaryButton: Alert.Button.cancel())
