@@ -28,6 +28,18 @@ struct SettingsView: View {
                             Image(systemName: "info.circle")
                             Text("About")
                         }
+                        Link(destination: URL(string: "https://app.termly.io/document/privacy-policy/13f819ed-e94e-42fb-ba9a-ccdb64827a1a")!, label: {
+                            HStack{
+                                Image(systemName: "hand.raised")
+                                Text("Privacy Policy")
+                            }
+                        })
+                        Link(destination: URL(string: "https://app.termly.io/document/terms-of-use-for-ios-app/f8a6516e-0854-4737-8c19-c6db8487a022")!, label: {
+                            HStack{
+                                Image(systemName: "person")
+                                Text("Terms of Use")
+                            }
+                        })
                     }
                     Section(header: Text("Settings")){
                         Button{
