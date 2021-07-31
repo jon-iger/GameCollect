@@ -22,15 +22,13 @@ struct AddGameView: View {
     @State var showAnimation = false    //boolean for determining when the activity indicator should be animating or not
     @State var platformDict = [:]       //empty dictionary that will hold the names and ids of the platforms supported in the API at that time
     @State var platformNames: [String] = []     //empty string array that will hold all of the names of the platforms supported by the API. Data is loaded into the array upon appearance of this view
-    @State var showCamera = false
-    @State var scanner: ScannerViewController? = ScannerViewController()
-    @State var postCameraSuccessAlert = false
-    @State var barcodeResult = String()
-    @State var barcodeID = 0
-    @State var barcodePlatforms: [PlatformSearchResult] = []
-    @State var metacriticSort = true
-    @State var sortByEsrb = false
-    @State var esrbSelection = String()
+    @State var showScanner = false  //boolean that controls whether or not the sheet containing the view controller for the scanner will appear
+    @State var scanner: ScannerViewController? = ScannerViewController()    //instance of the view controller being used in this SwiftUI view
+    @State var postCameraSuccessAlert = false   //boolean that controls the alert that will appear if a game is found
+    @State var barcodeTitle = String()     //string containing the game title scanned by the barcode reader
+    @State var barcodeID = 0    //int that contains the game ID of the game found by the barcode scanner
+    @State var barcodePlatforms: [PlatformSearchResult] = []    //array of PlatformSearchResult objects that contain the platforms the scanned game supports
+    @State var metacriticSort = true    //boolean that triggers whether or not the results returned should be sorted by their Metacritic scores
     
     //initial body
     var body: some View {
@@ -60,7 +58,9 @@ struct AddGameView: View {
         )
         
         let bindMetacritic = Binding<Bool>(
+            //display the current value of metacriticSort when called
             get: {self.metacriticSort},
+            //set the value of metacriticSort to the new value, and call the gameSearch function
             set: {
                 self.metacriticSort = $0
                 gameSearch(searchText, showExact, platformAPISelect)
@@ -129,7 +129,7 @@ struct AddGameView: View {
         }
         .navigationBarTitle("Add Game")
         .navigationBarItems(trailing: Button{
-            showCamera.toggle()
+            showScanner.toggle()
         }
         label:{
             Image(systemName: "barcode.viewfinder")
@@ -139,7 +139,7 @@ struct AddGameView: View {
                 loadPlatformSelection()
             }
         })
-        .sheet(isPresented: $showCamera, onDismiss: {
+        .sheet(isPresented: $showScanner, onDismiss: {
             do{
                 if scanner?.upcString == nil{
                     throw BarcodeError.noBarcodeScanned
@@ -158,17 +158,16 @@ struct AddGameView: View {
             }
         }
         .alert(isPresented: $postCameraSuccessAlert){
-            Alert(title: Text("Game Found"), message: Text("Would you like to add \(barcodeResult) to your collection?"), primaryButton: Alert.Button.default(Text("Yes"), action: {
+            Alert(title: Text("Game Found"), message: Text("Would you like to add \(barcodeTitle) to your collection?"), primaryButton: Alert.Button.default(Text("Yes"), action: {
+                //call the function that loads the scanned barcode's game information
                 loadBarcodeGameInfo()
                 while barcodePlatforms.count == 0{
                     //do nothing. Stall the code until it's finished loading
                 }
-                gameObject.gameCollection.append(Game(title: barcodeResult, id: barcodeID, dateAdded: Date(), platforms: barcodePlatforms))
+                //add the new game to the array of game's the user already has
+                gameObject.gameCollection.append(Game(title: barcodeTitle, id: barcodeID, dateAdded: Date(), platforms: barcodePlatforms))
+                //save the new object to the user's file
                 VideoGameCollection.saveToFile(basicObject: gameObject)
-                print("In barcode with count \(barcodePlatforms.count)")
-                for platform in barcodePlatforms{
-                    print(platform.platform.name)
-                }
             }), secondaryButton: Alert.Button.cancel())
         }
     }
@@ -176,15 +175,16 @@ struct AddGameView: View {
     //API note: use - character to subsitutue for space characters, as the API does not allow spaces in URLs (bad URL warnings will appear in the console if this is done)
     /**
      gameSearch: performs an API call to retrieve JSON data for games based on current search parameters
-     parameters: searchTerm: string search term entered by the user, searchExact: boolean determining whether or not the search is exact, platformFilter: string used for filtering which platforms are being searched through
      */
     func gameSearch(_ searchTerm: String, _ searchExact: Bool, _ platformFilter: String){
         var metacriticSortURLString = String()
-        //create the basic URL
+        //if metacriticSort attach the necessary ordering query parameters to the url
         if metacriticSort{
             metacriticSortURLString = "&ordering=-metacritic"
         }
+        //create the basic URL
         var urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search=\(searchTerm)&search_exact=\(searchExact)\(metacriticSortURLString)"
+        //if the user selected a platform in the picker, attach the query to the URL
         if platformDict[platformSelection] != nil{
             urlString.append("&platforms=\(platformDict[platformSelection]!)")
         }
@@ -193,24 +193,21 @@ struct AddGameView: View {
             print("Bad URL: \(urlString)")
             return
         }
-        let session = URLSession.shared
-        session.configuration.timeoutIntervalForRequest = 30.0
-        session.configuration.timeoutIntervalForResource = 60.0
         //start our URLSession to get data
-        session.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            //start the loading indicator animation
             showAnimation = true
             //data received
             if let data = data {
-//                let str = String(decoding: data, as: UTF8.self)
-//                print(str)
                 //decode the data as a GameResults object
                 let decoder = JSONDecoder()
                 if let items = try? decoder.decode(GameResults.self, from: data){
                     //set our gameResults object (object that contains visible results to the user)
                     gameResults = items
                     showAnimation = false   //disable the animation
-                    if !barcodeResult.isEmpty && items.count != 0{
-                        barcodeResult = items.results[0].name
+                    //the barcode title is not empty and there are results returned, assign the first game returned as barcode information, and trigger the alert that a game was found
+                    if !barcodeTitle.isEmpty && items.count != 0{
+                        barcodeTitle = items.results[0].name
                         barcodeID = items.results[0].id
                         postCameraSuccessAlert.toggle()
                     }
@@ -223,8 +220,7 @@ struct AddGameView: View {
     }
     
     /**
-     Load the details of a game based on it's ID from the API, decode the data, and update this views properites accordingly with that data
-     parameters: none
+     Load the details of a game (only when used with a barcode scan) based on it's ID from the API, decode the data, and update this views properites accordingly with that data
      */
     func loadBarcodeGameInfo(){
         //create the basic URL
@@ -235,14 +231,9 @@ struct AddGameView: View {
         }
         print("Starting decoding...")
         //start our URLSession to get data
-        let session = URLSession.shared
-        session.configuration.timeoutIntervalForRequest = 30.0
-        session.configuration.timeoutIntervalForResource = 60.0
-        session.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
-//                let str = String(decoding: data, as: UTF8.self)
-//                print(str)
-                //decode the data as a PlatformSelection objecct
+                //decode the data as a GameDetails objecct
                 let decoder = JSONDecoder()
                 if let details = try? decoder.decode(GameDetails.self, from: data){
                     print("Successfully decoded")
@@ -255,7 +246,7 @@ struct AddGameView: View {
     }
     
     /**
-     loadPlatformSelection: function responsible for loading the current list of platforms the API supports, and displaying them to the user
+     Function responsible for loading the current list of platforms the API supports, and displaying them to the user
      parameters: none
      */
     func loadPlatformSelection() {
@@ -265,14 +256,9 @@ struct AddGameView: View {
             print("Bad URL: \(urlString)")
             return
         }
-        let session = URLSession.shared
-        session.configuration.timeoutIntervalForRequest = 30.0
-        session.configuration.timeoutIntervalForResource = 60.0
         //start our URLSession to get data
-        session.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
-                //let str = String(decoding: data, as: UTF8.self)
-                //print(str)
                 //decode the data as a PlatformSelection objecct
                 let decoder = JSONDecoder()
                 if let items = try? decoder.decode(PlatformSelection.self, from: data){
@@ -286,7 +272,6 @@ struct AddGameView: View {
                     //sort the platform names to they come across to the user the same every time...regardless of what order the API delivers them in
                     platformNames.sort()
                     platformNames.insert("No selection", at: 0)
-                    print("\n")
                     //data parsing was successful, so return
                     return
                 }
@@ -295,6 +280,9 @@ struct AddGameView: View {
         }.resume()  //call our URLSession
     }
     
+    /**
+     Function that takes a upc code from a barcode, and returns what product it is according to the Barcode Lookup API
+     */
     func barcodeLookup(upcCode: String){
         //create the basic URL
         let urlString = "https://api.barcodelookup.com/v3/products?barcode=\(upcCode)&formatted=y&key=\(barcodeLookupAPIKey)"
@@ -302,17 +290,14 @@ struct AddGameView: View {
             print("Bad URL: \(urlString)")
             return
         }
-        let session = URLSession.shared
-        session.configuration.timeoutIntervalForRequest = 30.0
-        session.configuration.timeoutIntervalForResource = 60.0
         //start our URLSession to get data
-        session.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
-                let str = String(decoding: data, as: UTF8.self)
-                print(str)
                 let decoder = JSONDecoder()
                 if let results = try? decoder.decode(BarcodeResults.self, from: data){
                     print(results.products[0].title)
+                    //convert the top result into an array
+                    //insert a "-" char at every space to ensure it can be used with a URL
                     var charArray = Array(results.products[0].title)
                     var index = 0   //variable for holding the current iteration of the below for loop
                     //iterate through all the chars in the array, replacing every " " with "-" for valid API calls
@@ -322,7 +307,9 @@ struct AddGameView: View {
                         }
                         index += 1
                     }
-                    barcodeResult = results.products[0].title
+                    //set the barcode title to the top result's title
+                    barcodeTitle = results.products[0].title
+                    //call the gamSearch function to conduct a search with the title provided by the barcode
                     gameSearch(String(charArray), showExact, platformAPISelect)
                 }
             }
