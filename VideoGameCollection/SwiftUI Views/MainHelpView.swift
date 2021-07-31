@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+/**
+ View that will provide users basic FAQ and help information for the app
+ */
 struct MainHelpView: View {
     var body: some View {
         VStack{
