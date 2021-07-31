@@ -5,7 +5,6 @@
 //  Created by Jonathon Lannon on 7/18/21.
 //
 
-import Foundation
 import UIKit
 import SwiftUI
 
@@ -20,6 +19,7 @@ struct ActivityIndicator: UIViewRepresentable {
     
     func updateUIView(_ uiView: UIActivityIndicatorView,
                       context: Context) {
+        //start animating when the parameter received is true, stop animating otherwise
         if self.shouldAnimate {
             uiView.startAnimating()
         } else {
