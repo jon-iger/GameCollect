@@ -19,127 +19,126 @@ struct GameDetailsView: View {
     @State var releaseDate: String = String()   //the release date of the game in the form of a string
     @State var imageURL = String()      //the url of the main background image
     @State var rating = "Rating Pending"    //the ESRB rating of the game with a default value of "Rating Pending" if the game is not rated
-    @State var metacriticRating = 0
+    @State var metacriticRating = 0     //the metacritic rating of the game with a default value of 0
     @State var gameImage: UIImage = UIImage()   //the UIImage of the game's main background image
     @State var fullyLoaded = false      //boolean value determining if the game's data is fully loaded or not
     @State var showAnimation = true     //boolean value determining if the activity indicator animation should be shown or not
     @State var partOfCollection = false  //boolean value determining if the current game being displayed is apart of the user's collection or not
     @State var gameAlert = false        //boolean value determining if the alert showing that the user's collection was modified should be on or off
-    @State var screenCollection = GameScreenshot()
-    @State var screenshots: [String:UIImage] = [:]
-    @State var gamePlatforms: [PlatformSearchResult] = []
+    @State var screenCollection = GameScreenshot()  //instance of the object that will contain the screenshots for the game once the data is loaded
+    @State var screenshots: [String:UIImage] = [:]  //array of screenshots that will be displayed. The string key is the url of the screenshot, the UIImage is the image returned from the search with that URL
+    @State var gamePlatforms: [PlatformSearchResult] = []   //array of Platforms that the game supports
     
     //main SwiftUI body
     var body: some View {
         Group{
-            if id == 0{
-                Text("Welcome!")
-            }
-            else{
-                if fullyLoaded{
-                    ScrollView{
-                        VStack{
-                            Image(uiImage: gameImage)
-                                .resizable()
-                                .scaledToFit()
-                                .padding()
-                            Text(releaseDate)
-                            if partOfCollection{
-                                Button("Remove from Collection"){
-                                    var index = 0
-                                    for game in gameObject.gameCollection{
-                                        if game.id == id{
-                                            gameObject.gameCollection.remove(at: index)
-                                            VideoGameCollection.saveToFile(basicObject: gameObject)
-                                            partOfCollection = false
-                                            gameAlert = true
-                                        }
-                                        index += 1
+            if fullyLoaded{
+                ScrollView{
+                    VStack{
+                        Image(uiImage: gameImage)
+                            .resizable()
+                            .scaledToFit()
+                            .padding()
+                        Text(releaseDate)
+                        if partOfCollection{
+                            Button("Remove from Collection"){
+                                var index = 0
+                                for game in gameObject.gameCollection{
+                                    if game.id == id{
+                                        gameObject.gameCollection.remove(at: index)
+                                        VideoGameCollection.saveToFile(basicObject: gameObject)
+                                        partOfCollection = false
+                                        gameAlert = true
                                     }
+                                    index += 1
                                 }
-                                .padding()
-                                .background(RoundedRectangle(cornerRadius: 25))
                             }
-                            else{
-                                Button("Add to Collection"){
-                                    gameObject.gameCollection.append(Game(title: name, id: id, dateAdded: Date(), platforms: gamePlatforms))
-                                    VideoGameCollection.saveToFile(basicObject: gameObject)
-                                    partOfCollection = true
-                                    gameAlert = true
-                                }
-                                .padding()
-                                .background(RoundedRectangle(cornerRadius: 25))
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 25))
+                        }
+                        else{
+                            Button("Add to Collection"){
+                                gameObject.gameCollection.append(Game(title: name, id: id, dateAdded: Date(), platforms: gamePlatforms))
+                                VideoGameCollection.saveToFile(basicObject: gameObject)
+                                partOfCollection = true
+                                gameAlert = true
                             }
-                            HStack{
-                                if metacriticRating != 0{
-                                    Image("metacritic")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .background(Color.black)
-                                        .frame(width: 75, height: 75)
-                                        .padding()
-                                    Text(String(metacriticRating))
-                                        .font(.title)
-                                    Spacer()
-                                }
-                                Image(rating)
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 25))
+                        }
+                        HStack{
+                            if metacriticRating != 0{
+                                Image("metacritic")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(height: 100)
+                                    .background(Color.black)
+                                    .frame(width: 75, height: 75)
                                     .padding()
-                            }
-                            Text(description)
-                                .font(.subheadline)
-                                .padding()
-                            Text("Platforms")
-                                .font(.title2)
-                                .padding()
-                            ForEach(gamePlatforms, id: \.self){ platform in
-                                Text(platform.platform.name)
+                                Text(String(metacriticRating))
+                                    .font(.title)
                                 Spacer()
                             }
-                            Text("Screenshots")
-                                .font(.title2)
+                            Image(rating)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 100)
                                 .padding()
-                            ScrollView(.horizontal, showsIndicators: true){
-                                HStack{
-                                    ForEach(screenCollection.results, id: \.self){ game in
-                                        if sizeClass == .regular{
-                                            Image(uiImage: screenshots[game.image]!)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: CGFloat(game.width), height: CGFloat(game.height))
-                                                .border(Color.blue, width: 5)
-                                                .padding()
-                                        }
-                                        else{
-                                            Image(uiImage: screenshots[game.image]!)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: CGFloat(game.width/2), height: CGFloat(game.height/2))
-                                                .border(Color.blue, width: 5)
-                                                .padding()
-                                        }
+                        }
+                        Text(description)
+                            .font(.subheadline)
+                            .padding()
+                        Text("Platforms")
+                            .font(.title2)
+                            .padding()
+                        ForEach(gamePlatforms, id: \.self){ platform in
+                            Text(platform.platform.name)
+                            Spacer()
+                        }
+                        Text("Screenshots")
+                            .font(.title2)
+                            .padding()
+                        ScrollView(.horizontal, showsIndicators: true){
+                            HStack{
+                                ForEach(screenCollection.results, id: \.self){ game in
+                                    if sizeClass == .regular{
+                                        //set the width and height of the images to whatever width and height numbers for it where returned from the data
+                                        Image(uiImage: screenshots[game.image]!)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: CGFloat(game.width), height: CGFloat(game.height))
+                                            .border(Color.blue, width: 5)
+                                            .padding()
+                                    }
+                                    else{
+                                        //set the width and height of the images to whatever width and height numbers for it where returned from the data
+                                        Image(uiImage: screenshots[game.image]!)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: CGFloat(game.width/2), height: CGFloat(game.height/2))
+                                            .border(Color.blue, width: 5)
+                                            .padding()
                                     }
                                 }
                             }
                         }
-                        .navigationBarTitle(name)
                     }
+                    .navigationBarTitle(name)
                 }
-                else{
-                    VStack{
-                        Text("Loading")
-                        ActivityIndicator(shouldAnimate: self.$showAnimation)
-                    }
+            }
+            //display the loading indicator if the data is not fully loaded yet
+            else{
+                VStack{
+                    Text("Loading")
+                    ActivityIndicator(shouldAnimate: self.$showAnimation)
                 }
             }
         }
         .onAppear{
+            //load all of the detials, status collection (whether or not it's in the collection already), and screenshots for the game
             loadGameDetails()
             loadGameStatus()
             loadGameScreenshots()
-            //update the UserDefault "lastViewedGame" key. This is intended to hold the last game the user viewed in the app.
+            //update the UserDefault "lastViewedGame" key. This is intended to hold the last game the user viewed in the app
             UserDefaults.standard.setValue(id, forKey: "lastViewedGame")
         }
         .alert(isPresented: $gameAlert){
@@ -149,7 +148,6 @@ struct GameDetailsView: View {
     
     /**
      Load the details of a game based on it's ID from the API, decode the data, and update this views properites accordingly with that data
-     parameters: none
      */
     func loadGameDetails() {
         //create the basic URL
@@ -160,19 +158,14 @@ struct GameDetailsView: View {
         }
         print("Starting decoding...")
         //start our URLSession to get data
-        let session = URLSession.shared
-        session.configuration.timeoutIntervalForRequest = 30.0
-        session.configuration.timeoutIntervalForResource = 60.0
-        session.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
-//                let str = String(decoding: data, as: UTF8.self)
-//                print(str)
                 //decode the data as a PlatformSelection objecct
                 let decoder = JSONDecoder()
                 if let details = try? decoder.decode(GameDetails.self, from: data){
                     print("Successfully decoded")
                     //data parsing was successful
-                    //set each of the needed States with the data returned
+                    //set each of the needed states with the data returned
                     name = details.name
                     let data = Data(details.description.utf8)
                     //filter out the HTML elements of the description string, and set its state accordingly
@@ -204,6 +197,9 @@ struct GameDetailsView: View {
         }.resume()  //call our URLSession
     }
     
+    /**
+     Function that loads all of the game's screenshots into the view
+     */
     func loadGameScreenshots() {
         //create the basic URL
         let urlString = "https://api.rawg.io/api/games/\(String(id))/screenshots?key=\(rawgAPIKey)"
@@ -212,11 +208,8 @@ struct GameDetailsView: View {
             return
         }
         print("Starting decoding...")
-        let session = URLSession.shared
-        session.configuration.timeoutIntervalForRequest = 30.0
-        session.configuration.timeoutIntervalForResource = 60.0
         //start our URLSession to get data
-        session.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
                 //decode the data as a PlatformSelection objecct
                 let decoder = JSONDecoder()
@@ -232,6 +225,7 @@ struct GameDetailsView: View {
                             screenshots[game.image] = image!
                         }
                     }
+                    //set our screenCollection state to equal whatever our data was
                     screenCollection = data
                     return
                 }
@@ -243,6 +237,8 @@ struct GameDetailsView: View {
      Function that returns true or false if a game is apart of the user's collection or not
      */
     func loadGameStatus(){
+        //for each game in the collection, check if the current one matches the current game's id
+        //if it's a match...set partOfCollection to true, false otherwise
         for game in gameObject.gameCollection{
             if game.id == id{
                 partOfCollection = true
