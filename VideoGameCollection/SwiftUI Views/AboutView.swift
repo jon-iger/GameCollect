@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+/**
+ View that contains About/Legal information for the app
+ */
 struct AboutView: View {
     var body: some View {
         VStack{
