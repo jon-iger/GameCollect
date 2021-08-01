@@ -40,6 +40,12 @@ struct SettingsView: View {
                                 Text("Terms of Use")
                             }
                         })
+                        Link(destination: URL(string: "https://www.gamecollect.org")!, label: {
+                            HStack{
+                                Image(systemName: "network")
+                                Text("Visit Our Website")
+                            }
+                        })
                     }
                     Section(header: Text("Settings")){
                         Button{
