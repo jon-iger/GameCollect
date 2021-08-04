@@ -29,6 +29,7 @@ struct AddGameView: View {
     @State var barcodeID = 0    //int that contains the game ID of the game found by the barcode scanner
     @State var barcodePlatforms: [PlatformSearchResult] = []    //array of PlatformSearchResult objects that contain the platforms the scanned game supports
     @State var metacriticSort = true    //boolean that triggers whether or not the results returned should be sorted by their Metacritic scores
+    @State var canLoad = true
     
     //initial body
     var body: some View {
@@ -106,69 +107,77 @@ struct AddGameView: View {
         )
         
         //SwiftUI body
-        Form{
-            Section(header: Text("Filters")){
-                Toggle("Exact Search", isOn: bindExact)
-                Picker("Platform", selection: bindPlatform, content: {
-                    ForEach(platformNames, id: \.self){ platform in
-                        Text(platform).tag(platform)
+        if canLoad{
+            Form{
+                Section(header: Text("Filters")){
+                    Toggle("Exact Search", isOn: bindExact)
+                    Picker("Platform", selection: bindPlatform, content: {
+                        ForEach(platformNames, id: \.self){ platform in
+                            Text(platform).tag(platform)
+                        }
+                    })
+                    Toggle("Sort by Metacritic", isOn: bindMetacritic)
+                }
+                HStack{
+                    Image(systemName: "magnifyingglass")
+                        .padding(4)
+                    TextField("Search", text: bindSearch)
+                }
+                Section(header: Text("Results"), footer: ActivityIndicator(shouldAnimate: self.$showAnimation)){
+                    List(gameResults.results, id: \.id){ game in
+                        GameResultRow(title: game.name, id: game.id, platformArray: game.platforms)
                     }
-                })
-                Toggle("Sort by Metacritic", isOn: bindMetacritic)
-            }
-            HStack{
-                Image(systemName: "magnifyingglass")
-                    .padding(4)
-                TextField("Search", text: bindSearch)
-            }
-            Section(header: Text("Results"), footer: ActivityIndicator(shouldAnimate: self.$showAnimation)){
-                List(gameResults.results, id: \.id){ game in
-                    GameResultRow(title: game.name, id: game.id, platformArray: game.platforms)
                 }
             }
-        }
-        .navigationBarTitle("Add Game")
-        .navigationBarItems(trailing: Button{
-            showScanner.toggle()
-        }
-        label:{
-            Image(systemName: "barcode.viewfinder")
-        })
-        .onAppear(perform: {
-            if platformNames.isEmpty{
-                loadPlatformSelection()
+            .navigationBarTitle("Add Game")
+            .navigationBarItems(trailing: Button{
+                showScanner.toggle()
             }
-        })
-        .sheet(isPresented: $showScanner, onDismiss: {
-            do{
-                if scanner?.upcString == nil{
-                    throw BarcodeError.noBarcodeScanned
-                }
-                barcodeLookup(upcCode: (scanner?.upcString)!)
-            }
-            catch{
-                print(error)
-            }
-        }){
-            if !postCameraSuccessAlert{
-                ViewControllerWrapper(scanner: $scanner)
-                    .onAppear{
-                        postCameraSuccessAlert = false
+            label:{
+                Image(systemName: "barcode.viewfinder")
+            })
+            .onAppear(perform: {
+                checkDatabaseStatus()
+                if canLoad{
+                    if platformNames.isEmpty{
+                        loadPlatformSelection()
                     }
+                }
+            })
+            .sheet(isPresented: $showScanner, onDismiss: {
+                do{
+                    if scanner?.upcString == nil{
+                        throw BarcodeError.noBarcodeScanned
+                    }
+                    barcodeLookup(upcCode: (scanner?.upcString)!)
+                }
+                catch{
+                    print(error)
+                }
+            }){
+                if !postCameraSuccessAlert{
+                    ViewControllerWrapper(scanner: $scanner)
+                        .onAppear{
+                            postCameraSuccessAlert = false
+                        }
+                }
+            }
+            .alert(isPresented: $postCameraSuccessAlert){
+                Alert(title: Text("Game Found"), message: Text("Would you like to add \(barcodeTitle) to your collection?"), primaryButton: Alert.Button.default(Text("Yes"), action: {
+                    //call the function that loads the scanned barcode's game information
+                    loadBarcodeGameInfo()
+                    while barcodePlatforms.count == 0{
+                        //do nothing. Stall the code until it's finished loading
+                    }
+                    //add the new game to the array of game's the user already has
+                    gameObject.gameCollection.append(Game(title: barcodeTitle, id: barcodeID, dateAdded: Date(), platforms: barcodePlatforms))
+                    //save the new object to the user's file
+                    VideoGameCollection.saveToFile(basicObject: gameObject)
+                }), secondaryButton: Alert.Button.cancel())
             }
         }
-        .alert(isPresented: $postCameraSuccessAlert){
-            Alert(title: Text("Game Found"), message: Text("Would you like to add \(barcodeTitle) to your collection?"), primaryButton: Alert.Button.default(Text("Yes"), action: {
-                //call the function that loads the scanned barcode's game information
-                loadBarcodeGameInfo()
-                while barcodePlatforms.count == 0{
-                    //do nothing. Stall the code until it's finished loading
-                }
-                //add the new game to the array of game's the user already has
-                gameObject.gameCollection.append(Game(title: barcodeTitle, id: barcodeID, dateAdded: Date(), platforms: barcodePlatforms))
-                //save the new object to the user's file
-                VideoGameCollection.saveToFile(basicObject: gameObject)
-            }), secondaryButton: Alert.Button.cancel())
+        else{
+            Text("Unable to display data. Either RAWG or your internet connection is offline. Try again later.")
         }
     }
     
@@ -314,6 +323,34 @@ struct AddGameView: View {
                 }
             }
         }.resume()  //call our URLSession
+    }
+    
+    /**
+     Attempts to load sample data from the RAWG API. If this fails, the screen is stopped from rendering. Otherwise it can proceed
+     parameters: none
+     */
+    func checkDatabaseStatus(){
+        //create the basic URL
+        let urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search="
+        guard let url = URL(string: urlString) else {
+            print("Bad URL: \(urlString)")
+            canLoad = false
+            return
+        }
+        print("Starting decoding...in the check function")
+        //start our URLSession to get data
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            let httpResponse = response as! HTTPURLResponse
+            let statusCode = httpResponse.statusCode
+            if (statusCode == 200) {
+                print("Everyone is fine, file downloaded successfully.")
+                canLoad = true
+            } else  {
+                print("Failed")
+            }
+        }.resume()  //call our URLSession
+        print("Data not found. Error.")
+        canLoad = false
     }
 }
 
