@@ -131,7 +131,9 @@ struct AddGameView: View {
             }
             .navigationBarTitle("Add Game")
             .navigationBarItems(trailing: Button{
-                showScanner.toggle()
+                if canLoad{
+                    showScanner.toggle()
+                }
             }
             label:{
                 Image(systemName: "barcode.viewfinder")
