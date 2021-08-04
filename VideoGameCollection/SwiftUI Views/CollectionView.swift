@@ -182,6 +182,7 @@ struct CollectionView: View {
             }
         }
         .onAppear{
+            //check the status of the API and whether it's online or not. If offline, display something else instead
             checkDatabaseStatus()
             if canLoad{
                 for game in gameObject.gameCollection{
