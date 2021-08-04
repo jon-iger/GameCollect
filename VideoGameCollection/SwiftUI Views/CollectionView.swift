@@ -210,7 +210,7 @@ struct CollectionView: View {
         VideoGameCollection.saveToFile(basicObject: gameObject)
     }
     /**
-     Load the details of a game based on it's ID from the API, decode the data, and update this views properites accordingly with that data
+     Attempts to load sample data from the RAWG API. If this fails, the screen is stopped from rendering. Otherwise it can proceed
      parameters: none
      */
     func checkDatabaseStatus(){
