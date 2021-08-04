@@ -177,7 +177,7 @@ struct AddGameView: View {
             }
         }
         else{
-            Text("Unable to display data. Either RAWG or your internet connection is offline. Try again later.")
+            Text("Unable to display data. Either RAWG or your internet connection is offline. Try again later 😞.")
         }
     }
     

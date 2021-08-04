@@ -176,7 +176,7 @@ struct CollectionView: View {
                 VStack{
                     ActivityIndicator(shouldAnimate: $shouldAnimate)
                     if !shouldAnimate{
-                        Text("Unable to display data. Either RAWG or your internet connection is offline. Try again later.")
+                        Text("Unable to display data. Either RAWG or your internet connection is offline. Try again later 😞.")
                     }
                 }
             }
