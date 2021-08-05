@@ -15,6 +15,10 @@ struct CollectionView: View {
     @State var gridView = false
     @State var platformDict: [Platform:[Int]] = [:]
     @State var platformFilter = false
+    @State var canLoad = true
+    @State var displayFailureAlert = false
+    @State var shouldAnimate = true
+    @State var confirmFailure = false
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -42,14 +46,39 @@ struct CollectionView: View {
             }
         )
         NavigationView{
-            VStack{
-                if !gameObject.isEmpty(){
-                    if !gridView{
-                        List{
-                            if platformFilter{
-                                PlatformListView(platformDict: self.platformDict)
+            if canLoad{
+                VStack{
+                    if !gameObject.isEmpty(){
+                        if !gridView{
+                            List{
+                                if platformFilter{
+                                    PlatformListView(platformDict: self.platformDict)
+                                }
+                                else{
+                                    HStack{
+                                        Image(systemName: "magnifyingglass")
+                                            .padding(4)
+                                        TextField("Search", text: bindSearch)
+                                            .onTapGesture {
+                                                activeSearch = true
+                                            }
+                                    }
+                                    if !activeSearch{
+                                        ForEach(Array(gameObject.gameCollection), id: \.self){ game in
+                                            GameCollectionRow(id: game.id)
+                                        }
+                                        .onDelete(perform: deleteGame)
+                                    }
+                                    else{
+                                        ForEach(searchResults, id: \.self){ gameId in
+                                            GameCollectionRow(id: gameId)
+                                        }
+                                    }
+                                }
                             }
-                            else{
+                        }
+                        else if gridView{
+                            ScrollView{
                                 HStack{
                                     Image(systemName: "magnifyingglass")
                                         .padding(4)
@@ -58,40 +87,77 @@ struct CollectionView: View {
                                             activeSearch = true
                                         }
                                 }
-                                if !activeSearch{
+                                .padding(7)
+                                LazyVGrid(columns: columns){
                                     ForEach(Array(gameObject.gameCollection), id: \.self){ game in
-                                        GameCollectionRow(id: game.id)
-                                    }
-                                    .onDelete(perform: deleteGame)
-                                }
-                                else{
-                                    ForEach(searchResults, id: \.self){ gameId in
-                                        GameCollectionRow(id: gameId)
+                                        GameCollectionGrid(id: game.id)
                                     }
                                 }
                             }
                         }
                     }
-                    else if gridView{
-                        ScrollView{
-                            HStack{
-                                Image(systemName: "magnifyingglass")
-                                    .padding(4)
-                                TextField("Search", text: bindSearch)
-                                    .onTapGesture {
-                                        activeSearch = true
-                                    }
-                            }
-                            .padding(7)
-                            LazyVGrid(columns: columns){
-                                ForEach(Array(gameObject.gameCollection), id: \.self){ game in
-                                    GameCollectionGrid(id: game.id)
-                                }
-                            }
-                        }
+                    else{
+                        Spacer()
+                        Text("Welcome to Game Collect! Add some games to get started 🙂")
+                            .padding()
+                            .multilineTextAlignment(.center)
+                        Image("Welcome Controller")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 120, height: 120)
+                        Spacer()
                     }
+                    
                 }
-                else{
+                .navigationBarTitle("Game Collection")
+                .navigationBarItems(leading: EditButton(), trailing:
+                                        Menu{
+                                            Section{
+                                                Button{
+                                                    gridView = false
+                                                }
+                                                label:{
+                                                    Image(systemName: "list.bullet")
+                                                    Text("List View")
+                                                }
+                                                Button{
+                                                    gridView = true
+                                                }
+                                                label:{
+                                                    Image(systemName: "square.grid.2x2")
+                                                    Text("Grid View")
+                                                }
+                                            }
+                                            Section{
+                                                Button{
+                                                    platformFilter = false
+                                                    sortByDate()
+                                                }
+                                                label:{
+                                                    Image(systemName: "clock")
+                                                    Text("Recently Added")
+                                                }
+                                                Button{
+                                                    platformFilter = true
+                                                }
+                                                label:{
+                                                    Image(systemName: "gamecontroller")
+                                                    Text("Platform")
+                                                }
+                                                Button{
+                                                    platformFilter = false
+                                                    sortByTitle()
+                                                }
+                                                label:{
+                                                    Image(systemName: "abc")
+                                                    Text("Title")
+                                                }
+                                            }
+                                        } label:{
+                                            Image(systemName: "ellipsis.circle")
+                                        }
+                )
+                if gameObject.isEmpty() && UserDefaults.standard.integer(forKey: "lastViewedGame") == 0{
                     Spacer()
                     Text("Welcome to Game Collect! Add some games to get started 🙂")
                         .padding()
@@ -102,79 +168,32 @@ struct CollectionView: View {
                         .frame(width: 120, height: 120)
                     Spacer()
                 }
-            }
-            .navigationBarTitle("Game Collection")
-            .navigationBarItems(leading: EditButton(), trailing:
-                                    Menu{
-                                        Section{
-                                            Button{
-                                                gridView = false
-                                            }
-                                            label:{
-                                                Image(systemName: "list.bullet")
-                                                Text("List View")
-                                            }
-                                            Button{
-                                                gridView = true
-                                            }
-                                            label:{
-                                                Image(systemName: "square.grid.2x2")
-                                                Text("Grid View")
-                                            }
-                                        }
-                                        Section{
-                                            Button{
-                                                platformFilter = false
-                                                sortByDate()
-                                            }
-                                            label:{
-                                                Image(systemName: "clock")
-                                                Text("Recently Added")
-                                            }
-                                            Button{
-                                                platformFilter = true
-                                            }
-                                            label:{
-                                                Image(systemName: "gamecontroller")
-                                                Text("Platform")
-                                            }
-                                            Button{
-                                                platformFilter = false
-                                                sortByTitle()
-                                            }
-                                            label:{
-                                                Image(systemName: "abc")
-                                                Text("Title")
-                                            }
-                                        }
-                                    } label:{
-                                        Image(systemName: "ellipsis.circle")
-                                    }
-            )
-            if gameObject.isEmpty() && UserDefaults.standard.integer(forKey: "lastViewedGame") == 0{
-                Spacer()
-                Text("Welcome to Game Collect! Add some games to get started 🙂")
-                    .padding()
-                    .multilineTextAlignment(.center)
-                Image("Welcome Controller")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 120, height: 120)
-                Spacer()
+                else{
+                    GameDetailsView(id: UserDefaults.standard.integer(forKey: "lastViewedGame"))
+                }
             }
             else{
-                GameDetailsView(id: UserDefaults.standard.integer(forKey: "lastViewedGame"))
+                VStack{
+                    ActivityIndicator(shouldAnimate: $shouldAnimate)
+                    if !shouldAnimate{
+                        Text("Unable to display data. Either RAWG or your internet connection is offline. Try again later 😞.")
+                    }
+                }
             }
         }
         .onAppear{
-            for game in gameObject.gameCollection{
-                print("Game found")
-                for platform in game.platforms{
-                    print("Platform found")
-                    if platformDict[platform] == nil{
-                        platformDict[platform] = []
+            //check the status of the API and whether it's online or not. If offline, display something else instead
+            checkDatabaseStatus()
+            if canLoad{
+                for game in gameObject.gameCollection{
+                    print("Game found")
+                    for platform in game.platforms{
+                        print("Platform found")
+                        if platformDict[platform] == nil{
+                            platformDict[platform] = []
+                        }
+                        platformDict[platform]?.append(game.id)
                     }
-                    platformDict[platform]?.append(game.id)
                 }
             }
         }
@@ -190,6 +209,33 @@ struct CollectionView: View {
     func sortByDate(){
         gameObject.gameCollection.sort(by: {$0.dateAdded > $1.dateAdded})
         VideoGameCollection.saveToFile(basicObject: gameObject)
+    }
+    /**
+     Attempts to load sample data from the RAWG API. If this fails, the screen is stopped from rendering. Otherwise it can proceed
+     parameters: none
+     */
+    func checkDatabaseStatus(){
+        //create the basic URL
+        let urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search="
+        guard let url = URL(string: urlString) else {
+            print("Bad URL: \(urlString)")
+            canLoad = false
+            shouldAnimate = false
+            return
+        }
+        print("Starting decoding...in the check function")
+        //start our URLSession to get data
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            let httpResponse = response as! HTTPURLResponse
+            let statusCode = httpResponse.statusCode
+            if (statusCode == 200) {
+                print("Everyone is fine, file downloaded successfully.")
+                canLoad = true
+                shouldAnimate = false
+            } else  {
+                print("Failed")
+            }
+        }.resume()  //call our URLSession
     }
 }
 

@@ -16,6 +16,7 @@ struct GameResultRow: View {
     let id: Int
     let platformArray: [PlatformSearchResult]   //array of platform search results
     var stringPlatforms: String {
+        //for every platform a game has (except the last one in the array), add a comma next to the platform's name, and put it into the string to be used to the display the list of platforms in the view
         var tempString = String()
         var index = 0
         for platform in platformArray{
