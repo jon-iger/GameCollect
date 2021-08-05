@@ -28,95 +28,143 @@ struct GameDetailsView: View {
     @State var screenCollection = GameScreenshot()  //instance of the object that will contain the screenshots for the game once the data is loaded
     @State var screenshots: [String:UIImage] = [:]  //array of screenshots that will be displayed. The string key is the url of the screenshot, the UIImage is the image returned from the search with that URL
     @State var gamePlatforms: [PlatformSearchResult] = []   //array of Platforms that the game supports
+    @State var fullScreenImage: UIImage = UIImage()
+    @State var showImageFullScreen = false
+    @State var lastScaleValue: CGFloat = 1.0
+    @State var offset = CGSize.zero
+    @State var isDragging = false
     
     //main SwiftUI body
     var body: some View {
+        // a drag gesture that updates offset and isDragging as it moves around
+        let dragGesture = DragGesture()
+            .onChanged { value in self.offset = value.translation; print("Being dragged") }
+            .onEnded { _ in
+                withAnimation {
+                    self.offset = .zero
+                    self.isDragging = false
+                }
+            }
         Group{
             if fullyLoaded{
-                ScrollView{
-                    VStack{
-                        Image(uiImage: gameImage)
-                            .resizable()
-                            .scaledToFit()
-                            .padding()
-                        Text(releaseDate)
-                        if partOfCollection{
-                            Button("Remove from Collection"){
-                                var index = 0
-                                for game in gameObject.gameCollection{
-                                    if game.id == id{
-                                        gameObject.gameCollection.remove(at: index)
-                                        VideoGameCollection.saveToFile(basicObject: gameObject)
-                                        partOfCollection = false
-                                        gameAlert = true
+                if showImageFullScreen{
+                    Image(uiImage: fullScreenImage)
+                        .resizable()
+                        .scaledToFit()
+                        .scaleEffect(lastScaleValue)
+                        .onTapGesture {
+                            withAnimation{
+                                showImageFullScreen = false
+                            }
+                        }
+                        .gesture(MagnificationGesture()
+                                    .onChanged{ value in
+                                        self.lastScaleValue = value.magnitude
                                     }
-                                    index += 1
-                                }
-                            }
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 25))
-                        }
-                        else{
-                            Button("Add to Collection"){
-                                gameObject.gameCollection.append(Game(title: name, id: id, dateAdded: Date(), platforms: gamePlatforms))
-                                VideoGameCollection.saveToFile(basicObject: gameObject)
-                                partOfCollection = true
-                                gameAlert = true
-                            }
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 25))
-                        }
-                        HStack{
-                            if metacriticRating != 0{
-                                Image("metacritic")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .background(Color.black)
-                                    .frame(width: 75, height: 75)
-                                    .padding()
-                                Text(String(metacriticRating))
-                                    .font(.title)
-                                Spacer()
-                            }
-                            Image(rating)
+                                    .onEnded{ value in
+                                        withAnimation{
+                                            self.lastScaleValue = 1.0
+                                        }
+                                    }
+                        )
+                        .gesture(dragGesture)
+                }
+                else{
+                    ScrollView{
+                        VStack{
+                            Image(uiImage: gameImage)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(height: 100)
                                 .padding()
-                        }
-                        Text(description)
-                            .font(.subheadline)
-                            .padding()
-                        Text("Platforms")
-                            .font(.title2)
-                            .padding()
-                        ForEach(gamePlatforms, id: \.self){ platform in
-                            Text(platform.platform.name)
-                            Spacer()
-                        }
-                        Text("Screenshots")
-                            .font(.title2)
-                            .padding()
-                        ScrollView(.horizontal, showsIndicators: true){
-                            HStack{
-                                ForEach(screenCollection.results, id: \.self){ game in
-                                    if sizeClass == .regular{
-                                        //set the width and height of the images to whatever width and height numbers for it where returned from the data
-                                        Image(uiImage: screenshots[game.image]!)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: CGFloat(game.width), height: CGFloat(game.height))
-                                            .border(Color.blue, width: 5)
-                                            .padding()
+                            Text(releaseDate)
+                            if partOfCollection{
+                                Button("Remove from Collection"){
+                                    var index = 0
+                                    for game in gameObject.gameCollection{
+                                        if game.id == id{
+                                            gameObject.gameCollection.remove(at: index)
+                                            VideoGameCollection.saveToFile(basicObject: gameObject)
+                                            partOfCollection = false
+                                            gameAlert = true
+                                        }
+                                        index += 1
                                     }
-                                    else{
-                                        //set the width and height of the images to whatever width and height numbers for it where returned from the data
-                                        Image(uiImage: screenshots[game.image]!)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: CGFloat(game.width/2), height: CGFloat(game.height/2))
-                                            .border(Color.blue, width: 5)
-                                            .padding()
+                                }
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 25))
+                            }
+                            else{
+                                Button("Add to Collection"){
+                                    gameObject.gameCollection.append(Game(title: name, id: id, dateAdded: Date(), platforms: gamePlatforms))
+                                    VideoGameCollection.saveToFile(basicObject: gameObject)
+                                    partOfCollection = true
+                                    gameAlert = true
+                                }
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 25))
+                            }
+                            HStack{
+                                if metacriticRating != 0{
+                                    Image("metacritic")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .background(Color.black)
+                                        .frame(width: 75, height: 75)
+                                        .padding()
+                                    Text(String(metacriticRating))
+                                        .font(.title)
+                                    Spacer()
+                                }
+                                Image(rating)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 100)
+                                    .padding()
+                            }
+                            Text(description)
+                                .font(.subheadline)
+                                .padding()
+                            Text("Platforms")
+                                .font(.title2)
+                                .padding()
+                            ForEach(gamePlatforms, id: \.self){ platform in
+                                Text(platform.platform.name)
+                                Spacer()
+                            }
+                            Text("Screenshots")
+                                .font(.title2)
+                                .padding()
+                            ScrollView(.horizontal, showsIndicators: true){
+                                HStack{
+                                    ForEach(screenCollection.results, id: \.self){ game in
+                                        if sizeClass == .regular{
+                                            //set the width and height of the images to whatever width and height numbers for it where returned from the data
+                                            Image(uiImage: screenshots[game.image]!)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: CGFloat(game.width), height: CGFloat(game.height))
+                                                .border(Color.blue, width: 5)
+                                                .padding()
+                                                .onTapGesture {
+                                                    fullScreenImage = screenshots[game.image]!
+                                                    showImageFullScreen = true
+                                                }
+                                        }
+                                        else{
+                                            //set the width and height of the images to whatever width and height numbers for it where returned from the data
+                                            Image(uiImage: screenshots[game.image]!)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: CGFloat(game.width/2), height: CGFloat(game.height/2))
+                                                .border(Color.blue, width: 5)
+                                                .padding()
+                                                .onTapGesture {
+                                                    withAnimation{
+                                                        fullScreenImage = screenshots[game.image]!
+                                                        showImageFullScreen = true
+                                                    }
+                                                }
+                                        }
                                     }
                                 }
                             }

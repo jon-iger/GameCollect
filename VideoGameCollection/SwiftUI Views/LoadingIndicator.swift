@@ -17,12 +17,12 @@ struct ActivityIndicator: UIViewRepresentable {
         return UIActivityIndicatorView()
     }
     
-    func updateUIView(_ uiView: UIActivityIndicatorView,
-                      context: Context) {
+    func updateUIView(_ uiView: UIActivityIndicatorView, context: Context) {
         //start animating when the parameter received is true, stop animating otherwise
         if self.shouldAnimate {
             uiView.startAnimating()
-        } else {
+        }
+        else {
             uiView.stopAnimating()
         }
     }
