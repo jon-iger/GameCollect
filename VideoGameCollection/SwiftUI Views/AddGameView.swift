@@ -62,7 +62,6 @@ struct AddGameView: View {
             set: {
                 self.metacriticSortGreater = $0
                 gameSearch(searchText, showExact, platformAPISelect)
-                sortByMetacritic()
             }
         )
         
@@ -184,6 +183,7 @@ struct AddGameView: View {
      */
     func gameSearch(_ searchTerm: String, _ searchExact: Bool, _ platformFilter: String){
         //create the basic URL
+        print("In game search")
         var urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search=\(searchTerm)&search_exact=\(searchExact)"
         if platformDict[platformSelection] != nil{
             urlString.append("&platforms=\(platformDict[platformSelection]!)")
@@ -205,7 +205,9 @@ struct AddGameView: View {
 //                print(str)
                 //decode the data as a GameResults object
                 let decoder = JSONDecoder()
+                print("Starting decoding")
                 if let items = try? decoder.decode(GameResults.self, from: data){
+                    print("Finished decoding")
                     //set our gameResults object (object that contains visible results to the user)
                     gameResults = items
                     showAnimation = false   //disable the animation
@@ -213,6 +215,7 @@ struct AddGameView: View {
                         barcodeResult = items.results[0].name
                         barcodeID = items.results[0].id
                         postCameraSuccessAlert.toggle()
+                        print("Barcode success!")
                     }
                     //data parsing was successful, so return
                     return
@@ -323,18 +326,11 @@ struct AddGameView: View {
                         index += 1
                     }
                     barcodeResult = results.products[0].title
+                    print("Go to game search...")
                     gameSearch(String(charArray), showExact, platformAPISelect)
                 }
             }
         }.resume()  //call our URLSession
-    }
-    func sortByMetacritic(){
-        if metacriticSortGreater{
-            gameResults.results.sort(by: {$0.metacritic > $1.metacritic})
-        }
-        else{
-            gameResults.results.sort(by: {$0.metacritic < $1.metacritic})
-        }
     }
 }
 
