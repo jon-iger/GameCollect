@@ -180,7 +180,7 @@ struct GameDetailsView: View {
                                                 .resizable()
                                                 .scaledToFit()
                                                 .frame(width: CGFloat(315), height: CGFloat(250))
-                                                .border(Color.blue, width: 5)
+                                                .border(Color.blue, width: 2)
                                                 .padding()
                                                 .onTapGesture {
                                                     withAnimation{
