@@ -15,7 +15,7 @@ struct CollectionView: View {
     @State var gridView = false
     @State var platformDict: [Platform:[Int]] = [:]
     @State var platformFilter = false
-    @State var canLoad = false
+    @State var canLoad = true
     @State var displayFailureAlert = false
     @State var shouldAnimate = true
     @State var confirmFailure = false
@@ -236,9 +236,6 @@ struct CollectionView: View {
                 print("Failed")
             }
         }.resume()  //call our URLSession
-        print("Data not found. Error.")
-        canLoad = false
-        shouldAnimate = false
     }
 }
 
