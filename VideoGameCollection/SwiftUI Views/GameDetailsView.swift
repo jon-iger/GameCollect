@@ -33,6 +33,7 @@ struct GameDetailsView: View {
     @State var lastScaleValue: CGFloat = 1.0
     @State var offset = CGSize.zero
     @State var isDragging = false
+    @State var showTip = false
     
     //main SwiftUI body
     var body: some View {
@@ -45,13 +46,30 @@ struct GameDetailsView: View {
                     self.isDragging = false
                 }
             }
+        let pressGesture = LongPressGesture()
+            .onChanged{ action in
+                withAnimation{
+                    print("Pressing...")
+                    self.isDragging = true
+                }
+            }
+            .onEnded { value in
+                withAnimation {
+                    print("Long press")
+                    self.isDragging = true
+                }
+            }
         Group{
             if fullyLoaded{
                 if showImageFullScreen{
+                    if showTip{
+                        Text("Tap the image to exit full screen 👇")
+                    }
                     Image(uiImage: fullScreenImage)
                         .resizable()
                         .scaledToFit()
                         .scaleEffect(lastScaleValue)
+                        .offset(offset)
                         .onTapGesture {
                             withAnimation{
                                 showImageFullScreen = false
@@ -59,15 +77,19 @@ struct GameDetailsView: View {
                         }
                         .gesture(MagnificationGesture()
                                     .onChanged{ value in
+                                        withAnimation{
+                                            showTip = false
+                                        }
                                         self.lastScaleValue = value.magnitude
                                     }
                                     .onEnded{ value in
                                         withAnimation{
+                                            showTip = true
                                             self.lastScaleValue = 1.0
                                         }
                                     }
                         )
-                        .gesture(dragGesture)
+                        .gesture(pressGesture.sequenced(before: dragGesture))
                 }
                 else{
                     ScrollView{
@@ -134,6 +156,7 @@ struct GameDetailsView: View {
                             Text("Screenshots")
                                 .font(.title2)
                                 .padding()
+                            Text("Tap images to see them full screen 👇")
                             ScrollView(.horizontal, showsIndicators: true){
                                 HStack{
                                     ForEach(screenCollection.results, id: \.self){ game in
@@ -148,6 +171,7 @@ struct GameDetailsView: View {
                                                 .onTapGesture {
                                                     fullScreenImage = screenshots[game.image]!
                                                     showImageFullScreen = true
+                                                    showTip = true
                                                 }
                                         }
                                         else{
@@ -155,13 +179,14 @@ struct GameDetailsView: View {
                                             Image(uiImage: screenshots[game.image]!)
                                                 .resizable()
                                                 .scaledToFit()
-                                                .frame(width: CGFloat(game.width/2), height: CGFloat(game.height/2))
+                                                .frame(width: CGFloat(315), height: CGFloat(250))
                                                 .border(Color.blue, width: 5)
                                                 .padding()
                                                 .onTapGesture {
                                                     withAnimation{
                                                         fullScreenImage = screenshots[game.image]!
                                                         showImageFullScreen = true
+                                                        showTip = true
                                                     }
                                                 }
                                         }
