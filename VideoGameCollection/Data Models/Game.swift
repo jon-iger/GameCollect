@@ -50,7 +50,7 @@ struct GameResults: Codable{
 struct GameSearch: Codable, Identifiable{
     var id: Int     //id of the game
     let name: String    //name of the game
-    let metacritic: Int
+    let metacritic: Int?
     let esrb_rating: esrb_rating?
     let platforms: [PlatformSearchResult]   //platforms the game supports
 }
