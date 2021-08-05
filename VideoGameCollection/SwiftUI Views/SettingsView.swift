@@ -7,9 +7,14 @@
 
 import SwiftUI
 
+/**
+ View that displays the settings for the app, and provides navigation links for other parts such as About and Help
+ */
 struct SettingsView: View {
-    @EnvironmentObject var gameObject: VideoGameCollection
-    @State var showDeleteAlert = false
+    @EnvironmentObject var gameObject: VideoGameCollection  //object containing the list of games currently in the user's collection
+    @State var showDeleteAlert = false  //binding boolean value that triggers the on screen alert if tapped by the user to delete their data
+    
+    //main SwiftUI body
     var body: some View {
         NavigationView{
             VStack{
@@ -23,6 +28,24 @@ struct SettingsView: View {
                             Image(systemName: "info.circle")
                             Text("About")
                         }
+                        Link(destination: URL(string: "https://app.termly.io/document/privacy-policy/13f819ed-e94e-42fb-ba9a-ccdb64827a1a")!, label: {
+                            HStack{
+                                Image(systemName: "hand.raised")
+                                Text("Privacy Policy")
+                            }
+                        })
+                        Link(destination: URL(string: "https://app.termly.io/document/terms-of-use-for-ios-app/f8a6516e-0854-4737-8c19-c6db8487a022")!, label: {
+                            HStack{
+                                Image(systemName: "person")
+                                Text("Terms of Use")
+                            }
+                        })
+                        Link(destination: URL(string: "https://www.gamecollect.org")!, label: {
+                            HStack{
+                                Image(systemName: "network")
+                                Text("Visit Our Website")
+                            }
+                        })
                     }
                     Section(header: Text("Settings")){
                         Button{
@@ -42,6 +65,7 @@ struct SettingsView: View {
         }
         .alert(isPresented: $showDeleteAlert){
             Alert(title: Text("Delete data?"), message: Text("All data will be lost"), primaryButton: Alert.Button.destructive(Text("Delete")){
+                //empty the array of games, and save the empty array to the save file
                 gameObject.gameCollection = []
                 VideoGameCollection.saveToFile(basicObject: gameObject)
             }, secondaryButton: Alert.Button.cancel())

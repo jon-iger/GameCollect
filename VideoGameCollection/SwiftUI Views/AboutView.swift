@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+/**
+ View that contains About/Legal information for the app
+ */
 struct AboutView: View {
     var body: some View {
         VStack{
@@ -14,7 +17,7 @@ struct AboutView: View {
                 .padding()
             Text("Barcode scanning capabilities provided by Barcode Lookup.")
                 .padding()
-            Text("Game Collect is created by Jonathon Lannon with the intent that this app be distributed exclusively on Apple platforms. All rights reserved. Copyright 2021.")
+            Text("Game Collect is created by Jonathon Lannon with the intent that this app be distributed exclusively on Apple platforms. All rights reserved.")
                 .padding()
         }
         .navigationBarTitle("About")
