@@ -198,8 +198,8 @@ struct AddGameView: View {
             metacriticSortURLString = "&ordering=-metacritic"
         }
         //create the basic URL
-        var urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search=\(searchTerm)&search_exact=\(searchExact)\(metacriticSortURLString)"
-        //if the user selected a platform in the picker, attach the query to the URL
+        print("In game search")
+        var urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search=\(searchTerm)&search_exact=\(searchExact)"
         if platformDict[platformSelection] != nil{
             urlString.append("&platforms=\(platformDict[platformSelection]!)")
         }
@@ -216,7 +216,9 @@ struct AddGameView: View {
             if let data = data {
                 //decode the data as a GameResults object
                 let decoder = JSONDecoder()
+                print("Starting decoding")
                 if let items = try? decoder.decode(GameResults.self, from: data){
+                    print("Finished decoding")
                     //set our gameResults object (object that contains visible results to the user)
                     gameResults = items
                     showAnimation = false   //disable the animation
@@ -225,6 +227,7 @@ struct AddGameView: View {
                         barcodeTitle = items.results[0].name
                         barcodeID = items.results[0].id
                         postCameraSuccessAlert.toggle()
+                        print("Barcode success!")
                     }
                     //data parsing was successful, so return
                     return
@@ -332,6 +335,9 @@ struct AddGameView: View {
                         //invalid barcode found, or barcode with no UPC code found
                         invalidBarcode.toggle()
                     }
+                    barcodeResult = results.products[0].title
+                    print("Go to game search...")
+                    gameSearch(String(charArray), showExact, platformAPISelect)
                 }
             }
         }.resume()  //call our URLSession
