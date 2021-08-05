@@ -178,9 +178,6 @@ struct AddGameView: View {
                     VideoGameCollection.saveToFile(basicObject: gameObject)
                 }), secondaryButton: Alert.Button.cancel())
             }
-            .alert(isPresented: $invalidBarcode){
-                Alert(title: Text("Error"), message: Text("Invalid barcode read"), dismissButton: Alert.Button.cancel())
-            }
         }
         else{
             Text("Unable to display data. Either RAWG or your internet connection is offline. Try again later 😞.")
@@ -193,13 +190,19 @@ struct AddGameView: View {
      */
     func gameSearch(_ searchTerm: String, _ searchExact: Bool, _ platformFilter: String){
         var metacriticSortURLString = String()
+        var urlString = String()
         //if metacriticSort attach the necessary ordering query parameters to the url
         if metacriticSort{
             metacriticSortURLString = "&ordering=-metacritic"
         }
         //create the basic URL
         print("In game search")
-        var urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search=\(searchTerm)&search_exact=\(searchExact)"
+        if !barcodeTitle.isEmpty{
+            urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search=\(searchTerm)&search_exact=\(searchExact)"
+        }
+        else{
+            urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search=\(searchTerm)&search_exact=\(searchExact)\(metacriticSortURLString)"
+        }
         if platformDict[platformSelection] != nil{
             urlString.append("&platforms=\(platformDict[platformSelection]!)")
         }
@@ -218,7 +221,7 @@ struct AddGameView: View {
                 let decoder = JSONDecoder()
                 print("Starting decoding")
                 if let items = try? decoder.decode(GameResults.self, from: data){
-                    print("Finished decoding")
+                    print("Finished decoding and barcodeTitle is \(barcodeTitle)")
                     //set our gameResults object (object that contains visible results to the user)
                     gameResults = items
                     showAnimation = false   //disable the animation
@@ -302,6 +305,7 @@ struct AddGameView: View {
      Function that takes a upc code from a barcode, and returns what product it is according to the Barcode Lookup API
      */
     func barcodeLookup(upcCode: String){
+        barcodeTitle = String()
         //create the basic URL
         let urlString = "https://api.barcodelookup.com/v3/products?barcode=\(upcCode)&formatted=y&key=\(barcodeLookupAPIKey)"
         guard let url = URL(string: urlString) else {
@@ -327,17 +331,14 @@ struct AddGameView: View {
                             index += 1
                         }
                         //set the barcode title to the top result's title
-                        barcodeTitle = results.products[0].title
-                        //call the gamSearch function to conduct a search with the title provided by the barcode
-                        gameSearch(String(charArray), showExact, platformAPISelect)
+                        print("Go to game search...")
+                        barcodeTitle = String(charArray)
+                        gameSearch(barcodeTitle, false, platformAPISelect)
                     }
                     else{
                         //invalid barcode found, or barcode with no UPC code found
                         invalidBarcode.toggle()
                     }
-                    barcodeResult = results.products[0].title
-                    print("Go to game search...")
-                    gameSearch(String(charArray), showExact, platformAPISelect)
                 }
             }
         }.resume()  //call our URLSession
