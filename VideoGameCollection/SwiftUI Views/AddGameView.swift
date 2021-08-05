@@ -30,6 +30,7 @@ struct AddGameView: View {
     @State var barcodePlatforms: [PlatformSearchResult] = []    //array of PlatformSearchResult objects that contain the platforms the scanned game supports
     @State var metacriticSort = true    //boolean that triggers whether or not the results returned should be sorted by their Metacritic scores
     @State var canLoad = true
+    @State var invalidBarcode = false
     
     //initial body
     var body: some View {
@@ -177,6 +178,9 @@ struct AddGameView: View {
                     VideoGameCollection.saveToFile(basicObject: gameObject)
                 }), secondaryButton: Alert.Button.cancel())
             }
+            .alert(isPresented: $invalidBarcode){
+                Alert(title: Text("Error"), message: Text("Invalid barcode read"), dismissButton: Alert.Button.cancel())
+            }
         }
         else{
             Text("Unable to display data. Either RAWG or your internet connection is offline. Try again later 😞.")
@@ -306,22 +310,28 @@ struct AddGameView: View {
             if let data = data {
                 let decoder = JSONDecoder()
                 if let results = try? decoder.decode(BarcodeResults.self, from: data){
-                    print(results.products[0].title)
-                    //convert the top result into an array
-                    //insert a "-" char at every space to ensure it can be used with a URL
-                    var charArray = Array(results.products[0].title)
-                    var index = 0   //variable for holding the current iteration of the below for loop
-                    //iterate through all the chars in the array, replacing every " " with "-" for valid API calls
-                    for char in charArray{
-                        if char == " "{
-                            charArray[index] = "-"
+                    if results.products.count != 0{
+                        print(results.products[0].title)
+                        //convert the top result into an array
+                        //insert a "-" char at every space to ensure it can be used with a URL
+                        var charArray = Array(results.products[0].title)
+                        var index = 0   //variable for holding the current iteration of the below for loop
+                        //iterate through all the chars in the array, replacing every " " with "-" for valid API calls
+                        for char in charArray{
+                            if char == " "{
+                                charArray[index] = "-"
+                            }
+                            index += 1
                         }
-                        index += 1
+                        //set the barcode title to the top result's title
+                        barcodeTitle = results.products[0].title
+                        //call the gamSearch function to conduct a search with the title provided by the barcode
+                        gameSearch(String(charArray), showExact, platformAPISelect)
                     }
-                    //set the barcode title to the top result's title
-                    barcodeTitle = results.products[0].title
-                    //call the gamSearch function to conduct a search with the title provided by the barcode
-                    gameSearch(String(charArray), showExact, platformAPISelect)
+                    else{
+                        //invalid barcode found, or barcode with no UPC code found
+                        invalidBarcode.toggle()
+                    }
                 }
             }
         }.resume()  //call our URLSession
