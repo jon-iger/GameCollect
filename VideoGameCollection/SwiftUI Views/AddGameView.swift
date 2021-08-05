@@ -349,10 +349,9 @@ struct AddGameView: View {
                 canLoad = true
             } else  {
                 print("Failed")
+                canLoad = false
             }
         }.resume()  //call our URLSession
-        print("Data not found. Error.")
-        canLoad = false
     }
 }
 
