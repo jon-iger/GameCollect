@@ -26,6 +26,7 @@
 		6BAF08D4269560AF00F11357 /* VideoGameCollection.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF08D2269560AF00F11357 /* VideoGameCollection.xcdatamodeld */; };
 		6BAF08DF269560AF00F11357 /* VideoGameCollectionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF08DE269560AF00F11357 /* VideoGameCollectionTests.swift */; };
 		6BAF08EA269560AF00F11357 /* VideoGameCollectionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BAF08E9269560AF00F11357 /* VideoGameCollectionUITests.swift */; };
+		6BBA6EC726BF0D98004A24A2 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BBA6EC626BF0D98004A24A2 /* CloudKit.framework */; };
 		6BDE401B269C381F00EF4012 /* GameDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDE401A269C381F00EF4012 /* GameDetailsView.swift */; };
 		6BED040D2698FB33001E38CD /* VideoGameCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED040C2698FB33001E38CD /* VideoGameCollection.swift */; };
 		6BED040F2698FF3F001E38CD /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BED040E2698FF3F001E38CD /* Game.swift */; };
@@ -78,6 +79,8 @@
 		6BAF08E5269560AF00F11357 /* VideoGameCollectionUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VideoGameCollectionUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BAF08E9269560AF00F11357 /* VideoGameCollectionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGameCollectionUITests.swift; sourceTree = "<group>"; };
 		6BAF08EB269560AF00F11357 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6BBA6EC426BF0D60004A24A2 /* VideoGameCollection.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VideoGameCollection.entitlements; sourceTree = "<group>"; };
+		6BBA6EC626BF0D98004A24A2 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		6BDE401A269C381F00EF4012 /* GameDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailsView.swift; sourceTree = "<group>"; };
 		6BED040C2698FB33001E38CD /* VideoGameCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoGameCollection.swift; sourceTree = "<group>"; };
 		6BED040E2698FF3F001E38CD /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
@@ -92,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BBA6EC726BF0D98004A24A2 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +164,7 @@
 				6BAF08DD269560AF00F11357 /* VideoGameCollectionTests */,
 				6BAF08E8269560AF00F11357 /* VideoGameCollectionUITests */,
 				6BAF08C5269560AC00F11357 /* Products */,
+				6BBA6EC526BF0D98004A24A2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -176,6 +181,7 @@
 		6BAF08C6269560AC00F11357 /* VideoGameCollection */ = {
 			isa = PBXGroup;
 			children = (
+				6BBA6EC426BF0D60004A24A2 /* VideoGameCollection.entitlements */,
 				6B9262E226ADE0AA005284D9 /* Extensions */,
 				6BA91BA026A4AB70002148E3 /* Data Models */,
 				6BA91B9F26A4AB3B002148E3 /* SwiftUI Views */,
@@ -212,6 +218,14 @@
 				6BAF08EB269560AF00F11357 /* Info.plist */,
 			);
 			path = VideoGameCollectionUITests;
+			sourceTree = "<group>";
+		};
+		6BBA6EC526BF0D98004A24A2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6BBA6EC626BF0D98004A24A2 /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -521,6 +535,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = VideoGameCollection/VideoGameCollection.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"VideoGameCollection/Preview Content\"";
@@ -545,6 +560,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = VideoGameCollection/VideoGameCollection.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"VideoGameCollection/Preview Content\"";

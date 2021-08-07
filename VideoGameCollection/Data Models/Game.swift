@@ -7,6 +7,8 @@
 
 //import the following resources...
 import Foundation
+import CloudKit
+import UIKit
 
 struct Game: Codable, Hashable{
     var title: String
@@ -41,6 +43,12 @@ struct GameResults: Codable{
         self.count = 0
         self.results = []
     }
+}
+
+class Game2: NSObject {
+    var title: String!
+    var id: Int!
+    var dateAdded: Date!
 }
 
 /**
