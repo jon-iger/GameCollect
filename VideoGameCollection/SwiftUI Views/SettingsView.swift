@@ -50,63 +50,6 @@ struct SettingsView: View {
                             }
                         })
                     }
-                    Button("CloudKit Testing Add"){
-                        let gameRecord = CKRecord(recordType: "Game")
-                        gameRecord["title"] = "GameTesting1" as CKRecordValue
-                        gameRecord["dateAdded"] = Date() as CKRecordValue
-                        gameRecord["id"] = 0 as CKRecordValue
-                        CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").publicCloudDatabase.save(gameRecord) { record, error in
-                            DispatchQueue.main.async {
-                                if let error = error {
-                                    print(error.localizedDescription)
-                                } else {
-                                    print("Success in the Cloud!")
-                                }
-                            }
-                        }
-                    }
-                    Button("CloudKit Testing Load"){
-                        let pred = NSPredicate(value: true)
-                        let query = CKQuery(recordType: "Game", predicate: pred)
-                        
-                        let operation = CKQueryOperation(query: query)
-                        operation.desiredKeys = ["title", "id", "dateAdded"]
-                        operation.resultsLimit = 50
-                        testArray = []
-                        operation.recordFetchedBlock = { record in
-                            let game = Game2()
-                            game.id = record["id"]
-                            game.title = record["title"]
-                            game.dateAdded = record["dateAdded"]
-                            testID = record.recordID
-                            testArray.append(game)
-                        }
-                        operation.queryCompletionBlock = {(cursor, error) in
-                            DispatchQueue.main.async {
-                                if error == nil {
-                                    print("Cloud load success!")
-                                } else {
-                                    print("Cloud load failed!")
-                                }
-                            }
-                        }
-                        CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").publicCloudDatabase.add(operation)
-                    }
-                    Button("Read out CloudKit"){
-                        for game in testArray{
-                            print(game.title!)
-                        }
-                    }
-                    Button("Delete out of CloudKit"){
-                        CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").publicCloudDatabase.delete(withRecordID: testID){(recordID, error) in
-                            if error == nil{
-                                print("Cloud delete success!")
-                            }
-                            else{
-                                print(error?.localizedDescription as Any)
-                            }
-                        }
-                    }
                     Section(header: Text("Settings")){
                         Button{
                             showDeleteAlert.toggle()
