@@ -8,23 +8,24 @@
 //import the following resources...
 import Foundation
 import CloudKit
-import UIKit
 
-struct Game: Codable, Hashable{
-    var title: String
-    var id: Int
-    var dateAdded: Date
-    var platforms: [Platform]
-    
-    init(title: String, id: Int, dateAdded: Date, platforms: [PlatformSearchResult]){
-        self.title = title
-        self.id = id
-        self.dateAdded = dateAdded
-        self.platforms = []
-        for platform in platforms{
-            print(platform.platform.name)
-            self.platforms.append(platform.platform)
+class Game: ObservableObject, Hashable{
+    static func == (lhs: Game, rhs: Game) -> Bool {
+        if lhs.gameId == rhs.gameId{
+            return true
         }
+        else{
+            return false
+        }
+    }
+    
+    var title: String!
+    var gameId: Int!
+    var recordID: CKRecord.ID!
+    var dateAdded: Date!
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(gameId)
     }
 }
 
@@ -45,7 +46,7 @@ struct GameResults: Codable{
     }
 }
 
-class Game2: NSObject {
+class Game2{
     var title: String!
     var id: Int!
     var dateAdded: Date!

@@ -34,8 +34,8 @@ struct CollectionView: View {
                 print("Setting")
                 self.searchText = $0
                 for game in gameObject.gameCollection{
-                    if game.title.contains(searchText) && !searchResults.contains(game.id){
-                        searchResults.append(game.id)
+                    if game.title.contains(searchText) && !searchResults.contains(game.gameId){
+                        searchResults.append(game.gameId)
                     }
                 }
                 if self.searchText.isEmpty{
@@ -48,7 +48,7 @@ struct CollectionView: View {
         NavigationView{
             if canLoad{
                 VStack{
-                    if !gameObject.isEmpty(){
+                    if gameObject.gameCollection.count != 0{
                         if !gridView{
                             List{
                                 if platformFilter{
@@ -65,7 +65,7 @@ struct CollectionView: View {
                                     }
                                     if !activeSearch{
                                         ForEach(Array(gameObject.gameCollection), id: \.self){ game in
-                                            GameCollectionRow(id: game.id)
+                                            GameCollectionRow(id: game.gameId)
                                         }
                                         .onDelete(perform: deleteGame)
                                     }
@@ -90,7 +90,7 @@ struct CollectionView: View {
                                 .padding(7)
                                 LazyVGrid(columns: columns){
                                     ForEach(Array(gameObject.gameCollection), id: \.self){ game in
-                                        GameCollectionGrid(id: game.id)
+                                        GameCollectionGrid(id: game.gameId)
                                     }
                                 }
                             }
@@ -157,7 +157,7 @@ struct CollectionView: View {
                                             Image(systemName: "ellipsis.circle")
                                         }
                 )
-                if gameObject.isEmpty() && UserDefaults.standard.integer(forKey: "lastViewedGame") == 0{
+                if gameObject.gameCollection.count == 0 && UserDefaults.standard.integer(forKey: "lastViewedGame") == 0{
                     Spacer()
                     Text("Welcome to Game Collect! Add some games to get started 🙂")
                         .padding()
@@ -184,31 +184,17 @@ struct CollectionView: View {
         .onAppear{
             //check the status of the API and whether it's online or not. If offline, display something else instead
             checkDatabaseStatus()
-            if canLoad{
-                for game in gameObject.gameCollection{
-                    print("Game found")
-                    for platform in game.platforms{
-                        print("Platform found")
-                        if platformDict[platform] == nil{
-                            platformDict[platform] = []
-                        }
-                        platformDict[platform]?.append(game.id)
-                    }
-                }
-            }
         }
     }
     func deleteGame(at offsets: IndexSet) {
         gameObject.gameCollection.remove(atOffsets: offsets)
-        VideoGameCollection.saveToFile(basicObject: gameObject)
+        //VideoGameCollection.saveToFile(basicObject: gameObject)
     }
     func sortByTitle(){
         gameObject.gameCollection.sort(by: {$0.title < $1.title})
-        VideoGameCollection.saveToFile(basicObject: gameObject)
     }
     func sortByDate(){
         gameObject.gameCollection.sort(by: {$0.dateAdded > $1.dateAdded})
-        VideoGameCollection.saveToFile(basicObject: gameObject)
     }
     /**
      Attempts to load sample data from the RAWG API. If this fails, the screen is stopped from rendering. Otherwise it can proceed

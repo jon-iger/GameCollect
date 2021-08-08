@@ -7,6 +7,7 @@
 
 //import the following frameworks...
 import SwiftUI
+import CloudKit
 
 /**
  View that contains the screen users will use to add new games to their collection
@@ -173,9 +174,14 @@ struct AddGameView: View {
                         //do nothing. Stall the code until it's finished loading
                     }
                     //add the new game to the array of game's the user already has
-                    gameObject.gameCollection.append(Game(title: barcodeTitle, id: barcodeID, dateAdded: Date(), platforms: barcodePlatforms))
+                    let newGame = Game()
+                    newGame.gameId = barcodeID
+                    newGame.recordID = CKRecord.ID(recordName: String(barcodeID))
+                    newGame.title = barcodeTitle
+                    newGame.dateAdded = Date()
+                    gameObject.gameCollection.append(newGame)
                     //save the new object to the user's file
-                    VideoGameCollection.saveToFile(basicObject: gameObject)
+                    VideoGameCollection.saveiCloudGame(newGame: newGame)
                 }), secondaryButton: Alert.Button.cancel())
             }
         }
