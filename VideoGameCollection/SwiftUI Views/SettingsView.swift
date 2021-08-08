@@ -126,7 +126,12 @@ struct SettingsView: View {
         .alert(isPresented: $showDeleteAlert){
             Alert(title: Text("Delete data?"), message: Text("All data will be lost"), primaryButton: Alert.Button.destructive(Text("Delete")){
                 //empty the array of games, and save the empty array to the save file
-                
+                var oldRecordIDs: [CKRecord.ID] = []
+                for game in gameObject.gameCollection{
+                    oldRecordIDs.append(game.recordID)
+                }
+                gameObject.gameCollection = []
+                VideoGameCollection.bulkDeleteiCloudGames(oldRecords: oldRecordIDs)
             }, secondaryButton: Alert.Button.cancel())
         }
     }

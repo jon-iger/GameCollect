@@ -49,7 +49,7 @@ class VideoGameCollection: ObservableObject{
     }
     
     static func saveiCloudGame(newGame: Game){
-        let gameRecord = CKRecord(recordType: "Game")
+        let gameRecord = CKRecord(recordType: "Game", recordID: newGame.recordID)
         gameRecord["title"] = newGame.title as CKRecordValue
         gameRecord["dateAdded"] = newGame.dateAdded as CKRecordValue
         gameRecord["id"] = newGame.gameId as CKRecordValue
@@ -70,9 +70,30 @@ class VideoGameCollection: ObservableObject{
                 print("Cloud delete success!")
             }
             else{
-                print(error?.localizedDescription as Any)
+                print(error?.localizedDescription ?? "Nil")
             }
         }
+    }
+    
+    static func bulkDeleteiCloudGames(oldRecords: [CKRecord.ID]){
+        let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: oldRecords)
+        operation.perRecordCompletionBlock = { record, error in
+            if error == nil{
+                print("One item deleted in the cloud!")
+            }
+            else{
+                print(error?.localizedDescription ?? "Hi1")
+            }
+        }
+        operation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordIDs, error in
+            if error == nil{
+                print("All items deleted in the cloud!")
+            }
+            else{
+                print(error?.localizedDescription ?? "Hi2")
+            }
+        }
+        CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").publicCloudDatabase.add(operation)
     }
     
     func isEmpty()->Bool{

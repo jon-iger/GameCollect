@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CloudKit
 
 /**
  View that displays the details of a game, and lets the user add/remove a game from their collection
@@ -122,6 +123,7 @@ struct GameDetailsView: View {
                                     newGame.gameId = id
                                     newGame.dateAdded = Date()
                                     newGame.title = name
+                                    newGame.recordID = CKRecord.ID(recordName: String(id))
                                     gameObject.gameCollection.append(newGame)
                                     VideoGameCollection.saveiCloudGame(newGame: newGame)
                                     partOfCollection = true
