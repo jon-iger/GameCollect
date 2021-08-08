@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct VideoGameCollectionApp: App {
-    let gameCollection: VideoGameCollection = VideoGameCollection.loadFromFile()
+    let gameCollection: VideoGameCollection = VideoGameCollection.loadiCloudGames()
     var body: some Scene {
         WindowGroup {
             ContentView()

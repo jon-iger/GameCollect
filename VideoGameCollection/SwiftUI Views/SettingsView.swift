@@ -126,8 +126,7 @@ struct SettingsView: View {
         .alert(isPresented: $showDeleteAlert){
             Alert(title: Text("Delete data?"), message: Text("All data will be lost"), primaryButton: Alert.Button.destructive(Text("Delete")){
                 //empty the array of games, and save the empty array to the save file
-                gameObject.gameCollection = []
-                VideoGameCollection.saveToFile(basicObject: gameObject)
+                
             }, secondaryButton: Alert.Button.cancel())
         }
     }
