@@ -103,9 +103,10 @@ struct GameDetailsView: View {
                                 Button("Remove from Collection"){
                                     var index = 0
                                     for game in gameObject.gameCollection{
-                                        if game.id == id{
+                                        if game.gameId == id{
+                                            let oldGame = gameObject.gameCollection[index]
                                             gameObject.gameCollection.remove(at: index)
-                                            VideoGameCollection.saveToFile(basicObject: gameObject)
+                                            VideoGameCollection.deleteiCloudGame(oldGame: oldGame)
                                             partOfCollection = false
                                             gameAlert = true
                                         }
@@ -117,8 +118,12 @@ struct GameDetailsView: View {
                             }
                             else{
                                 Button("Add to Collection"){
-                                    gameObject.gameCollection.append(Game(title: name, id: id, dateAdded: Date(), platforms: gamePlatforms))
-                                    VideoGameCollection.saveToFile(basicObject: gameObject)
+                                    let newGame = Game()
+                                    newGame.gameId = id
+                                    newGame.dateAdded = Date()
+                                    newGame.title = name
+                                    gameObject.gameCollection.append(newGame)
+                                    VideoGameCollection.saveiCloudGame(newGame: newGame)
                                     partOfCollection = true
                                     gameAlert = true
                                 }
@@ -313,7 +318,7 @@ struct GameDetailsView: View {
         //for each game in the collection, check if the current one matches the current game's id
         //if it's a match...set partOfCollection to true, false otherwise
         for game in gameObject.gameCollection{
-            if game.id == id{
+            if game.gameId == id{
                 partOfCollection = true
                 break
             }
