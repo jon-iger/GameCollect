@@ -7,6 +7,7 @@
 
 //import the following frameworks...
 import SwiftUI
+import CloudKit
 
 /**
  View that contains the screen users will use to add new games to their collection
@@ -175,6 +176,7 @@ struct AddGameView: View {
                     //add the new game to the array of game's the user already has
                     let newGame = Game()
                     newGame.gameId = barcodeID
+                    newGame.recordID = CKRecord.ID(recordName: String(barcodeID))
                     newGame.title = barcodeTitle
                     newGame.dateAdded = Date()
                     gameObject.gameCollection.append(newGame)
