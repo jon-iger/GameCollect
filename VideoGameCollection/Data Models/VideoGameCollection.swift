@@ -44,7 +44,7 @@ class VideoGameCollection: ObservableObject{
                 }
             }
         }
-        CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").publicCloudDatabase.add(operation)
+        CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").privateCloudDatabase.add(operation)
         return finalCollect
     }
     
@@ -53,7 +53,7 @@ class VideoGameCollection: ObservableObject{
         gameRecord["title"] = newGame.title as CKRecordValue
         gameRecord["dateAdded"] = newGame.dateAdded as CKRecordValue
         gameRecord["id"] = newGame.gameId as CKRecordValue
-        CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").publicCloudDatabase.save(gameRecord) { record, error in
+        CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").privateCloudDatabase.save(gameRecord) { record, error in
             DispatchQueue.main.async {
                 if let error = error {
                     print(error.localizedDescription)
@@ -65,7 +65,7 @@ class VideoGameCollection: ObservableObject{
     }
     
     static func deleteiCloudGame(oldGame: Game){
-        CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").publicCloudDatabase.delete(withRecordID: oldGame.recordID){(recordID, error) in
+        CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").privateCloudDatabase.delete(withRecordID: oldGame.recordID){(recordID, error) in
             if error == nil{
                 print("Cloud delete success!")
             }
