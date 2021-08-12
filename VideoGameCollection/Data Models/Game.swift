@@ -46,12 +46,6 @@ struct GameResults: Codable{
     }
 }
 
-class Game2{
-    var title: String!
-    var id: Int!
-    var dateAdded: Date!
-}
-
 /**
  GameSearch: struct to be used when actually reading game data results when searching for games through the AddGameView
  Reference the RAWG online API documentation for more information about parameters
