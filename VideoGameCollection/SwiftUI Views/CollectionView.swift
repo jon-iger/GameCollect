@@ -9,16 +9,16 @@ import SwiftUI
 
 struct CollectionView: View {
     @EnvironmentObject var gameObject: VideoGameCollection  //environment object used for storing the current user
-    @State var searchText = String()    //string used for holding the user's current search text
-    @State var activeSearch = false
-    @State var searchResults: [Int] = []
-    @State var gridView = false
-    @State var platformDict: [Platform:[Int]] = [:]
-    @State var platformFilter = false
-    @State var canLoad = true
-    @State var displayFailureAlert = false
-    @State var shouldAnimate = true
-    @State var confirmFailure = false
+    @State private var searchText = String()    //string used for holding the user's current search text
+    @State private var activeSearch = false
+    @State private var searchResults: [Int] = []
+    @State private var gridView = false
+    @State private var platformDict: [Platform:[Int]] = [:]
+    @State private var platformFilter = false
+    @State private var canLoad = true
+    @State private var displayFailureAlert = false
+    @State private var shouldAnimate = true
+    @State private var confirmFailure = false
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())

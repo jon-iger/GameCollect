@@ -9,10 +9,10 @@ import SwiftUI
 
 struct GameCollectionGrid: View {
     var id: Int
-    @State var name = String()
-    @State var gameImage = UIImage()
-    @State var fullyLoaded = false
-    @State var showAnimation = true
+    @State private var name = String()
+    @State private var gameImage = UIImage()
+    @State private var fullyLoaded = false
+    @State private var showAnimation = true
     var body: some View {
         NavigationLink(destination: GameDetailsView(id: self.id)){
             VStack{
