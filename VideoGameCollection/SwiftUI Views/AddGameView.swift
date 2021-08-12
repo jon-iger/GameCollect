@@ -14,24 +14,24 @@ import CloudKit
  */
 struct AddGameView: View {
     @EnvironmentObject var gameObject: VideoGameCollection      //the object in the SwiftUI environment that contains the user's current game collection
-    @State var searchText = String()    //string sent into API calls with the search bar
-    @State var displayText = String()   //string to be displayed to the user when typing in the search bar
-    @State var gameResults: GameResults = GameResults()     //empty GameResults object that will later on store search results when used with the API
-    @State var showExact: Bool = false      //boolean value to toggle "exact search" filter on or off
-    @State var platformSelection = "No selection"     //string holding the user's selection of console/platform filter
-    @State var platformAPISelect = String()     //string holding the final string of the user's platform selection. This string must first be modified to have spaces removed from it with "-" character in it's place instead
-    @State var showAnimation = false    //boolean for determining when the activity indicator should be animating or not
-    @State var platformDict = [:]       //empty dictionary that will hold the names and ids of the platforms supported in the API at that time
-    @State var platformNames: [String] = []     //empty string array that will hold all of the names of the platforms supported by the API. Data is loaded into the array upon appearance of this view
-    @State var showScanner = false  //boolean that controls whether or not the sheet containing the view controller for the scanner will appear
-    @State var scanner: ScannerViewController? = ScannerViewController()    //instance of the view controller being used in this SwiftUI view
-    @State var postCameraSuccessAlert = false   //boolean that controls the alert that will appear if a game is found
-    @State var barcodeTitle = String()     //string containing the game title scanned by the barcode reader
-    @State var barcodeID = 0    //int that contains the game ID of the game found by the barcode scanner
-    @State var barcodePlatforms: [PlatformSearchResult] = []    //array of PlatformSearchResult objects that contain the platforms the scanned game supports
-    @State var metacriticSort = true    //boolean that triggers whether or not the results returned should be sorted by their Metacritic scores
-    @State var canLoad = true
-    @State var invalidBarcode = false
+    @State private var searchText = String()    //string sent into API calls with the search bar
+    @State private var displayText = String()   //string to be displayed to the user when typing in the search bar
+    @State private var gameResults: GameResults = GameResults()     //empty GameResults object that will later on store search results when used with the API
+    @State private var showExact: Bool = false      //boolean value to toggle "exact search" filter on or off
+    @State private var platformSelection = "No selection"     //string holding the user's selection of console/platform filter
+    @State private var platformAPISelect = String()     //string holding the final string of the user's platform selection. This string must first be modified to have spaces removed from it with "-" character in it's place instead
+    @State private var showAnimation = false    //boolean for determining when the activity indicator should be animating or not
+    @State private var platformDict = [:]       //empty dictionary that will hold the names and ids of the platforms supported in the API at that time
+    @State private var platformNames: [String] = []     //empty string array that will hold all of the names of the platforms supported by the API. Data is loaded into the array upon appearance of this view
+    @State private var showScanner = false  //boolean that controls whether or not the sheet containing the view controller for the scanner will appear
+    @State private var scanner: ScannerViewController? = ScannerViewController()    //instance of the view controller being used in this SwiftUI view
+    @State private var postCameraSuccessAlert = false   //boolean that controls the alert that will appear if a game is found
+    @State private var barcodeTitle = String()     //string containing the game title scanned by the barcode reader
+    @State private var barcodeID = 0    //int that contains the game ID of the game found by the barcode scanner
+    @State private var barcodePlatforms: [PlatformSearchResult] = []    //array of PlatformSearchResult objects that contain the platforms the scanned game supports
+    @State private var metacriticSort = true    //boolean that triggers whether or not the results returned should be sorted by their Metacritic scores
+    @State private var canLoad = true
+    @State private var invalidBarcode = false
     
     //initial body
     var body: some View {

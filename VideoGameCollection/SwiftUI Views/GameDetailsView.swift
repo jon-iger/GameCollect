@@ -15,26 +15,26 @@ struct GameDetailsView: View {
     var id: Int     //id of the game to be viewed
     @EnvironmentObject var gameObject: VideoGameCollection      //the object in the SwiftUI environment that contains the user's current game collection
     @Environment(\.horizontalSizeClass) var sizeClass
-    @State var name: String = String()      //the name of the game
-    @State var description: String = String()   //the description of the game
-    @State var releaseDate: String = String()   //the release date of the game in the form of a string
-    @State var imageURL = String()      //the url of the main background image
-    @State var rating = "Rating Pending"    //the ESRB rating of the game with a default value of "Rating Pending" if the game is not rated
-    @State var metacriticRating = 0     //the metacritic rating of the game with a default value of 0
-    @State var gameImage: UIImage = UIImage()   //the UIImage of the game's main background image
-    @State var fullyLoaded = false      //boolean value determining if the game's data is fully loaded or not
-    @State var showAnimation = true     //boolean value determining if the activity indicator animation should be shown or not
-    @State var partOfCollection = false  //boolean value determining if the current game being displayed is apart of the user's collection or not
-    @State var gameAlert = false        //boolean value determining if the alert showing that the user's collection was modified should be on or off
-    @State var screenCollection = GameScreenshot()  //instance of the object that will contain the screenshots for the game once the data is loaded
-    @State var screenshots: [String:UIImage] = [:]  //array of screenshots that will be displayed. The string key is the url of the screenshot, the UIImage is the image returned from the search with that URL
-    @State var gamePlatforms: [PlatformSearchResult] = []   //array of Platforms that the game supports
-    @State var fullScreenImage: UIImage = UIImage()
-    @State var showImageFullScreen = false
-    @State var lastScaleValue: CGFloat = 1.0
-    @State var offset = CGSize.zero
-    @State var isDragging = false
-    @State var showTip = false
+    @State private var name: String = String()      //the name of the game
+    @State private var description: String = String()   //the description of the game
+    @State private var releaseDate: String = String()   //the release date of the game in the form of a string
+    @State private var imageURL = String()      //the url of the main background image
+    @State private var rating = "Rating Pending"    //the ESRB rating of the game with a default value of "Rating Pending" if the game is not rated
+    @State private var metacriticRating = 0     //the metacritic rating of the game with a default value of 0
+    @State private var gameImage: UIImage = UIImage()   //the UIImage of the game's main background image
+    @State private var fullyLoaded = false      //boolean value determining if the game's data is fully loaded or not
+    @State private var showAnimation = true     //boolean value determining if the activity indicator animation should be shown or not
+    @State private var partOfCollection = false  //boolean value determining if the current game being displayed is apart of the user's collection or not
+    @State private var gameAlert = false        //boolean value determining if the alert showing that the user's collection was modified should be on or off
+    @State private var screenCollection = GameScreenshot()  //instance of the object that will contain the screenshots for the game once the data is loaded
+    @State private var screenshots: [String:UIImage] = [:]  //array of screenshots that will be displayed. The string key is the url of the screenshot, the UIImage is the image returned from the search with that URL
+    @State private var gamePlatforms: [PlatformSearchResult] = []   //array of Platforms that the game supports
+    @State private var fullScreenImage: UIImage = UIImage()
+    @State private var showImageFullScreen = false
+    @State private var lastScaleValue: CGFloat = 1.0
+    @State private var offset = CGSize.zero
+    @State private var isDragging = false
+    @State private var showTip = false
     
     //main SwiftUI body
     var body: some View {
