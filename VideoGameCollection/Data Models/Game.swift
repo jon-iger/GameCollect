@@ -90,3 +90,15 @@ struct GameScreenshot: Codable{
         var height: Int
     }
 }
+
+struct GameDetailsStoreResults: Codable{
+    var count: Int
+    var results: [GameStore]
+    
+    struct GameStore: Codable{
+        var id: Int
+        var game_id: String
+        var store_id: String
+        var url: String
+    }
+}
