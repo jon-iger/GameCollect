@@ -35,6 +35,7 @@ struct GameDetailsView: View {
     @State private var offset = CGSize.zero
     @State private var isDragging = false
     @State private var showTip = false
+    @State private var storeLinks: [URL:UIImage] = [:]
     
     //main SwiftUI body
     var body: some View {
@@ -218,6 +219,7 @@ struct GameDetailsView: View {
             loadGameDetails()
             loadGameStatus()
             loadGameScreenshots()
+            loadStores()
             //update the UserDefault "lastViewedGame" key. This is intended to hold the last game the user viewed in the app
             UserDefaults.standard.setValue(id, forKey: "lastViewedGame")
         }
@@ -307,6 +309,64 @@ struct GameDetailsView: View {
                     }
                     //set our screenCollection state to equal whatever our data was
                     screenCollection = data
+                    return
+                }
+            }
+        }.resume()  //call our URLSession
+    }
+    
+    /**
+     Function that loads all of the game's possible retailers into the view
+     */
+    func loadStores() {
+        //create the basic URL
+        let urlString = "https://api.rawg.io/api/games/\(String(id))/stores?key=\(rawgAPIKey)"
+        guard let url = URL(string: urlString) else {
+            print("Bad URL: \(urlString)")
+            return
+        }
+        print("Starting decoding...")
+        //start our URLSession to get data
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                let str = String(decoding: data, as: UTF8.self)
+                print(str)
+                if let data = try? JSONDecoder().decode(GameDetailsStoreResults.self, from: data){
+                    for store in data.results{
+                        //assuming here that the API provided store ID will always be an integer
+                        loadStoreInfo(storeID: Int(store.store_id)!, gameStoreURL: URL(string: store.url)!)
+                    }
+                    return
+                }
+            }
+        }.resume()  //call our URLSession
+    }
+    
+    /**
+     Function that loads all of the game's possible retailers into the view
+     */
+    func loadStoreInfo(storeID: Int, gameStoreURL: URL) {
+        //create the basic URL
+        let urlString = "https://api.rawg.io/api/stores/\(String(storeID))?key=\(rawgAPIKey)"
+        guard let url = URL(string: urlString) else {
+            print("Bad URL: \(urlString)")
+            return
+        }
+        print("Starting decoding...")
+        //start our URLSession to get data
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                let str = String(decoding: data, as: UTF8.self)
+                print(str)
+                if let data = try? JSONDecoder().decode(Store.self, from: data){
+                    //get our main background image for the store using the URL provided in the data
+                    let imageUrl = URL(string: data.image_background)
+                    //force unwrapping is used here...assuming that the API will always provide an image url that is valid
+                    let imageData = try? Data(contentsOf: imageUrl!)
+                    if let imageDataVerified = imageData {
+                        let image = UIImage(data: imageDataVerified)
+                        storeLinks[gameStoreURL] = image
+                    }
                     return
                 }
             }
