@@ -97,8 +97,8 @@ struct GameDetailsStoreResults: Codable{
     
     struct GameStore: Codable{
         var id: Int
-        var game_id: String
-        var store_id: String
+        var game_id: Int
+        var store_id: Int
         var url: String
     }
 }
