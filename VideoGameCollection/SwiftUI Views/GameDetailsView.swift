@@ -72,7 +72,13 @@ struct GameDetailsView: View {
                         Spacer()
                     }
                     ForEach(Array(storeLinks.keys), id: \.self){ storeLink in
-                        Text("Hi")
+                        Link(destination: storeLink){
+                            Image(uiImage: storeLinks[storeLink]!)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 75)
+                                .padding()
+                        }
                     }
                     Text("Screenshots")
                         .font(.title2)
@@ -204,7 +210,6 @@ struct GameDetailsView: View {
                 let str = String(decoding: data, as: UTF8.self)
                 print(str)
                 if let data = try? JSONDecoder().decode(GameDetailsStoreResults.self, from: data){
-                    print("HERE WE GO")
                     for store in data.results{
                         //assuming here that the API provided store ID will always be an integer
                         loadStoreInfo(storeID: store.store_id, gameStoreURL: URL(string: store.url)!)
