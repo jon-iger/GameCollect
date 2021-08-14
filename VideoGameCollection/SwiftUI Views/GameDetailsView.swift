@@ -67,12 +67,12 @@ struct GameDetailsView: View {
                     Text("Platforms")
                         .font(.title2)
                         .padding()
-                    ForEach(Array(storeLinks.keys), id: \.self){ storeLink in
-                        Text("Hi")
-                    }
                     ForEach(gamePlatforms, id: \.self){ platform in
                         Text(platform.platform.name)
                         Spacer()
+                    }
+                    ForEach(Array(storeLinks.keys), id: \.self){ storeLink in
+                        Text("Hi")
                     }
                     Text("Screenshots")
                         .font(.title2)
@@ -197,17 +197,19 @@ struct GameDetailsView: View {
             print("Bad URL: \(urlString)")
             return
         }
-        print("Starting decoding...")
+        print("Starting decoding...in load stores")
         //start our URLSession to get data
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
                 let str = String(decoding: data, as: UTF8.self)
                 print(str)
                 if let data = try? JSONDecoder().decode(GameDetailsStoreResults.self, from: data){
+                    print("HERE WE GO")
                     for store in data.results{
                         //assuming here that the API provided store ID will always be an integer
-                        loadStoreInfo(storeID: Int(store.store_id)!, gameStoreURL: URL(string: store.url)!)
+                        loadStoreInfo(storeID: store.store_id, gameStoreURL: URL(string: store.url)!)
                     }
+                    print("Decoding complete")
                     return
                 }
             }
@@ -239,6 +241,7 @@ struct GameDetailsView: View {
                         let image = UIImage(data: imageDataVerified)
                         storeLinks[gameStoreURL] = image
                     }
+                    print("Decoded a store")
                     return
                 }
             }
