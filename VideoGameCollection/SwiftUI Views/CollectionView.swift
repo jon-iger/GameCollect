@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct CollectionView: View {
     @EnvironmentObject var gameObject: VideoGameCollection  //environment object used for storing the current user
@@ -184,6 +185,7 @@ struct CollectionView: View {
         .onAppear{
             //check the status of the API and whether it's online or not. If offline, display something else instead
             checkDatabaseStatus()
+            bingTest()
         }
     }
     func deleteGame(at offsets: IndexSet) {
@@ -218,6 +220,35 @@ struct CollectionView: View {
                 print("Everyone is fine, file downloaded successfully.")
                 canLoad = true
                 shouldAnimate = false
+            } else  {
+                print("Failed")
+            }
+        }.resume()  //call our URLSession
+    }
+    
+    func bingTest(){
+        //create the basic URL
+        let urlString = "https://api.bing.microsoft.com/v7.0/images/search?q=mt+rainier"
+        guard let url = URL(string: urlString) else {
+            print("Bad URL: \(urlString)")
+            canLoad = false
+            shouldAnimate = false
+            return
+        }
+        print("Starting decoding...in the bing function")
+        var urlRequest = URLRequest(url: url)
+        urlRequest.addValue(bingSearchAPIKey, forHTTPHeaderField: "Ocp-Apim-Subscription-Key")
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
+        //start our URLSession to get data
+        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            let httpResponse = response as! HTTPURLResponse
+            let statusCode = httpResponse.statusCode
+            if (statusCode == 200) {
+                if let data = data{
+                    let str = String(decoding: data, as: UTF8.self)
+                    print(str)
+                }
+                print("Everyone is fine in the bing function, file downloaded successfully.")
             } else  {
                 print("Failed")
             }
