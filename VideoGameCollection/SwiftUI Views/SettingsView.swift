@@ -62,7 +62,7 @@ struct SettingsView: View {
                     }
                 }
             }
-            .navigationBarTitle("Settings")
+            .navigationTitle("Settings")
             MainHelpView()
         }
         .alert(isPresented: $showDeleteAlert){

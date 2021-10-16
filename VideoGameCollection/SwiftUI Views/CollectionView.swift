@@ -110,7 +110,7 @@ struct CollectionView: View {
                     }
                     
                 }
-                .navigationBarTitle("Game Collection")
+                .navigationTitle("Game Collection")
                 .navigationBarItems(leading: EditButton(), trailing:
                                         Menu{
                                             Section{

@@ -44,7 +44,7 @@ struct MainHelpView: View {
                 }
             }
         }
-        .navigationBarTitle("Help")
+        .navigationTitle("Help")
     }
 }
 
