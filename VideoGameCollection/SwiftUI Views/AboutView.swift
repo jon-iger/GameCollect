@@ -20,7 +20,7 @@ struct AboutView: View {
             Text("Game Collect is created by Jonathon Lannon with the intent that this app be distributed exclusively on Apple platforms. All rights reserved.")
                 .padding()
         }
-        .navigationBarTitle("About")
+        .navigationTitle("About")
     }
 }
 

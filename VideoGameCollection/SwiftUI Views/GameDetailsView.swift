@@ -86,7 +86,7 @@ struct GameDetailsView: View {
                     ImageGallery(screenCollection: self.screenCollection, screenshots: self.screenshots)
                 }
             }
-            .navigationBarTitle(name)
+            .navigationTitle(name)
         }
         //display the loading indicator if the data is not fully loaded yet
         else{

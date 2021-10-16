@@ -131,7 +131,7 @@ struct AddGameView: View {
                     }
                 }
             }
-            .navigationBarTitle("Add Game")
+            .navigationTitle("Add Game")
             .navigationBarItems(trailing: Button{
                 if canLoad{
                     showScanner.toggle()
