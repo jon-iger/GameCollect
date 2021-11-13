@@ -51,24 +51,25 @@ struct ContentView: View {
                 print("iCloud account status code \(status.rawValue)")
                 let accountStatusCode = status.rawValue
                 switch accountStatusCode {
-                case 0:
-                    iCloudStatusMessage = "Could not determine status. Completion handler executed properly, but Apple could not determine the status."
-                    print("iCloud Account Status = 0")
-                case 1:
-                    print("iCloud Account Status = 1")
-                case 2:
-                    iCloudStatusMessage = "System restrictions have denied the user the ability to access iCloud on this device. Go to Settings to resolve the issue."
-                    print("iCloud Account Status = 2")
-                case 3:
-                    iCloudStatusMessage = "No iCloud account is signed into on this device. Go to Settings to resolve this issue."
-                    print("iCloud Account Status = 3")
-                case 4:
-                    iCloudStatusMessage = "iCloud is not available at this time. Could not load data. Try again later."
-                    print("iCloud Account Status = 4")
-                default:
-                    iCloudStatusMessage = "Unknown error. Contact the developer for more support."
-                    print("iCloud Account Status could not be determined")
+                    case 0:
+                        iCloudStatusMessage = "Could not determine status. Completion handler executed properly, but Apple could not determine the status."
+                        print("iCloud Account Status = 0")
+                    case 1:
+                        print("iCloud Account Status = 1")
+                    case 2:
+                        iCloudStatusMessage = "System restrictions have denied the user the ability to access iCloud on this device. Go to Settings to resolve the issue."
+                        print("iCloud Account Status = 2")
+                    case 3:
+                        iCloudStatusMessage = "No iCloud account is signed into on this device. Go to Settings to resolve this issue."
+                        print("iCloud Account Status = 3")
+                    case 4:
+                        iCloudStatusMessage = "iCloud is not available at this time. Could not load data. Try again later."
+                        print("iCloud Account Status = 4")
+                    default:
+                        iCloudStatusMessage = "Unknown error. Contact the developer for more support."
+                        print("iCloud Account Status could not be determined")
                 }
+                iCloudStatus = accountStatusCode
                 if accountStatusCode != 1{
                     iCloudStatusAlert.toggle()
                 }

@@ -9,6 +9,7 @@ import Foundation
 import CloudKit
 
 let container: CKContainer = CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection")
+var iCloudStatus: Int = -1
 
 class VideoGameCollection: ObservableObject{
     @Published var gameCollection: [Game]
