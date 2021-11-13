@@ -8,6 +8,8 @@
 import Foundation
 import CloudKit
 
+let container: CKContainer = CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection")
+
 class VideoGameCollection: ObservableObject{
     @Published var gameCollection: [Game]
     
@@ -41,10 +43,11 @@ class VideoGameCollection: ObservableObject{
                     finalCollect.gameCollection = finalCollection
                 } else {
                     print("Cloud load failed!")
+                    print("Heres the error! \(String(describing: error))")
                 }
             }
         }
-        CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").privateCloudDatabase.add(operation)
+        container.privateCloudDatabase.add(operation)
         return finalCollect
     }
     
