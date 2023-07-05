@@ -21,7 +21,7 @@ struct AddGameView: View {
     @State private var platformSelection = "No selection"     //string holding the user's selection of console/platform filter
     @State private var platformAPISelect = String()     //string holding the final string of the user's platform selection. This string must first be modified to have spaces removed from it with "-" character in it's place instead
     @State private var showAnimation = false    //boolean for determining when the activity indicator should be animating or not
-    @State private var platformDict = [:]       //empty dictionary that will hold the names and ids of the platforms supported in the API at that time
+    @State private var platformDict: [String:Int] = [:]       //empty dictionary that will hold the names and ids of the platforms supported in the API at that time
     @State private var platformNames: [String] = []     //empty string array that will hold all of the names of the platforms supported by the API. Data is loaded into the array upon appearance of this view
     @State private var showScanner = false  //boolean that controls whether or not the sheet containing the view controller for the scanner will appear
     @State private var scanner: ScannerViewController? = ScannerViewController()    //instance of the view controller being used in this SwiftUI view
