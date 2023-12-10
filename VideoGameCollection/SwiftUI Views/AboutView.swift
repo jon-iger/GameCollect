@@ -2,7 +2,7 @@
 //  AboutView.swift
 //  VideoGameCollection
 //
-//  Created by Jonathon Lannon on 7/28/21.
+//  Created by Jon Iger on 7/28/21.
 //
 
 import SwiftUI
@@ -17,7 +17,7 @@ struct AboutView: View {
                 .padding()
             Text("Barcode scanning capabilities provided by Barcode Lookup.")
                 .padding()
-            Text("Game Collect is created by Jonathon Lannon with the intent that this app be distributed exclusively on Apple platforms. All rights reserved.")
+            Text("Game Collect is created by Jon Iger with the intent that this app be distributed exclusively on Apple platforms. All rights reserved.")
                 .padding()
         }
         .navigationTitle("About")
