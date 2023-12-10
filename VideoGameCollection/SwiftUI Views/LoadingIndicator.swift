@@ -2,7 +2,7 @@
 //  LoadingIndicator.swift
 //  VideoGameCollection
 //
-//  Created by Jonathon Lannon on 7/18/21.
+//  Created by Jon Iger on 7/18/21.
 //
 
 import UIKit

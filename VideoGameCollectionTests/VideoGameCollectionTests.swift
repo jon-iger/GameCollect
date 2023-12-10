@@ -2,7 +2,7 @@
 //  VideoGameCollectionTests.swift
 //  VideoGameCollectionTests
 //
-//  Created by Jonathon Lannon on 7/7/21.
+//  Created by Jon Iger on 7/7/21.
 //
 
 import XCTest

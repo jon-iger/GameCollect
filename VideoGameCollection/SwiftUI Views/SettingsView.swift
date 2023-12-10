@@ -2,7 +2,7 @@
 //  SettingsView.swift
 //  VideoGameCollection
 //
-//  Created by Jonathon Lannon on 7/24/21.
+//  Created by Jon Iger on 7/24/21.
 //
 
 import SwiftUI

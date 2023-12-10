@@ -2,7 +2,7 @@
 //  Game.swift
 //  VideoGameCollection
 //
-//  Created by Jonathon Lannon on 7/9/21.
+//  Created by Jon Iger on 7/9/21.
 //
 
 //import the following resources...

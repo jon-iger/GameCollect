@@ -2,7 +2,7 @@
 //  GameCollectionRow.swift
 //  VideoGameCollection
 //
-//  Created by Jonathon Lannon on 7/19/21.
+//  Created by Jon Iger on 7/19/21.
 //
 
 import SwiftUI

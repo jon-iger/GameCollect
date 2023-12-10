@@ -2,7 +2,7 @@
 //  Scanner.swift
 //  VideoGameCollection
 //
-//  Created by Jonathon Lannon on 7/25/21.
+//  Created by Jon Iger on 7/25/21.
 //
 
 import AVFoundation

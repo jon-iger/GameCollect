@@ -2,7 +2,7 @@
 //  CollectionButton.swift
 //  VideoGameCollection
 //
-//  Created by Jonathon Lannon on 8/13/21.
+//  Created by Jon Iger on 8/13/21.
 //
 
 import SwiftUI

@@ -2,7 +2,7 @@
 //  MainHelpView.swift
 //  VideoGameCollection
 //
-//  Created by Jonathon Lannon on 7/28/21.
+//  Created by Jon Iger on 7/28/21.
 //
 
 import SwiftUI
@@ -35,7 +35,7 @@ struct MainHelpView: View {
                         .padding()
                 }
                 Section(header: Text("Who built this app?")){
-                    Text("The main creator of this app is Jonathon Lannon. A recent Grove City College graduate with a Bachelor’s of Science in Computer Information Systems, Jonathon saw that his passion for iOS mobile development and love of collecting games could combine together to create this app.")
+                    Text("The main creator of this app is Jon Iger. A recent Grove City College graduate with a Bachelor’s of Science in Computer Information Systems, Jonathon saw that his passion for iOS mobile development and love of collecting games could combine together to create this app.")
                         .padding()
                 }
                 Section(header: Text("How can I report feedback to the development team?")){
