@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6BAF08C3269560AC00F11357"
-               BuildableName = "VideoGameCollection.app"
-               BlueprintName = "VideoGameCollection"
-               ReferencedContainer = "container:VideoGameCollection.xcodeproj">
+               BuildableName = "Game Collect.app"
+               BlueprintName = "Game Collect"
+               ReferencedContainer = "container:Game Collect.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6BAF08D9269560AF00F11357"
-               BuildableName = "VideoGameCollectionTests.xctest"
-               BlueprintName = "VideoGameCollectionTests"
-               ReferencedContainer = "container:VideoGameCollection.xcodeproj">
+               BuildableName = "Game CollectTests.xctest"
+               BlueprintName = "Game CollectTests"
+               ReferencedContainer = "container:Game Collect.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6BAF08E4269560AF00F11357"
-               BuildableName = "VideoGameCollectionUITests.xctest"
-               BlueprintName = "VideoGameCollectionUITests"
-               ReferencedContainer = "container:VideoGameCollection.xcodeproj">
+               BuildableName = "Game CollectUITests.xctest"
+               BlueprintName = "Game CollectUITests"
+               ReferencedContainer = "container:Game Collect.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -65,9 +65,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6BAF08C3269560AC00F11357"
-            BuildableName = "VideoGameCollection.app"
-            BlueprintName = "VideoGameCollection"
-            ReferencedContainer = "container:VideoGameCollection.xcodeproj">
+            BuildableName = "Game Collect.app"
+            BlueprintName = "Game Collect"
+            ReferencedContainer = "container:Game Collect.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -82,9 +82,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6BAF08C3269560AC00F11357"
-            BuildableName = "VideoGameCollection.app"
-            BlueprintName = "VideoGameCollection"
-            ReferencedContainer = "container:VideoGameCollection.xcodeproj">
+            BuildableName = "Game Collect.app"
+            BlueprintName = "Game Collect"
+            ReferencedContainer = "container:Game Collect.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
