@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -36,6 +36,8 @@
 		6BF85A4C26A57BB100F679AF /* GameCollectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF85A4B26A57BB100F679AF /* GameCollectionRow.swift */; };
 		6BF8CA4326AFCD1D00D3F868 /* Barcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF8CA4226AFCD1D00D3F868 /* Barcode.swift */; };
 		6BFA52DC269A471B00302FBE /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BFA52DB269A471B00302FBE /* Platform.swift */; };
+		D4B8C4452C14A4B500FB9CD7 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4B8C4442C14A4B500FB9CD7 /* Launch Screen.storyboard */; };
+		D4B8C4482C14A72500FB9CD7 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B8C4472C14A72500FB9CD7 /* ContentViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +94,8 @@
 		6BF85A4B26A57BB100F679AF /* GameCollectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCollectionRow.swift; sourceTree = "<group>"; };
 		6BF8CA4226AFCD1D00D3F868 /* Barcode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Barcode.swift; sourceTree = "<group>"; };
 		6BFA52DB269A471B00302FBE /* Platform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Platform.swift; sourceTree = "<group>"; };
+		D4B8C4442C14A4B500FB9CD7 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		D4B8C4472C14A72500FB9CD7 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +199,7 @@
 		6BAF08C6269560AC00F11357 /* VideoGameCollection */ = {
 			isa = PBXGroup;
 			children = (
+				D4B8C4462C14A70E00FB9CD7 /* View Models */,
 				6BBA6EC426BF0D60004A24A2 /* VideoGameCollection.entitlements */,
 				6B9262E226ADE0AA005284D9 /* Extensions */,
 				6BA91BA026A4AB70002148E3 /* Data Models */,
@@ -204,6 +209,7 @@
 				6BAF08CB269560AF00F11357 /* Assets.xcassets */,
 				6BAF08D5269560AF00F11357 /* Info.plist */,
 				6BAF08CD269560AF00F11357 /* Preview Content */,
+				D4B8C4442C14A4B500FB9CD7 /* Launch Screen.storyboard */,
 			);
 			path = VideoGameCollection;
 			sourceTree = "<group>";
@@ -240,6 +246,14 @@
 				6BBA6EC626BF0D98004A24A2 /* CloudKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D4B8C4462C14A70E00FB9CD7 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				D4B8C4472C14A72500FB9CD7 /* ContentViewModel.swift */,
+			);
+			path = "View Models";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -304,8 +318,9 @@
 		6BAF08BC269560AC00F11357 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1250;
-				LastUpgradeCheck = 1250;
+				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					6BAF08C3269560AC00F11357 = {
 						CreatedOnToolsVersion = 12.5.1;
@@ -345,6 +360,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4B8C4452C14A4B500FB9CD7 /* Launch Screen.storyboard in Resources */,
 				6BAF08CF269560AF00F11357 /* Preview Assets.xcassets in Resources */,
 				6BAF08CC269560AF00F11357 /* Assets.xcassets in Resources */,
 			);
@@ -380,6 +396,7 @@
 				6B0F8C0126B1FD9F00FF0B4E /* AboutView.swift in Sources */,
 				6BF4415926C7633A0099979C /* ImageViewer.swift in Sources */,
 				6BDE401B269C381F00EF4012 /* GameDetailsView.swift in Sources */,
+				D4B8C4482C14A72500FB9CD7 /* ContentViewModel.swift in Sources */,
 				6BED040F2698FF3F001E38CD /* Game.swift in Sources */,
 				6B0F8BFF26B1FCD600FF0B4E /* MainHelpView.swift in Sources */,
 				6BF85A4C26A57BB100F679AF /* GameCollectionRow.swift in Sources */,
@@ -434,6 +451,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -467,6 +485,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -495,6 +514,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -528,6 +548,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
