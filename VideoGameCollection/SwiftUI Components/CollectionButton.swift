@@ -9,7 +9,7 @@ import SwiftUI
 import CloudKit
 
 struct CollectionButton: View {
-    @EnvironmentObject var gameObject: VideoGameCollection
+    @EnvironmentObject var gameObject: GameCollectionViewModel
     @State var partOfCollection: Bool
     @State var gameAlert: Bool = false
     let id: Int
@@ -22,7 +22,7 @@ struct CollectionButton: View {
                     if game.gameId == id{
                         let oldGame = gameObject.gameCollection[index]
                         gameObject.gameCollection.remove(at: index)
-                        VideoGameCollection.deleteiCloudGame(oldGame: oldGame)
+                        GameCollectionViewModel.deleteiCloudGame(oldGame: oldGame)
                         partOfCollection = false
                         gameAlert = true
                     }
@@ -36,7 +36,7 @@ struct CollectionButton: View {
                 newGame.title = name
                 newGame.recordID = CKRecord.ID(recordName: String(id))
                 gameObject.gameCollection.append(newGame)
-                VideoGameCollection.saveiCloudGame(newGame: newGame)
+                GameCollectionViewModel.saveiCloudGame(newGame: newGame)
                 partOfCollection = true
                 gameAlert = true
             }

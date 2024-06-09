@@ -13,7 +13,7 @@ import CloudKit
  View that contains the screen users will use to add new games to their collection
  */
 struct AddGameView: View {
-    @EnvironmentObject var gameObject: VideoGameCollection      //the object in the SwiftUI environment that contains the user's current game collection
+    @EnvironmentObject var gameObject: GameCollectionViewModel      //the object in the SwiftUI environment that contains the user's current game collection
     @State private var searchText = String()    //string sent into API calls with the search bar
     @State private var displayText = String()   //string to be displayed to the user when typing in the search bar
     @State private var gameResults: GameResults = GameResults()     //empty GameResults object that will later on store search results when used with the API
@@ -181,7 +181,7 @@ struct AddGameView: View {
                     newGame.dateAdded = Date()
                     gameObject.gameCollection.append(newGame)
                     //save the new object to the user's file
-                    VideoGameCollection.saveiCloudGame(newGame: newGame)
+                    GameCollectionViewModel.saveiCloudGame(newGame: newGame)
                 }), secondaryButton: Alert.Button.cancel())
             }
         }

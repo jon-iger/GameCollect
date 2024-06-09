@@ -12,7 +12,7 @@ import CloudKit
  View that displays the settings for the app, and provides navigation links for other parts such as About and Help
  */
 struct SettingsView: View {
-    @EnvironmentObject var gameObject: VideoGameCollection  //object containing the list of games currently in the user's collection
+    @EnvironmentObject var gameObject: GameCollectionViewModel  //object containing the list of games currently in the user's collection
     @State private var showDeleteAlert = false  //binding boolean value that triggers the on screen alert if tapped by the user to delete their data
     
     //main SwiftUI body
@@ -86,7 +86,7 @@ struct SettingsView: View {
                     oldRecordIDs.append(game.recordID)
                 }
                 gameObject.gameCollection = []
-                VideoGameCollection.bulkDeleteiCloudGames(oldRecords: oldRecordIDs)
+                GameCollectionViewModel.bulkDeleteiCloudGames(oldRecords: oldRecordIDs)
             }, secondaryButton: Alert.Button.cancel())
         }
         .onAppear{

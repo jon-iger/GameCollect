@@ -11,15 +11,15 @@ import CloudKit
 let container: CKContainer = CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection")
 var iCloudStatus: Int = -1
 
-class VideoGameCollection: ObservableObject{
+class GameCollectionViewModel: ObservableObject{
     @Published var gameCollection: [Game]
     
     init(){
         self.gameCollection = []
     }
     
-    static func loadiCloudGames()->VideoGameCollection{
-        let finalCollect: VideoGameCollection = VideoGameCollection()
+    static func loadiCloudGames()->GameCollectionViewModel{
+        let finalCollect: GameCollectionViewModel = GameCollectionViewModel()
         let pred = NSPredicate(value: true)
         let query = CKQuery(recordType: "Game", predicate: pred)
         
