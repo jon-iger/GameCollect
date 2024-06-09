@@ -28,21 +28,28 @@ class VideoGameCollection: ObservableObject{
         
         var finalCollection: [Game] = []
         
-        operation.recordFetchedBlock = { record in
-            let game = Game()
-            game.title = record["title"]
-            game.gameId = record["id"]
-            game.recordID = record.recordID
-            game.dateAdded = record["dateAdded"]
-            finalCollection.append(game)
+        operation.recordMatchedBlock = { id, result in
+            switch result {
+            case .success(let newRecord):
+                var record = newRecord
+                let game = Game()
+                game.title = record["title"]
+                game.gameId = record["id"]
+                game.recordID = record.recordID
+                game.dateAdded = record["dateAdded"]
+                finalCollection.append(game)
+            case .failure(let error):
+                print("\(String(describing: error))")
+            }
         }
         
-        operation.queryCompletionBlock = {(cursor, error) in
+        operation.queryResultBlock = { result in
             DispatchQueue.main.async {
-                if error == nil {
+                switch result {
+                case .success:
                     print("Cloud load success!")
                     finalCollect.gameCollection = finalCollection
-                } else {
+                case .failure(let error):
                     print("Cloud load failed!")
                     print("Heres the error! \(String(describing: error))")
                 }
