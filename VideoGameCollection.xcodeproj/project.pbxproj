@@ -44,6 +44,7 @@
 		D4DADBB72C15FABD008E6E29 /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DADBB62C15FABD008E6E29 /* Bool.swift */; };
 		D4DADBB92C15FE10008E6E29 /* GameCollectionGridViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DADBB82C15FE10008E6E29 /* GameCollectionGridViewModel.swift */; };
 		D4DADBBB2C160248008E6E29 /* CollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DADBBA2C160248008E6E29 /* CollectionViewModel.swift */; };
+		D4DADBBD2C16070D008E6E29 /* GameDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DADBBC2C16070D008E6E29 /* GameDetailsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +109,7 @@
 		D4DADBB62C15FABD008E6E29 /* Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bool.swift; sourceTree = "<group>"; };
 		D4DADBB82C15FE10008E6E29 /* GameCollectionGridViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCollectionGridViewModel.swift; sourceTree = "<group>"; };
 		D4DADBBA2C160248008E6E29 /* CollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewModel.swift; sourceTree = "<group>"; };
+		D4DADBBC2C16070D008E6E29 /* GameDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -270,6 +272,7 @@
 				D4DADBB42C15F77A008E6E29 /* GameCollectionRowViewModel.swift */,
 				D4DADBB82C15FE10008E6E29 /* GameCollectionGridViewModel.swift */,
 				D4DADBBA2C160248008E6E29 /* CollectionViewModel.swift */,
+				D4DADBBC2C16070D008E6E29 /* GameDetailsViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BF4415B26C766130099979C /* ImageGallery.swift in Sources */,
+				D4DADBBD2C16070D008E6E29 /* GameDetailsViewModel.swift in Sources */,
 				6B54184526C64F3900F3C900 /* Store.swift in Sources */,
 				6BA91B9E26A49F12002148E3 /* LoadingIndicator.swift in Sources */,
 				6B9262DF26ADB305005284D9 /* CollectionView.swift in Sources */,
