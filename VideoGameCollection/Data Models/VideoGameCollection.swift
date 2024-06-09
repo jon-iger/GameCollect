@@ -88,20 +88,20 @@ class VideoGameCollection: ObservableObject{
     
     static func bulkDeleteiCloudGames(oldRecords: [CKRecord.ID]){
         let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: oldRecords)
-        operation.perRecordCompletionBlock = { record, error in
-            if error == nil{
+        operation.perRecordProgressBlock = { record, recordSaved in
+            if recordSaved == 1.0 {
                 print("One item deleted in the cloud!")
             }
             else{
-                print(error?.localizedDescription ?? "Unknown error deleting one item")
+                print("\(record.recordID) \(recordSaved)% deleted.")
             }
         }
-        operation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordIDs, error in
-            if error == nil{
-                print("All items deleted in the cloud!")
-            }
-            else{
-                print(error?.localizedDescription ?? "Unknown error deleting all items")
+        operation.modifyRecordsResultBlock = { result in
+            switch result {
+            case .success:
+                print("All items deleted")
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
         CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").publicCloudDatabase.add(operation)
