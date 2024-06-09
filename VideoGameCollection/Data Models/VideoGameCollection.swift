@@ -93,7 +93,7 @@ class VideoGameCollection: ObservableObject{
                 print("One item deleted in the cloud!")
             }
             else{
-                print(error?.localizedDescription ?? "Hi1")
+                print(error?.localizedDescription ?? "Unknown error deleting one item")
             }
         }
         operation.modifyRecordsCompletionBlock = { savedRecords, deletedRecordIDs, error in
@@ -101,7 +101,7 @@ class VideoGameCollection: ObservableObject{
                 print("All items deleted in the cloud!")
             }
             else{
-                print(error?.localizedDescription ?? "Hi2")
+                print(error?.localizedDescription ?? "Unknown error deleting all items")
             }
         }
         CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").publicCloudDatabase.add(operation)
