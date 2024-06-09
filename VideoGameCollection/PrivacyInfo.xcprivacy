@@ -17,6 +17,18 @@
 	<array>
 		<dict>
 			<key>NSPrivacyCollectedDataType</key>
+			<string>NSPrivacyCollectedDataTypeProductInteraction</string>
+			<key>NSPrivacyCollectedDataTypeLinked</key>
+			<true/>
+			<key>NSPrivacyCollectedDataTypeTracking</key>
+			<false/>
+			<key>NSPrivacyCollectedDataTypePurposes</key>
+			<array>
+				<string>Data used for storing games that users add to their iCloud collections</string>
+			</array>
+		</dict>
+		<dict>
+			<key>NSPrivacyCollectedDataType</key>
 			<string>NSPrivacyCollectedDataTypeOtherDiagnosticData</string>
 			<key>NSPrivacyCollectedDataTypeLinked</key>
 			<false/>
