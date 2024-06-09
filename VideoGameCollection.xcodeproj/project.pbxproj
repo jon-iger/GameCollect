@@ -43,6 +43,7 @@
 		D4DADBB52C15F77A008E6E29 /* GameCollectionRowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DADBB42C15F77A008E6E29 /* GameCollectionRowViewModel.swift */; };
 		D4DADBB72C15FABD008E6E29 /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DADBB62C15FABD008E6E29 /* Bool.swift */; };
 		D4DADBB92C15FE10008E6E29 /* GameCollectionGridViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DADBB82C15FE10008E6E29 /* GameCollectionGridViewModel.swift */; };
+		D4DADBBB2C160248008E6E29 /* CollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DADBBA2C160248008E6E29 /* CollectionViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,7 @@
 		D4DADBB42C15F77A008E6E29 /* GameCollectionRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCollectionRowViewModel.swift; sourceTree = "<group>"; };
 		D4DADBB62C15FABD008E6E29 /* Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bool.swift; sourceTree = "<group>"; };
 		D4DADBB82C15FE10008E6E29 /* GameCollectionGridViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCollectionGridViewModel.swift; sourceTree = "<group>"; };
+		D4DADBBA2C160248008E6E29 /* CollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,6 +269,7 @@
 				D4B5FBD02C15C8F9007BA92B /* AddGameViewModel.swift */,
 				D4DADBB42C15F77A008E6E29 /* GameCollectionRowViewModel.swift */,
 				D4DADBB82C15FE10008E6E29 /* GameCollectionGridViewModel.swift */,
+				D4DADBBA2C160248008E6E29 /* CollectionViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 				6B54184526C64F3900F3C900 /* Store.swift in Sources */,
 				6BA91B9E26A49F12002148E3 /* LoadingIndicator.swift in Sources */,
 				6B9262DF26ADB305005284D9 /* CollectionView.swift in Sources */,
+				D4DADBBB2C160248008E6E29 /* CollectionViewModel.swift in Sources */,
 				6BA3233226B32C2F0034C910 /* PlatformListView.swift in Sources */,
 				6B23A90E26AE214C00C669A8 /* Scanner.swift in Sources */,
 				6B0F8C0126B1FD9F00FF0B4E /* AboutView.swift in Sources */,
