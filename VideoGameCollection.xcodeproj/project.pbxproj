@@ -103,6 +103,7 @@
 		D4B5FBD02C15C8F9007BA92B /* AddGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGameViewModel.swift; sourceTree = "<group>"; };
 		D4B8C4442C14A4B500FB9CD7 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		D4B8C4472C14A72500FB9CD7 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		D4C7F1642C16631900219E01 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		D4DADBB42C15F77A008E6E29 /* GameCollectionRowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCollectionRowViewModel.swift; sourceTree = "<group>"; };
 		D4DADBB62C15FABD008E6E29 /* Bool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bool.swift; sourceTree = "<group>"; };
 		D4DADBB82C15FE10008E6E29 /* GameCollectionGridViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCollectionGridViewModel.swift; sourceTree = "<group>"; };
@@ -223,6 +224,7 @@
 				D4B8C4442C14A4B500FB9CD7 /* Launch Screen.storyboard */,
 				6BAF08D5269560AF00F11357 /* Info.plist */,
 				6BAF08CD269560AF00F11357 /* Preview Content */,
+				D4C7F1642C16631900219E01 /* PrivacyInfo.xcprivacy */,
 			);
 			path = VideoGameCollection;
 			sourceTree = "<group>";
