@@ -280,7 +280,7 @@ extension AddGameView {
         }
         
         // MARK: Cloud Save Functions
-        func addScanGameToCloud(gameObject: GameCollectionViewModel) -> [Game] {
+        func addScanGameToCloud(cloudContainer: CloudContainer) -> [Game] {
             //call the function that loads the scanned barcode's game information
             loadBarcodeGameInfo()
             while barcodePlatforms.count == 0{
@@ -293,10 +293,10 @@ extension AddGameView {
             newGame.title = barcodeTitle
             newGame.dateAdded = Date()
             // add newGame to the local copy of the game collection
-            gameObject.gameCollection.append(newGame)
+            cloudContainer.gameCollection.append(newGame)
             // save the newGame to the Cloud copy of the collection
-            GameCollectionViewModel.saveiCloudGame(newGame: newGame)
-            return gameObject.gameCollection
+            CloudContainer.saveiCloudGame(newGame: newGame)
+            return cloudContainer.gameCollection
         }
     }
 }

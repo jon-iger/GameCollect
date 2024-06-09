@@ -13,7 +13,7 @@ import CloudKit
  */
 struct GameDetailsView: View {
     var id: Int     //id of the game to be viewed
-    @EnvironmentObject var gameObject: GameCollectionViewModel      //the object in the SwiftUI environment that contains the user's current game collection
+    @EnvironmentObject var cloudContainer: CloudContainer      //the object in the SwiftUI environment that contains the user's current game collection
     @Environment(\.horizontalSizeClass) var sizeClass
     @State var viewModel: ViewModel
     
@@ -96,7 +96,7 @@ struct GameDetailsView: View {
     func handleOnAppear() {
         //load all of the detials, status collection (whether or not it's in the collection already), and screenshots for the game
         viewModel.loadGameDetails()
-        viewModel.loadGameStatus(games: gameObject.gameCollection)
+        viewModel.loadGameStatus(games: cloudContainer.gameCollection)
         viewModel.loadGameScreenshots()
         viewModel.loadStores()
         //update the UserDefault "lastViewedGame" key. This is intended to hold the last game the user viewed in the app

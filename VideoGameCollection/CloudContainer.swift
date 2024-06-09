@@ -1,5 +1,5 @@
 //
-//  VideoGameCollection.swift
+//  CloudContainer.swift
 //  VideoGameCollection
 //
 //  Created by Jon Iger on 7/9/21.
@@ -11,15 +11,15 @@ import CloudKit
 let container: CKContainer = CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection")
 var iCloudStatus: Int = -1
 
-class GameCollectionViewModel: ObservableObject{
+class CloudContainer: ObservableObject{
     @Published var gameCollection: [Game]
     
     init(){
         self.gameCollection = []
     }
     
-    static func loadiCloudGames()->GameCollectionViewModel{
-        let finalCollect: GameCollectionViewModel = GameCollectionViewModel()
+    static func loadiCloudGames()->CloudContainer{
+        let finalCollect: CloudContainer = CloudContainer()
         let pred = NSPredicate(value: true)
         let query = CKQuery(recordType: "Game", predicate: pred)
         

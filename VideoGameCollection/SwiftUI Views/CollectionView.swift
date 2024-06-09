@@ -9,7 +9,7 @@ import SwiftUI
 import Foundation
 
 struct CollectionView: View {
-    @EnvironmentObject var gameObject: GameCollectionViewModel  //environment object used for storing the current user
+    @EnvironmentObject var cloudContainer: CloudContainer  //environment object used for storing the current user
     @State var viewModel = ViewModel()
     let columns = [
         GridItem(.flexible()),
@@ -21,13 +21,13 @@ struct CollectionView: View {
             get: {viewModel.searchText},
             //when setting bindSearch string, use this...
             set: {
-                viewModel.setBindSearch(string: $0, games: gameObject.gameCollection)
+                viewModel.setBindSearch(string: $0, games: cloudContainer.gameCollection)
             }
         )
         NavigationView{
             if viewModel.canLoad{
                 VStack{
-                    if gameObject.gameCollection.count != 0{
+                    if cloudContainer.gameCollection.count != 0{
                         if !viewModel.gridView{
                             List{
                                 if viewModel.platformFilter{
@@ -43,7 +43,7 @@ struct CollectionView: View {
                                             }
                                     }
                                     if !viewModel.activeSearch{
-                                        ForEach(Array(gameObject.gameCollection), id: \.self){ game in
+                                        ForEach(Array(cloudContainer.gameCollection), id: \.self){ game in
                                             GameCollectionRow(id: game.gameId)
                                         }
                                         .onDelete(perform: deleteGame)
@@ -68,7 +68,7 @@ struct CollectionView: View {
                                 }
                                 .padding(7)
                                 LazyVGrid(columns: columns){
-                                    ForEach(Array(gameObject.gameCollection), id: \.self){ game in
+                                    ForEach(Array(cloudContainer.gameCollection), id: \.self){ game in
                                         GameCollectionGrid(id: game.gameId)
                                     }
                                 }
@@ -136,7 +136,7 @@ struct CollectionView: View {
                                             Image(systemName: "ellipsis.circle")
                                         }
                 )
-                if gameObject.gameCollection.isEmpty && UserDefaults.standard.integer(forKey: "lastViewedGame") == 0{
+                if cloudContainer.gameCollection.isEmpty && UserDefaults.standard.integer(forKey: "lastViewedGame") == 0{
                     Spacer()
                     Text("Welcome to Game Collect! Add some games to get started 🙂")
                         .padding()
@@ -170,14 +170,14 @@ struct CollectionView: View {
         viewModel.bingTest()
     }
     func deleteGame(at offsets: IndexSet) {
-        gameObject.gameCollection.remove(atOffsets: offsets)
-        //VideoGameCollection.saveToFile(basicObject: gameObject)
+        cloudContainer.gameCollection.remove(atOffsets: offsets)
+        //VideoGameCollection.saveToFile(basicObject: cloudContainer)
     }
     func sortByTitle(){
-        gameObject.gameCollection.sort(by: {$0.title < $1.title})
+        cloudContainer.gameCollection.sort(by: {$0.title < $1.title})
     }
     func sortByDate(){
-        gameObject.gameCollection.sort(by: {$0.dateAdded > $1.dateAdded})
+        cloudContainer.gameCollection.sort(by: {$0.dateAdded > $1.dateAdded})
     }
 }
 
