@@ -12,6 +12,7 @@ import CloudKit
  View that displays the details of a game, and lets the user add/remove a game from their collection
  */
 struct GameDetailsView: View {
+    // MARK: Variables and Initializers
     var id: Int     //id of the game to be viewed
     @EnvironmentObject var cloudContainer: CloudContainer      //the object in the SwiftUI environment that contains the user's current game collection
     @Environment(\.horizontalSizeClass) var sizeClass
@@ -26,7 +27,7 @@ struct GameDetailsView: View {
         viewModel = ViewModel(gameId: id)
     }
     
-    //main SwiftUI body
+    // MARK: SwiftUI Body
     var body: some View {
         if viewModel.fullyLoaded{
             ScrollView{
@@ -93,8 +94,12 @@ struct GameDetailsView: View {
             }
         }
     }
+    
+    // MARK: Other Functions
+    /**
+     handleOnAppear()-load all of the detials, status collection (whether or not it's in the collection already), and screenshots for the game
+     */
     func handleOnAppear() {
-        //load all of the detials, status collection (whether or not it's in the collection already), and screenshots for the game
         viewModel.loadGameDetails()
         viewModel.loadGameStatus(games: cloudContainer.gameCollection)
         viewModel.loadGameScreenshots()
@@ -104,6 +109,7 @@ struct GameDetailsView: View {
     }
 }
 
+// MARK: Content Preview
 struct GameDetailsView_Previews: PreviewProvider {
     static var previews: some View {
         GameDetailsView(gameId: 30119)

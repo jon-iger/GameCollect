@@ -12,10 +12,11 @@ import CloudKit
  View that displays the settings for the app, and provides navigation links for other parts such as About and Help
  */
 struct SettingsView: View {
+    // MARK: Variables
     @EnvironmentObject var cloudContainer: CloudContainer  //object containing the list of games currently in the user's collection
     @State private var showDeleteAlert = false  //binding boolean value that triggers the on screen alert if tapped by the user to delete their data
     
-    //main SwiftUI body
+    // MARK: SwiftUI Body
     var body: some View {
         NavigationView{
             VStack{
@@ -113,6 +114,7 @@ struct SettingsView: View {
     }
 }
 
+// MARK: Content Preview
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()

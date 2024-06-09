@@ -5,13 +5,13 @@
 //  Created by Jon Iger on 7/11/21.
 //
 
-//import the following frameworks...
 import SwiftUI
 
 /**
  View that displays a singular row of game data when searching with the AddGameView
  */
 struct GameResultRow: View {
+    // MARK: Constants and Variables
     let title: String   //name of the game to be displayed
     let id: Int
     let platformArray: [PlatformSearchResult]   //array of platform search results
@@ -29,7 +29,7 @@ struct GameResultRow: View {
         return tempString
     }
     
-    //main SwiftUI body
+    // MARK: SwiftUI Body
     var body: some View {
         NavigationLink(destination: GameDetailsView(gameId: id)){
             VStack{
@@ -45,7 +45,7 @@ struct GameResultRow: View {
     }
 }
 
-//preview struct
+// MARK: Content Preview
 struct GameResultRow_Previews: PreviewProvider {
     static var previews: some View {
         GameResultRow(title: "Sonic the Hedgehog", id: 0, platformArray: [])

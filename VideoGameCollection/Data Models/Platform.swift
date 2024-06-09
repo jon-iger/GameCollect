@@ -9,7 +9,7 @@
 import Foundation
 
 /**
- PlatformSearchResult: struct for decoding JSON platform data for when a user searches for a game
+ Struct for decoding JSON platform data for when a user searches for a game
  This struct contains the results for when a user searches for a game for what platforms this game is on
  Actual platform data is stored, but is not readable through this struct, as that is the Platform struct
  */
@@ -25,7 +25,7 @@ struct PlatformSearchResult: Codable, Hashable{
 }
 
 /**
- PlatformSelection: struct to be used when decoding JSON data for the platform filter picker for the AddGameView screen
+ Struct to be used when decoding JSON data for the platform filter picker for the AddGameView screen
  This is only to be used for that picker's data, and nothing else
  */
 struct PlatformSelection: Codable{
@@ -33,7 +33,7 @@ struct PlatformSelection: Codable{
 }
 
 /**
- Platform: struct that holds data for the platform a game is on
+ Struct that holds data for the platform a game is on
  This is primarily used when decoding data in the AddGameView
  */
 struct Platform: Codable, Hashable{

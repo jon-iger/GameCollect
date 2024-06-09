@@ -30,7 +30,7 @@ extension AddGameView {
         var invalidBarcode = false
         var postCameraSuccessAlert = false
         
-        // MARK: Initializer
+        // MARK: Initializer and Functions
         init() {}
         
         //API note: use - character to subsitutue for space characters, as the API does not allow spaces in URLs (bad URL warnings will appear in the console if this is done)

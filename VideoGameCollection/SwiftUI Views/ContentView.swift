@@ -12,13 +12,14 @@ import CoreData
  View to display the user's current games in their collection
  */
 struct ContentView: View {
+    // MARK: State Variables and Initializer
     @State var viewModel: ContentViewModel
     
-    //SwiftUI body
     init() {
         viewModel = ContentViewModel()
     }
     
+    // MARK: SwiftUI Body
     var body: some View {
         TabView{
             CollectionView()
@@ -52,6 +53,7 @@ struct ContentView: View {
         }
     }
     
+    // MARK: View Functions
     func setupViewOnAppear() {
         viewModel.checkCloudStatus()
     }
@@ -64,6 +66,7 @@ struct ContentView: View {
     }
 }
 
+// MARK: Content Preview
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()

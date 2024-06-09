@@ -8,18 +8,22 @@
 import SwiftUI
 import Foundation
 
+/**
+ View responsible for displaying the users game collection from the cloud database and search for games in the collection
+ */
 struct CollectionView: View {
+    // MARK: Variables
     @EnvironmentObject var cloudContainer: CloudContainer  //environment object used for storing the current user
     @State var viewModel = ViewModel()
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
+    
+    // MARK: SwiftUI Body
     var body: some View {
         let bindSearch = Binding<String>(
-            //display displayText for the user to see
             get: {viewModel.searchText},
-            //when setting bindSearch string, use this...
             set: {
                 viewModel.setBindSearch(string: $0, games: cloudContainer.gameCollection)
             }
@@ -161,26 +165,39 @@ struct CollectionView: View {
             }
         }
         .onAppear{
-            //check the status of the API and whether it's online or not. If offline, display something else instead
             handleOnAppear()
         }
     }
+    
+    // MARK: Other Functions
+    /**
+     handleOnAppear()-check the status of the API and whether it's online or not. If offline, display something else instead
+     */
     func handleOnAppear() {
         viewModel.checkDatabaseStatus()
         viewModel.bingTest()
     }
+    /**
+     deleteGame(at offsets: IndexSet)-delete games in the container game collection at the specified indexes
+     */
     func deleteGame(at offsets: IndexSet) {
         cloudContainer.gameCollection.remove(atOffsets: offsets)
-        //VideoGameCollection.saveToFile(basicObject: cloudContainer)
     }
+    /**
+     sortByTitle()-sort games in the game collection array from the container by title
+     */
     func sortByTitle(){
         cloudContainer.gameCollection.sort(by: {$0.title < $1.title})
     }
+    /**
+     sortByDate()-sort games in the game collection array from the container by date
+     */
     func sortByDate(){
         cloudContainer.gameCollection.sort(by: {$0.dateAdded > $1.dateAdded})
     }
 }
 
+// MARK: Content Preview
 struct CollectionView_Previews: PreviewProvider {
     static var previews: some View {
         CollectionView()

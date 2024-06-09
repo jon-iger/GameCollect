@@ -11,6 +11,7 @@ import UIKit
 extension GameDetailsView {
     @Observable
     class ViewModel {
+        // MARK: Variables
         var id: Int
         var name: String = String()      //the name of the game
         var description: String = String()   //the description of the game
@@ -29,10 +30,12 @@ extension GameDetailsView {
         var showImageFullScreen = false
         var storeLinks: [URL:UIImage] = [:]
         
+        // MARK: Initializer
         init(gameId: Int) {
             id = gameId
         }
         
+        // MARK: Functions
         /**
          Load the details of a game based on it's ID from the API, decode the data, and update this views properites accordingly with that data
          */

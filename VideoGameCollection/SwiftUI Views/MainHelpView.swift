@@ -11,6 +11,7 @@ import SwiftUI
  View that will provide users basic FAQ and help information for the app
  */
 struct MainHelpView: View {
+    // MARK: SwiftUI Body
     var body: some View {
         VStack{
             List{
@@ -48,6 +49,7 @@ struct MainHelpView: View {
     }
 }
 
+// MARK: Content Preview
 struct MainHelpView_Previews: PreviewProvider {
     static var previews: some View {
         MainHelpView()

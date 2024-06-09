@@ -7,9 +7,15 @@
 
 import SwiftUI
 
+/**
+ View for displaying game collection should the user choose a grid display type
+ */
 struct GameCollectionGrid: View {
+    // MARK: Variables
     @State var viewModel = ViewModel()
     var id: Int
+    
+    // MARK: SwiftUI Body
     var body: some View {
         NavigationLink(destination: GameDetailsView(gameId: self.id)){
             VStack{
@@ -36,6 +42,7 @@ struct GameCollectionGrid: View {
     }
 }
 
+// MARK: Content Preview
 struct GameCollectionGrid_Previews: PreviewProvider {
     static var previews: some View {
         GameCollectionGrid(id: 0)

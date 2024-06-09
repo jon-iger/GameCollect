@@ -11,6 +11,7 @@ import SwiftUI
 extension CollectionView {
     @Observable
     class ViewModel {
+        // MARK: Variables
         var searchText = String()    //string used for holding the user's current search text
         var activeSearch = false
         var searchResults: [Int] = []
@@ -22,6 +23,7 @@ extension CollectionView {
         
         init(){}
         
+        // MARK: Functions
         /**
          Attempts to load sample data from the RAWG API. If this fails, the screen is stopped from rendering. Otherwise it can proceed
          parameters: none

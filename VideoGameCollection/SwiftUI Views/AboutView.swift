@@ -11,6 +11,7 @@ import SwiftUI
  View that contains About/Legal information for the app
  */
 struct AboutView: View {
+    // MARK: SwiftUI Body
     var body: some View {
         VStack{
             Text("All data presented in this app is provided by the RAWG.org API. All images, titles, ratings, and game information are property of it's respective owners and not the Game Collect app.")
@@ -24,6 +25,7 @@ struct AboutView: View {
     }
 }
 
+// MARK: Content Preview
 struct AboutView_Previews: PreviewProvider {
     static var previews: some View {
         AboutView()

@@ -7,7 +7,11 @@
 
 import SwiftUI
 
+/**
+ View representing a single row for a game collection
+ */
 struct GameCollectionRow: View {
+    // MARK: Variables
     var id: Int
     @State private var viewModel = ViewModel()
     var body: some View {
@@ -32,6 +36,7 @@ struct GameCollectionRow: View {
     }
 }
 
+// MARK: Content Preview
 struct GameCollectionRow_Previews: PreviewProvider {
     static var previews: some View {
         GameCollectionRow(id: 0)

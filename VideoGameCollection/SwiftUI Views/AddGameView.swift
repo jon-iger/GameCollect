@@ -5,15 +5,15 @@
 //  Created by Jon Iger on 7/9/21.
 //
 
-//import the following frameworks...
 import SwiftUI
 
 /**
  View that contains the screen users will use to add new games to their collection
  */
 struct AddGameView: View {
+    // MARK: Variables and Initializers
     @EnvironmentObject var cloudContainer: CloudContainer
-    @State var showScanner: Bool
+    @State var showScanner: Bool    // should or shouldn't show Scanner view
     @State var viewModel: ViewModel
     @State var scanner: ScannerViewController?
     
@@ -23,8 +23,8 @@ struct AddGameView: View {
         viewModel = ViewModel()
     }
     
-    //initial body
     var body: some View {
+        // MARK: Binding Constants
         let bindSearch = Binding<String>(
             get: { viewModel.displayText},
             set: {
@@ -53,7 +53,7 @@ struct AddGameView: View {
             }
         )
         
-        //SwiftUI body
+        // MARK: SwiftUI Body
         if viewModel.canLoad{
             Form{
                 Section(header: Text("Filters")){
@@ -109,6 +109,10 @@ struct AddGameView: View {
         }
     }
     
+    // MARK: Other Functions
+    /**
+     handleFormOnAppear()-handle any onAppear operations when handling Form
+     */
     func handleFormOnAppear(){
         viewModel.checkDatabaseStatus()
         if viewModel.canLoad{
@@ -118,6 +122,9 @@ struct AddGameView: View {
         }
     }
     
+    /**
+     handleScannerDismissal()-handle actions for looking up barcodes after the scanner view is dismissed
+     */
     func handleScannerDismissal() {
         do{
             if scanner?.upcString == nil{
@@ -131,7 +138,7 @@ struct AddGameView: View {
     }
 }
 
-//Preview struct
+// MARK: Content Preview
 struct AddGameView_Previews: PreviewProvider {
     static var previews: some View {
         AddGameView()
