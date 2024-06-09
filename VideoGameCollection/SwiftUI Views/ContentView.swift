@@ -29,7 +29,7 @@ struct ContentView: View {
             }
             NavigationView{
                 AddGameView()
-                GameDetailsView(id: UserDefaults.standard.integer(forKey: "lastViewedGame"))
+                GameDetailsView(gameId: UserDefaults.standard.integer(forKey: "lastViewedGame"))
             }
             .tabItem{
                 Image(systemName: "plus")

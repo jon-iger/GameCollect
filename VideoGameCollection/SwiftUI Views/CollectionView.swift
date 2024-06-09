@@ -9,17 +9,8 @@ import SwiftUI
 import Foundation
 
 struct CollectionView: View {
-    @EnvironmentObject var gameObject: GameCollectionViewModel  //environment object used for storing the current user
-    @State private var searchText = String()    //string used for holding the user's current search text
-    @State private var activeSearch = false
-    @State private var searchResults: [Int] = []
-    @State private var gridView = false
-    @State private var platformDict: [Platform:[Int]] = [:]
-    @State private var platformFilter = false
-    @State private var canLoad = true
-    @State private var displayFailureAlert = false
-    @State private var shouldAnimate = true
-    @State private var confirmFailure = false
+    @EnvironmentObject var cloudContainer: CloudContainer  //environment object used for storing the current user
+    @State var viewModel = ViewModel()
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -27,33 +18,20 @@ struct CollectionView: View {
     var body: some View {
         let bindSearch = Binding<String>(
             //display displayText for the user to see
-            get: {self.searchText},
+            get: {viewModel.searchText},
             //when setting bindSearch string, use this...
             set: {
-                searchResults = []
-                activeSearch = true
-                print("Setting")
-                self.searchText = $0
-                for game in gameObject.gameCollection{
-                    if game.title.contains(searchText) && !searchResults.contains(game.gameId){
-                        searchResults.append(game.gameId)
-                    }
-                }
-                if self.searchText.isEmpty{
-                    print("Is Empty")
-                    activeSearch = false
-                    searchResults = []
-                }
+                viewModel.setBindSearch(string: $0, games: cloudContainer.gameCollection)
             }
         )
         NavigationView{
-            if canLoad{
+            if viewModel.canLoad{
                 VStack{
-                    if gameObject.gameCollection.count != 0{
-                        if !gridView{
+                    if cloudContainer.gameCollection.count != 0{
+                        if !viewModel.gridView{
                             List{
-                                if platformFilter{
-                                    PlatformListView(platformDict: self.platformDict)
+                                if viewModel.platformFilter{
+                                    PlatformListView(platformDict: viewModel.platformDict)
                                 }
                                 else{
                                     HStack{
@@ -61,36 +39,36 @@ struct CollectionView: View {
                                             .padding(4)
                                         TextField("Search", text: bindSearch)
                                             .onTapGesture {
-                                                activeSearch = true
+                                                viewModel.activeSearch = true
                                             }
                                     }
-                                    if !activeSearch{
-                                        ForEach(Array(gameObject.gameCollection), id: \.self){ game in
+                                    if !viewModel.activeSearch{
+                                        ForEach(Array(cloudContainer.gameCollection), id: \.self){ game in
                                             GameCollectionRow(id: game.gameId)
                                         }
                                         .onDelete(perform: deleteGame)
                                     }
                                     else{
-                                        ForEach(searchResults, id: \.self){ gameId in
+                                        ForEach(viewModel.searchResults, id: \.self){ gameId in
                                             GameCollectionRow(id: gameId)
                                         }
                                     }
                                 }
                             }
                         }
-                        else if gridView{
+                        else if viewModel.gridView{
                             ScrollView{
                                 HStack{
                                     Image(systemName: "magnifyingglass")
                                         .padding(4)
                                     TextField("Search", text: bindSearch)
                                         .onTapGesture {
-                                            activeSearch = true
+                                            viewModel.activeSearch = true
                                         }
                                 }
                                 .padding(7)
                                 LazyVGrid(columns: columns){
-                                    ForEach(Array(gameObject.gameCollection), id: \.self){ game in
+                                    ForEach(Array(cloudContainer.gameCollection), id: \.self){ game in
                                         GameCollectionGrid(id: game.gameId)
                                     }
                                 }
@@ -115,14 +93,14 @@ struct CollectionView: View {
                                         Menu{
                                             Section{
                                                 Button{
-                                                    gridView = false
+                                                    viewModel.gridView = false
                                                 }
                                                 label:{
                                                     Image(systemName: "list.bullet")
                                                     Text("List View")
                                                 }
                                                 Button{
-                                                    gridView = true
+                                                    viewModel.gridView = true
                                                 }
                                                 label:{
                                                     Image(systemName: "square.grid.2x2")
@@ -131,7 +109,7 @@ struct CollectionView: View {
                                             }
                                             Section{
                                                 Button{
-                                                    platformFilter = false
+                                                    viewModel.platformFilter = false
                                                     sortByDate()
                                                 }
                                                 label:{
@@ -139,14 +117,14 @@ struct CollectionView: View {
                                                     Text("Recently Added")
                                                 }
                                                 Button{
-                                                    platformFilter = true
+                                                    viewModel.platformFilter = true
                                                 }
                                                 label:{
                                                     Image(systemName: "gamecontroller")
                                                     Text("Platform")
                                                 }
                                                 Button{
-                                                    platformFilter = false
+                                                    viewModel.platformFilter = false
                                                     sortByTitle()
                                                 }
                                                 label:{
@@ -158,7 +136,7 @@ struct CollectionView: View {
                                             Image(systemName: "ellipsis.circle")
                                         }
                 )
-                if gameObject.gameCollection.count == 0 && UserDefaults.standard.integer(forKey: "lastViewedGame") == 0{
+                if cloudContainer.gameCollection.isEmpty && UserDefaults.standard.integer(forKey: "lastViewedGame") == 0{
                     Spacer()
                     Text("Welcome to Game Collect! Add some games to get started 🙂")
                         .padding()
@@ -170,13 +148,13 @@ struct CollectionView: View {
                     Spacer()
                 }
                 else{
-                    GameDetailsView(id: UserDefaults.standard.integer(forKey: "lastViewedGame"))
+                    GameDetailsView(gameId: UserDefaults.standard.integer(forKey: "lastViewedGame"))
                 }
             }
             else{
                 VStack{
-                    ActivityIndicator(shouldAnimate: $shouldAnimate)
-                    if !shouldAnimate{
+                    ActivityIndicator(shouldAnimate: $viewModel.shouldAnimate)
+                    if !viewModel.shouldAnimate{
                         Text("Unable to display data. Either RAWG or your internet connection is offline. Try again later 😞.")
                     }
                 }
@@ -184,75 +162,22 @@ struct CollectionView: View {
         }
         .onAppear{
             //check the status of the API and whether it's online or not. If offline, display something else instead
-            checkDatabaseStatus()
-            bingTest()
+            handleOnAppear()
         }
+    }
+    func handleOnAppear() {
+        viewModel.checkDatabaseStatus()
+        viewModel.bingTest()
     }
     func deleteGame(at offsets: IndexSet) {
-        gameObject.gameCollection.remove(atOffsets: offsets)
-        //VideoGameCollection.saveToFile(basicObject: gameObject)
+        cloudContainer.gameCollection.remove(atOffsets: offsets)
+        //VideoGameCollection.saveToFile(basicObject: cloudContainer)
     }
     func sortByTitle(){
-        gameObject.gameCollection.sort(by: {$0.title < $1.title})
+        cloudContainer.gameCollection.sort(by: {$0.title < $1.title})
     }
     func sortByDate(){
-        gameObject.gameCollection.sort(by: {$0.dateAdded > $1.dateAdded})
-    }
-    /**
-     Attempts to load sample data from the RAWG API. If this fails, the screen is stopped from rendering. Otherwise it can proceed
-     parameters: none
-     */
-    func checkDatabaseStatus(){
-        //create the basic URL
-        let urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search="
-        guard let url = URL(string: urlString) else {
-            print("Bad URL: \(urlString)")
-            canLoad = false
-            shouldAnimate = false
-            return
-        }
-        print("Starting decoding...in the check function")
-        //start our URLSession to get data
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            let httpResponse = response as! HTTPURLResponse
-            let statusCode = httpResponse.statusCode
-            if (statusCode == 200) {
-                print("Everyone is fine, file downloaded successfully.")
-                canLoad = true
-                shouldAnimate = false
-            } else  {
-                print("Failed")
-            }
-        }.resume()  //call our URLSession
-    }
-    
-    func bingTest(){
-        //create the basic URL
-        let urlString = "https://api.bing.microsoft.com/v7.0/images/search?q=mt+rainier"
-        guard let url = URL(string: urlString) else {
-            print("Bad URL: \(urlString)")
-            canLoad = false
-            shouldAnimate = false
-            return
-        }
-        print("Starting decoding...in the bing function")
-        var urlRequest = URLRequest(url: url)
-        urlRequest.addValue(bingSearchAPIKey, forHTTPHeaderField: "Ocp-Apim-Subscription-Key")
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-        //start our URLSession to get data
-        URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-            let httpResponse = response as! HTTPURLResponse
-            let statusCode = httpResponse.statusCode
-            if (statusCode == 200) {
-                if let data = data{
-                    let str = String(decoding: data, as: UTF8.self)
-                    print(str)
-                }
-                print("Everyone is fine in the bing function, file downloaded successfully.")
-            } else  {
-                print("Failed")
-            }
-        }.resume()  //call our URLSession
+        cloudContainer.gameCollection.sort(by: {$0.dateAdded > $1.dateAdded})
     }
 }
 
