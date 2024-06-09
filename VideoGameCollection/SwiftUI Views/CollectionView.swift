@@ -148,7 +148,7 @@ struct CollectionView: View {
                     Spacer()
                 }
                 else{
-                    GameDetailsView(id: UserDefaults.standard.integer(forKey: "lastViewedGame"))
+                    GameDetailsView(gameId: UserDefaults.standard.integer(forKey: "lastViewedGame"))
                 }
             }
             else{
