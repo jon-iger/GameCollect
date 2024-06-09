@@ -14,7 +14,6 @@ import CloudKit
 struct SettingsView: View {
     @EnvironmentObject var gameObject: VideoGameCollection  //object containing the list of games currently in the user's collection
     @State private var showDeleteAlert = false  //binding boolean value that triggers the on screen alert if tapped by the user to delete their data
-    @State private var testID: CKRecord.ID = CKRecord.ID()
     
     //main SwiftUI body
     var body: some View {
