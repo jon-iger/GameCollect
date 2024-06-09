@@ -138,6 +138,7 @@
 				6BF4415626C7597E0099979C /* CollectionButton.swift */,
 				6BF4415826C7633A0099979C /* ImageViewer.swift */,
 				6BF4415A26C766130099979C /* ImageGallery.swift */,
+				6BA91B9D26A49F12002148E3 /* LoadingIndicator.swift */,
 			);
 			path = "SwiftUI Components";
 			sourceTree = "<group>";
@@ -157,7 +158,6 @@
 			children = (
 				6BAF08C9269560AC00F11357 /* ContentView.swift */,
 				6BED041026991E4F001E38CD /* AddGameView.swift */,
-				6BA91B9D26A49F12002148E3 /* LoadingIndicator.swift */,
 				6B224303269BE1A000937B15 /* GameResultRow.swift */,
 				6BF85A4B26A57BB100F679AF /* GameCollectionRow.swift */,
 				6BDE401A269C381F00EF4012 /* GameDetailsView.swift */,
