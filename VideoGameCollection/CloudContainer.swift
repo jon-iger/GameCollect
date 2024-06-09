@@ -30,8 +30,7 @@ class CloudContainer: ObservableObject{
         
         operation.recordMatchedBlock = { id, result in
             switch result {
-            case .success(let newRecord):
-                var record = newRecord
+            case .success(let record):
                 let game = Game()
                 game.title = record["title"]
                 game.gameId = record["id"]
