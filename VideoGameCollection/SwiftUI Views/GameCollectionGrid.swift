@@ -11,7 +11,7 @@ struct GameCollectionGrid: View {
     @State var viewModel = ViewModel()
     var id: Int
     var body: some View {
-        NavigationLink(destination: GameDetailsView(id: self.id)){
+        NavigationLink(destination: GameDetailsView(gameId: self.id)){
             VStack{
                 if viewModel.fullyLoaded{
                     VStack{

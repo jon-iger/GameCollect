@@ -11,7 +11,7 @@ struct GameCollectionRow: View {
     var id: Int
     @State private var viewModel = ViewModel()
     var body: some View {
-        NavigationLink(destination: GameDetailsView(id: self.id)){
+        NavigationLink(destination: GameDetailsView(gameId: self.id)){
             HStack{
                 if viewModel.fullyLoaded{
                     Image(uiImage: viewModel.gameImage)

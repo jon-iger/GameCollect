@@ -31,7 +31,7 @@ struct GameResultRow: View {
     
     //main SwiftUI body
     var body: some View {
-        NavigationLink(destination: GameDetailsView(id: id)){
+        NavigationLink(destination: GameDetailsView(gameId: id)){
             VStack{
                 Text(title)
                     .padding()
