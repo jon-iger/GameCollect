@@ -1,5 +1,5 @@
 //
-//  ContentViewModel.swift
+//  HomeViewModel.swift
 //  VideoGameCollection
 //
 //  Created by Jon Iger on 6/8/24.
@@ -8,9 +8,9 @@
 import Foundation
 import CoreData
 
-extension ContentView {
+extension HomeView {
     @Observable
-    class ContentViewModel {
+    class HomeViewModel {
         private var iCloudStatusCode: Int = -1
         public var iCloudStatusAlert = false
         public var errorMessage: String = ""

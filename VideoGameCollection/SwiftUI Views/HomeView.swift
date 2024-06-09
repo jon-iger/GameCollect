@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  HomeView.swift
 //  VideoGameCollection
 //
 //  Created by Jon Iger on 7/7/21.
@@ -11,12 +11,12 @@ import CoreData
 /**
  View to display the user's current games in their collection
  */
-struct ContentView: View {
+struct HomeView: View {
     // MARK: State Variables and Initializer
-    @State var viewModel: ContentViewModel
+    @State var viewModel: HomeViewModel
     
     init() {
-        viewModel = ContentViewModel()
+        viewModel = HomeViewModel()
     }
     
     // MARK: SwiftUI Body
@@ -67,8 +67,8 @@ struct ContentView: View {
 }
 
 // MARK: Content Preview
-struct ContentView_Previews: PreviewProvider {
+struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        HomeView()
     }
 }
