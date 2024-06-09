@@ -13,7 +13,6 @@ extension AddGameView {
     @Observable
     class ViewModel {
         // MARK: Variables and Constants
-        @EnvironmentObject static var gameObject: GameCollectionViewModel      //the object in the SwiftUI environment that contains the user's current game collection
         var searchText = String()    //string sent into API calls with the search bar
         var displayText = String()   //string to be displayed to the user when typing in the search bar
         var gameResults: GameResults = GameResults()     //empty GameResults object that will later on store search results when used with the API
