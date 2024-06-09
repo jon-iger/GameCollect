@@ -8,16 +8,22 @@
 import Foundation
 import CloudKit
 
+// MARK: Global Instances
 let container: CKContainer = CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection")
 var cloudStatus: Int = -1
 
 class CloudContainer: ObservableObject{
+    // MARK: Variables and Initializers
     @Published var gameCollection: [Game]
-    
+
     init(){
         self.gameCollection = []
     }
     
+    // MARK: Load Cloud Games
+    /**
+     loadCloudGames()-Loads all games stored in iCloud database and adds them to the global container
+     */
     static func loadCloudGames()->CloudContainer{
         let finalCollect: CloudContainer = CloudContainer()
         let pred = NSPredicate(value: true)
@@ -58,6 +64,11 @@ class CloudContainer: ObservableObject{
         return finalCollect
     }
     
+    // MARK: Save Cloud Game
+    /**
+     saveCloudGame()-saves an individual game to CloudKit when adding to the collection
+     newGame: the new Game object to be added to the array of Game objects in the cloud
+     */
     static func saveCloudGame(newGame: Game){
         let gameRecord = CKRecord(recordType: "Game", recordID: newGame.recordID)
         gameRecord["title"] = newGame.title as CKRecordValue
@@ -74,6 +85,11 @@ class CloudContainer: ObservableObject{
         }
     }
     
+    // MARK: Delete Cloud Game
+    /**
+     deleteCloudGame(oldGame: Game)-delete a single game from the cloud game collection
+     oldGame: the Game object the user selected to delete from the CloudKit database
+     */
     static func deleteCloudGame(oldGame: Game){
         CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").privateCloudDatabase.delete(withRecordID: oldGame.recordID){(recordID, error) in
             if error == nil{
@@ -85,6 +101,11 @@ class CloudContainer: ObservableObject{
         }
     }
     
+    // MARK: Bulk Delete Cloud Games
+    /**
+     bulkDeleteCloudGames(oldRecords: [CKRecord.ID])-bulk delete multiple Game objects stored in the cloud
+     oldRecords: array of CloudKit records IDs to be deleted from CloudKit database
+     */
     static func bulkDeleteCloudGames(oldRecords: [CKRecord.ID]){
         let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: oldRecords)
         operation.perRecordProgressBlock = { record, recordSaved in
