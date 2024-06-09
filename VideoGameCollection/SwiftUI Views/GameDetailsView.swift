@@ -13,7 +13,7 @@ import CloudKit
  */
 struct GameDetailsView: View {
     var id: Int     //id of the game to be viewed
-    @EnvironmentObject var gameObject: VideoGameCollection      //the object in the SwiftUI environment that contains the user's current game collection
+    @EnvironmentObject var gameObject: GameCollectionViewModel      //the object in the SwiftUI environment that contains the user's current game collection
     @Environment(\.horizontalSizeClass) var sizeClass
     @State private var name: String = String()      //the name of the game
     @State private var description: String = String()   //the description of the game

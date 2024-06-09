@@ -9,7 +9,7 @@ import SwiftUI
 import Foundation
 
 struct CollectionView: View {
-    @EnvironmentObject var gameObject: VideoGameCollection  //environment object used for storing the current user
+    @EnvironmentObject var gameObject: GameCollectionViewModel  //environment object used for storing the current user
     @State private var searchText = String()    //string used for holding the user's current search text
     @State private var activeSearch = false
     @State private var searchResults: [Int] = []
