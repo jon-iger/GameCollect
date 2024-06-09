@@ -12,7 +12,7 @@ import SwiftUI
  View that contains the screen users will use to add new games to their collection
  */
 struct AddGameView: View {
-    @EnvironmentObject var gameObject: GameCollectionViewModel
+    @EnvironmentObject var cloudContainer: CloudContainer
     @State var showScanner: Bool
     @State var viewModel: ViewModel
     @State var scanner: ScannerViewController?
@@ -100,7 +100,7 @@ struct AddGameView: View {
             }
             .alert(isPresented: $viewModel.postCameraSuccessAlert){
                 Alert(title: Text("Game Found"), message: Text("Would you like to add \(viewModel.barcodeTitle) to your collection?"), primaryButton: Alert.Button.default(Text("Yes"), action: {
-                    gameObject.gameCollection = viewModel.addScanGameToCloud(gameObject: gameObject)
+                    cloudContainer.gameCollection = viewModel.addScanGameToCloud(cloudContainer: cloudContainer)
                 }), secondaryButton: Alert.Button.cancel())
             }
         }
