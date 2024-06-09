@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ImageGallery: View {
     @State private var fullScreenImage: UIImage = UIImage()
-    @State private var activateLink = false
+    @State private var linkToggle = false
     @Environment(\.horizontalSizeClass) var sizeClass
     let screenCollection: GameScreenshot
     let screenshots: [String:UIImage]
@@ -19,7 +19,9 @@ struct ImageGallery: View {
                 ForEach(screenCollection.results, id: \.self){ game in
                     if sizeClass == .regular{
                         //set the width and height of the images to whatever width and height numbers for it where returned from the data
-                        NavigationLink(destination: ImageViewer(fullScreenImage: self.fullScreenImage)){
+                        NavigationLink {
+                            ImageViewer(fullScreenImage: self.fullScreenImage)
+                        } label: {
                             Image(uiImage: screenshots[game.image]!)
                                 .resizable()
                                 .scaledToFit()
@@ -33,7 +35,9 @@ struct ImageGallery: View {
                     }
                     else{
                         //set the width and height of the images to whatever width and height numbers for it where returned from the data
-                        NavigationLink(destination: ImageViewer(fullScreenImage: self.fullScreenImage), isActive: $activateLink){
+                        NavigationLink() {
+                            ImageViewer(fullScreenImage: self.fullScreenImage)
+                        } label: {
                             Image(uiImage: screenshots[game.image]!)
                                 .resizable()
                                 .scaledToFit()
@@ -42,9 +46,10 @@ struct ImageGallery: View {
                                 .padding()
                                 .onTapGesture {
                                     fullScreenImage = screenshots[game.image]!
-                                    activateLink.toggle()
+                                    linkToggle.toggle()
                                 }
                         }
+                        .disabled(linkToggle)
                     }
                 }
             }
