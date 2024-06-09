@@ -22,7 +22,7 @@ struct CollectionButton: View {
                     if game.gameId == id{
                         let oldGame = cloudContainer.gameCollection[index]
                         cloudContainer.gameCollection.remove(at: index)
-                        CloudContainer.deleteiCloudGame(oldGame: oldGame)
+                        CloudContainer.deleteCloudGame(oldGame: oldGame)
                         partOfCollection = false
                         gameAlert = true
                     }
@@ -36,7 +36,7 @@ struct CollectionButton: View {
                 newGame.title = name
                 newGame.recordID = CKRecord.ID(recordName: String(id))
                 cloudContainer.gameCollection.append(newGame)
-                CloudContainer.saveiCloudGame(newGame: newGame)
+                CloudContainer.saveCloudGame(newGame: newGame)
                 partOfCollection = true
                 gameAlert = true
             }

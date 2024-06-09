@@ -295,7 +295,7 @@ extension AddGameView {
             // add newGame to the local copy of the game collection
             cloudContainer.gameCollection.append(newGame)
             // save the newGame to the Cloud copy of the collection
-            CloudContainer.saveiCloudGame(newGame: newGame)
+            CloudContainer.saveCloudGame(newGame: newGame)
             return cloudContainer.gameCollection
         }
     }

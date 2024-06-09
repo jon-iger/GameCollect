@@ -13,7 +13,6 @@ import CoreData
  */
 struct ContentView: View {
     @State var viewModel: ContentViewModel
-    private var iCloudStatusMessage = String()
     
     //SwiftUI body
     init() {

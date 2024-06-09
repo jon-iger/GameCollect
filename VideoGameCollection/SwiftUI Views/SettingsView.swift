@@ -22,7 +22,7 @@ struct SettingsView: View {
                 List{
                     Section(header: Text("iCloud Status")){
                         HStack{
-                            if iCloudStatus != 1{
+                            if cloudStatus != 1{
                                 Image(systemName: "xmark.octagon.fill")
                                     .foregroundColor(.red)
                                 Text("Unable to save data at this time. Resolve issues to save/load data")
@@ -86,7 +86,7 @@ struct SettingsView: View {
                     oldRecordIDs.append(game.recordID)
                 }
                 cloudContainer.gameCollection = []
-                CloudContainer.bulkDeleteiCloudGames(oldRecords: oldRecordIDs)
+                CloudContainer.bulkDeleteCloudGames(oldRecords: oldRecordIDs)
             }, secondaryButton: Alert.Button.cancel())
         }
         .onAppear{
@@ -107,7 +107,7 @@ struct SettingsView: View {
                     default:
                         print("iCloud Account Status could not be determined")
                 }
-                iCloudStatus = accountStatusCode
+                cloudStatus = accountStatusCode
             })
         }
     }

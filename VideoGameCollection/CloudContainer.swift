@@ -9,7 +9,7 @@ import Foundation
 import CloudKit
 
 let container: CKContainer = CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection")
-var iCloudStatus: Int = -1
+var cloudStatus: Int = -1
 
 class CloudContainer: ObservableObject{
     @Published var gameCollection: [Game]
@@ -18,7 +18,7 @@ class CloudContainer: ObservableObject{
         self.gameCollection = []
     }
     
-    static func loadiCloudGames()->CloudContainer{
+    static func loadCloudGames()->CloudContainer{
         let finalCollect: CloudContainer = CloudContainer()
         let pred = NSPredicate(value: true)
         let query = CKQuery(recordType: "Game", predicate: pred)
@@ -58,7 +58,7 @@ class CloudContainer: ObservableObject{
         return finalCollect
     }
     
-    static func saveiCloudGame(newGame: Game){
+    static func saveCloudGame(newGame: Game){
         let gameRecord = CKRecord(recordType: "Game", recordID: newGame.recordID)
         gameRecord["title"] = newGame.title as CKRecordValue
         gameRecord["dateAdded"] = newGame.dateAdded as CKRecordValue
@@ -74,7 +74,7 @@ class CloudContainer: ObservableObject{
         }
     }
     
-    static func deleteiCloudGame(oldGame: Game){
+    static func deleteCloudGame(oldGame: Game){
         CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").privateCloudDatabase.delete(withRecordID: oldGame.recordID){(recordID, error) in
             if error == nil{
                 print("Cloud delete success!")
@@ -85,7 +85,7 @@ class CloudContainer: ObservableObject{
         }
     }
     
-    static func bulkDeleteiCloudGames(oldRecords: [CKRecord.ID]){
+    static func bulkDeleteCloudGames(oldRecords: [CKRecord.ID]){
         let operation = CKModifyRecordsOperation(recordsToSave: nil, recordIDsToDelete: oldRecords)
         operation.perRecordProgressBlock = { record, recordSaved in
             if recordSaved == 1.0 {
@@ -104,14 +104,5 @@ class CloudContainer: ObservableObject{
             }
         }
         CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").publicCloudDatabase.add(operation)
-    }
-    
-    func isEmpty()->Bool{
-        if self.gameCollection.count == 0{
-            return true
-        }
-        else{
-            return false
-        }
     }
 }
