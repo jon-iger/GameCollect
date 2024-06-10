@@ -21,9 +21,9 @@ extension HomeView {
             DispatchQueue.main.async {
                 CloudContainer.checkCloudStatus()
                 if cloudStatus != 1 {
-                    self.cloudStatusAlert.toggle()
                     self.errorMessage = ""
                     self.errorMessage = cloudMessage
+                    self.cloudStatusAlert.toggle()
                 }
             }
         }
