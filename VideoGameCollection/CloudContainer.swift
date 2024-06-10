@@ -11,6 +11,7 @@ import CloudKit
 // MARK: Global Instances
 let container: CKContainer = CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection")
 var cloudStatus: Int = -1
+var cloudMessage = String()
 
 class CloudContainer: ObservableObject{
     // MARK: Variables and Initializers
@@ -125,5 +126,28 @@ class CloudContainer: ObservableObject{
             }
         }
         CKContainer(identifier: "iCloud.com.Jonathon-Lannon.VideoGameCollection").publicCloudDatabase.add(operation)
+    }
+    
+    static func checkCloudStatus() {
+        container.accountStatus(completionHandler: {status, error in
+            print("iCloud account status code \(status.rawValue)")
+            cloudStatus = status.rawValue
+            switch cloudStatus {
+            case 0:
+                cloudMessage = "Could not determine status. Completion handler executed properly, but Apple could not determine the status."
+            case 1:
+                cloudMessage = ""
+                print("Successful!")
+            case 2:
+                cloudMessage = "System restrictions have denied the user the ability to access iCloud on this device. Go to Settings to resolve the issue."
+            case 3:
+                cloudMessage = "No iCloud account is signed into on this device. Go to Settings to resolve this issue."
+            case 4:
+                cloudMessage = "iCloud is not available at this time. Try again later."
+            default:
+                cloudMessage = "Unknown error. Contact the developer for more support."
+                print("iCloud Account Status could not be determined")
+            }
+        })
     }
 }

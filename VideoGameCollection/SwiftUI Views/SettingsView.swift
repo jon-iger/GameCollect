@@ -91,25 +91,7 @@ struct SettingsView: View {
             }, secondaryButton: Alert.Button.cancel())
         }
         .onAppear{
-            container.accountStatus(completionHandler: {status, error in
-                print("iCloud account status code \(status.rawValue)")
-                let accountStatusCode = status.rawValue
-                switch accountStatusCode {
-                    case 0:
-                        print("iCloud Account Status = 0")
-                    case 1:
-                        print("iCloud Account Status = 1")
-                    case 2:
-                        print("iCloud Account Status = 2")
-                    case 3:
-                        print("iCloud Account Status = 3")
-                    case 4:
-                        print("iCloud Account Status = 4")
-                    default:
-                        print("iCloud Account Status could not be determined")
-                }
-                cloudStatus = accountStatusCode
-            })
+            CloudContainer.checkCloudStatus()
         }
     }
 }

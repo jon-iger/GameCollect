@@ -41,7 +41,7 @@ struct HomeView: View {
                     Text("Settings")
                 }
         }
-        .alert(isPresented: $viewModel.iCloudStatusAlert){
+        .alert(isPresented: $viewModel.cloudStatusAlert){
             Alert(title: Text("iCloud Error"), message: Text($viewModel.errorMessage.wrappedValue), primaryButton: Alert.Button.default(Text("OK")){
                 print("User ignored iCloud Warning")
             }, secondaryButton: Alert.Button.default(Text("Go to Settings")){
@@ -55,7 +55,7 @@ struct HomeView: View {
     
     // MARK: View Functions
     func setupViewOnAppear() {
-        viewModel.checkCloudStatus()
+        viewModel.updateCloudAlert()
     }
     
     func openPhoneSettings () {
