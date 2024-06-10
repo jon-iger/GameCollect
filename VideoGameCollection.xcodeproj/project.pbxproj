@@ -605,6 +605,8 @@
 				DEVELOPMENT_TEAM = 6Q3FEB8X8T;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = VideoGameCollection/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Game Collect";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -613,6 +615,9 @@
 				MARKETING_VERSION = 0.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "Jonathon-Lannon.VideoGameCollection";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -630,6 +635,8 @@
 				DEVELOPMENT_TEAM = 6Q3FEB8X8T;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = VideoGameCollection/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Game Collect";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -638,6 +645,9 @@
 				MARKETING_VERSION = 0.3.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "Jonathon-Lannon.VideoGameCollection";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
