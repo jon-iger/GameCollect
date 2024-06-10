@@ -4,4 +4,4 @@
 *.plist
 *.xcuserstate
 /VideoGameCollection.xcodeproj/xcuserdata
-VideoGameCollection/Data\Models/APIKeys.swift
+APIKeys.swift
