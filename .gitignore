@@ -4,5 +4,4 @@
 *.plist
 *.xcuserstate
 /VideoGameCollection.xcodeproj/xcuserdata
-APIKeys.swift
 /VideoGameCollection.xcodeproj/xcshareddata
