@@ -41,7 +41,7 @@ extension GameDetailsView {
          */
         func loadGameDetails() {
             //create the basic URL
-            let urlString = "https://api.rawg.io/api/games/\(String(id))?key=\(rawgAPIKey)"
+            let urlString = "https://api.rawg.io/api/games/\(String(id))?key=\(APIAccess.getAPIKey(environmentKey: ServiceAPI.rawg.rawValue))"
             guard let url = URL(string: urlString) else {
                 print("Bad URL: \(urlString)")
                 return
@@ -92,7 +92,7 @@ extension GameDetailsView {
          */
         func loadGameScreenshots() {
             //create the basic URL
-            let urlString = "https://api.rawg.io/api/games/\(String(id))/screenshots?key=\(rawgAPIKey)"
+            let urlString = "https://api.rawg.io/api/games/\(String(id))/screenshots?key=\(APIAccess.getAPIKey(environmentKey: ServiceAPI.rawg.rawValue))"
             guard let url = URL(string: urlString) else {
                 print("Bad URL: \(urlString)")
                 return
@@ -128,7 +128,7 @@ extension GameDetailsView {
          */
         func loadStores() {
             //create the basic URL
-            let urlString = "https://api.rawg.io/api/games/\(String(id))/stores?key=\(rawgAPIKey)"
+            let urlString = "https://api.rawg.io/api/games/\(String(id))/stores?key=\(APIAccess.getAPIKey(environmentKey: ServiceAPI.rawg.rawValue))"
             guard let url = URL(string: urlString) else {
                 print("Bad URL: \(urlString)")
                 return
@@ -156,7 +156,7 @@ extension GameDetailsView {
          */
         func loadStoreInfo(storeID: Int, gameStoreURL: URL) {
             //create the basic URL
-            let urlString = "https://api.rawg.io/api/stores/\(String(storeID))?key=\(rawgAPIKey)"
+            let urlString = "https://api.rawg.io/api/stores/\(String(storeID))?key=\(APIAccess.getAPIKey(environmentKey: ServiceAPI.rawg.rawValue))"
             guard let url = URL(string: urlString) else {
                 print("Bad URL: \(urlString)")
                 return

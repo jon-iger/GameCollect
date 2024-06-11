@@ -30,7 +30,7 @@ extension CollectionView {
          */
         func checkDatabaseStatus(){
             //create the basic URL
-            let urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search="
+            let urlString = "https://api.rawg.io/api/games?key=\(APIAccess.getAPIKey(environmentKey: ServiceAPI.rawg.rawValue))&search="
             guard let url = URL(string: urlString) else {
                 print("Bad URL: \(urlString)")
                 canLoad = false
@@ -63,7 +63,7 @@ extension CollectionView {
             }
             print("Starting decoding...in the bing function")
             var urlRequest = URLRequest(url: url)
-            urlRequest.addValue(bingSearchAPIKey, forHTTPHeaderField: "Ocp-Apim-Subscription-Key")
+            urlRequest.addValue(APIAccess.getAPIKey(environmentKey: ServiceAPI.bingSearch.rawValue), forHTTPHeaderField: "Ocp-Apim-Subscription-Key")
             urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
             //start our URLSession to get data
             URLSession.shared.dataTask(with: urlRequest) { data, response, error in

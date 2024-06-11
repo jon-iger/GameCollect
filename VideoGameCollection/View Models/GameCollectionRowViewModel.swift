@@ -25,7 +25,7 @@ extension GameCollectionRow {
          */
         func loadGameInfo(gameId: Int) {
             //create the URL
-            let urlString = "https://api.rawg.io/api/games/\(String(gameId))?key=\(rawgAPIKey)"
+            let urlString = "https://api.rawg.io/api/games/\(String(gameId))?key=\(APIAccess.getAPIKey(environmentKey: ServiceAPI.rawg.rawValue))"
             guard let url = URL(string: urlString) else {
                 print("Bad URL: \(urlString)")
                 return

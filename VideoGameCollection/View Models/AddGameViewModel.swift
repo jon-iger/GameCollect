@@ -47,10 +47,10 @@ extension AddGameView {
             //create the basic URL
             print("In game search")
             if !barcodeTitle.isEmpty{
-                urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search=\(searchTerm)&search_exact=\(searchExact)"
+                urlString = "https://api.rawg.io/api/games?key=\(APIAccess.getAPIKey(environmentKey: ServiceAPI.rawg.rawValue))&search=\(searchTerm)&search_exact=\(searchExact)"
             }
             else{
-                urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search=\(searchTerm)&search_exact=\(searchExact)\(metacriticSortURLString)"
+                urlString = "https://api.rawg.io/api/games?key=\(APIAccess.getAPIKey(environmentKey: ServiceAPI.rawg.rawValue))&search=\(searchTerm)&search_exact=\(searchExact)\(metacriticSortURLString)"
             }
             if platformDict[platformSelection] != nil{
                 urlString.append("&platforms=\(platformDict[platformSelection]!)")
@@ -95,7 +95,7 @@ extension AddGameView {
          */
         func loadPlatformSelection() {
             //create the basic URL
-            let urlString = "https://api.rawg.io/api/platforms?key=\(rawgAPIKey)"
+            let urlString = "https://api.rawg.io/api/platforms?key=\(APIAccess.getAPIKey(environmentKey: ServiceAPI.rawg.rawValue))"
             guard let url = URL(string: urlString) else {
                 print("Bad URL: \(urlString)")
                 return
@@ -131,7 +131,7 @@ extension AddGameView {
          */
         func loadBarcodeGameInfo(){
             //create the basic URL
-            let urlString = "https://api.rawg.io/api/games/\(String(barcodeID))?key=\(rawgAPIKey)"
+            let urlString = "https://api.rawg.io/api/games/\(String(barcodeID))?key=\(APIAccess.getAPIKey(environmentKey: ServiceAPI.rawg.rawValue))"
             guard let url = URL(string: urlString) else {
                 print("Bad URL: \(urlString)")
                 return
@@ -158,7 +158,7 @@ extension AddGameView {
         func barcodeLookup(upcCode: String){
             barcodeTitle = String()
             //create the basic URL
-            let urlString = "https://api.barcodelookup.com/v3/products?barcode=\(upcCode)&formatted=y&key=\(barcodeLookupAPIKey)"
+            let urlString = "https://api.barcodelookup.com/v3/products?barcode=\(upcCode)&formatted=y&key=\(APIAccess.getAPIKey(environmentKey: ServiceAPI.barcodeLookup.rawValue))"
             guard let url = URL(string: urlString) else {
                 print("Bad URL: \(urlString)")
                 return
@@ -201,7 +201,7 @@ extension AddGameView {
          */
         func checkDatabaseStatus(){
             //create the basic URL
-            let urlString = "https://api.rawg.io/api/games?key=\(rawgAPIKey)&search="
+            let urlString = "https://api.rawg.io/api/games?key=\(APIAccess.getAPIKey(environmentKey: ServiceAPI.rawg.rawValue))&search="
             guard let url = URL(string: urlString) else {
                 print("Bad URL: \(urlString)")
                 canLoad = false
