@@ -16,15 +16,15 @@ struct GameDetailsView: View {
     var id: Int     //id of the game to be viewed
     @EnvironmentObject var cloudContainer: CloudContainer      //the object in the SwiftUI environment that contains the user's current game collection
     @Environment(\.horizontalSizeClass) var sizeClass
-    @State var viewModel: ViewModel
+    @State var viewModel: ViewModel = ViewModel()
     
     init(gameId: Int? = nil) {
         if let newId = gameId {
             id = newId
+            viewModel.setModelId(gameId: newId)
         } else {
             id = 0
         }
-        viewModel = ViewModel(gameId: id)
     }
     
     // MARK: SwiftUI Body

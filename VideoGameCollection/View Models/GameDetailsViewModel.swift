@@ -12,7 +12,7 @@ extension GameDetailsView {
     @Observable
     class ViewModel {
         // MARK: Variables
-        var id: Int
+        var id: Int = 0
         var name: String = String()      //the name of the game
         var description: String = String()   //the description of the game
         var releaseDate: String = String()   //the release date of the game in the form of a string
@@ -31,8 +31,11 @@ extension GameDetailsView {
         var storeLinks: [URL:UIImage] = [:]
         
         // MARK: Initializer
-        init(gameId: Int) {
-            id = gameId
+        init() {
+        }
+        
+        func setModelId(gameId: Int) {
+            self.id = gameId
         }
         
         // MARK: Functions
