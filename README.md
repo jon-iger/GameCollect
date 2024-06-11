@@ -7,5 +7,6 @@ Get ready to track your gaming valuables with ease! Game Collect is a in-develop
 - Apple compliant App Privacy Report configured for this app
 - Built in MVVM design pattern with use of the RAWG and Barcode Lookup APIs
 - Project code security routinely monitored with GitHub workflows such as GitHub CodeQL
+- App is under development with the intent of being distributed on the Apple App Store
 
 ![1714719487533](https://github.com/AppleMac1976/GameCollect/assets/44842541/41d1fdcd-5edb-4433-9800-fa564da0121e)
